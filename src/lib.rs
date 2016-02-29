@@ -7,7 +7,10 @@ use std::ffi;
 use std::os::raw::{c_char, c_int, c_void};
 use std::ptr;
 
-// use libc::c_void;
+pub mod repr;
+mod scm;
+
+pub use scm::Scm;
 
 pub struct GuileVM {
 }
@@ -27,6 +30,18 @@ impl GuileVM {
             }).collect();
             let argv_ptr = argv.as_mut_ptr();
             guile_sys::scm_shell(argv.len() as i32, argv_ptr);
+        }
+    }
+
+    pub fn define_primitive_subroutine(&self, name: &str, func: fn(Scm) -> Scm)
+    {
+        use std::mem;
+        unsafe {
+            let _ = guile_sys::scm_c_define_gsubr(
+                ffi::CString::new(name).unwrap().as_ptr(),
+                1, 0, 0,
+                mem::transmute(func),
+            );
         }
     }
 }
