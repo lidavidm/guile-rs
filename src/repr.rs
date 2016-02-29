@@ -1,15 +1,24 @@
 use guile_sys;
 
+use std::ffi;
+use std::str;
+
 use scm::Scm;
 
 #[derive(Debug)]
 pub enum DecodeError {
-
+    Utf8Error(str::Utf8Error),
 }
 
 #[derive(Debug)]
 pub enum EncodeError {
 
+}
+
+impl From<str::Utf8Error> for DecodeError {
+    fn from(err: str::Utf8Error) -> DecodeError {
+        DecodeError::Utf8Error(err)
+    }
 }
 
 pub trait Decodable: Sized {
@@ -62,3 +71,22 @@ impl Decodable for bool {
 //         }
 //     }
 // }
+
+impl Decodable for String {
+    fn decode(scm: &Scm) -> Result<String, DecodeError> {
+        unsafe {
+            let raw_str = guile_sys::scm_to_utf8_string(scm.to_raw());
+            let cstr = ffi::CStr::from_ptr(raw_str);
+            Ok(try!(str::from_utf8(cstr.to_bytes())).to_string())
+        }
+    }
+}
+
+impl Encodable for str {
+    fn encode(&self) -> Result<Scm, EncodeError> {
+        unsafe {
+            let raw_str = ffi::CString::new(self).unwrap().as_ptr();
+            Ok(Scm::from_raw(guile_sys::scm_from_utf8_string(raw_str)))
+        }
+    }
+}
