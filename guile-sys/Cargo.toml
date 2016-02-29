@@ -3,4 +3,8 @@ name = "guile-sys"
 version = "0.1.0"
 authors = ["David Li <li.davidm96@gmail.com>"]
 
+description = "Low-level bindings to GNU Guile."
+repository = "https://github.com/lidavidm/guile-rs"
+license = "GPL-3.0"
+
 [dependencies]

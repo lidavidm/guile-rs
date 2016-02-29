@@ -1,13 +1,17 @@
 [package]
 name = "guile"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["David Li <li.davidm96@gmail.com>"]
+
+description = "Safe bindings to GNU Guile."
+repository = "https://github.com/lidavidm/guile-rs"
+license = "GPL-3.0"
 
 [dependencies]
 
 [dependencies.guile-sys]
 path = "guile-sys"
-version = "*"
+version = "0.1.0"
 
 [[bin]]
 name = "shell"
