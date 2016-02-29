@@ -339,7 +339,6 @@ impl ::std::clone::Clone for Struct_itimerspec {
 impl ::std::default::Default for Struct_itimerspec {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub enum Struct_sigevent { }
 pub type pid_t = __pid_t;
 pub enum Struct___locale_data { }
 #[repr(C)]
@@ -827,8 +826,6 @@ pub type __compar_fn_t =
                                                arg2:
                                                    *const ::std::os::raw::c_void)
                               -> ::std::os::raw::c_int>;
-pub type long_long = ::std::os::raw::c_longlong;
-pub type ulong_long = ::std::os::raw::c_ulonglong;
 pub type scm_t_int8 = int8_t;
 pub type scm_t_uint8 = uint8_t;
 pub type scm_t_int16 = int16_t;
@@ -837,22 +834,36 @@ pub type scm_t_int32 = int32_t;
 pub type scm_t_uint32 = uint32_t;
 pub type scm_t_intmax = intmax_t;
 pub type scm_t_uintmax = uintmax_t;
+pub type scm_t_intptr = intptr_t;
+pub type scm_t_uintptr = uintptr_t;
 pub type scm_t_int64 = int64_t;
 pub type scm_t_uint64 = uint64_t;
 pub type scm_t_ptrdiff = ptrdiff_t;
 pub type scm_t_timespec = Struct_timespec;
-pub type scm_t_signed_bits = intptr_t;
-pub type scm_t_bits = uintptr_t;
-pub enum Struct_scm_unused_struct { }
+pub type scm_t_off = scm_t_int64;
+pub type scm_t_signed_bits = scm_t_intptr;
+pub type scm_t_bits = scm_t_uintptr;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_unused_struct {
+    pub scm_unused_field: ::std::os::raw::c_char,
+}
+impl ::std::clone::Clone for Struct_scm_unused_struct {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_unused_struct {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
 pub type SCM = *mut Struct_scm_unused_struct;
 #[derive(Clone, Copy)]
 #[repr(u32)]
 pub enum Enum_scm_tc8_tags {
     scm_tc8_flag = 4,
     scm_tc8_char = 12,
-    scm_tc8_isym = 20,
-    scm_tc8_iloc = 28,
+    scm_tc8_unused_0 = 20,
+    scm_tc8_unused_1 = 28,
 }
+pub type scm_t_subr = *mut ::std::os::raw::c_void;
 pub type __jmp_buf = [::std::os::raw::c_long; 8usize];
 #[repr(C)]
 #[derive(Copy)]
@@ -870,6 +881,7 @@ impl ::std::default::Default for Struct___jmp_buf_tag {
 pub type jmp_buf = [Struct___jmp_buf_tag; 1usize];
 pub type sigjmp_buf = [Struct___jmp_buf_tag; 1usize];
 pub type SCM_STACKITEM = ::std::os::raw::c_long;
+pub type scm_t_wchar = scm_t_int32;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_scm_t_option {
@@ -887,15 +899,163 @@ impl ::std::default::Default for Struct_scm_t_option {
 pub type scm_t_option = Struct_scm_t_option;
 #[repr(C)]
 #[derive(Copy)]
+pub struct Struct_scm_print_state {
+    pub handle: SCM,
+    pub revealed: ::std::os::raw::c_int,
+    pub writingp: ::std::os::raw::c_ulong,
+    pub fancyp: ::std::os::raw::c_ulong,
+    pub level: ::std::os::raw::c_ulong,
+    pub length: ::std::os::raw::c_ulong,
+    pub hot_ref: SCM,
+    pub list_offset: ::std::os::raw::c_ulong,
+    pub top: ::std::os::raw::c_ulong,
+    pub ceiling: ::std::os::raw::c_ulong,
+    pub ref_vect: SCM,
+    pub highlight_objects: SCM,
+}
+impl ::std::clone::Clone for Struct_scm_print_state {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_print_state {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_print_state = Struct_scm_print_state;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_double {
+    pub _type: SCM,
+    pub pad: SCM,
+    pub real: ::std::os::raw::c_double,
+}
+impl ::std::clone::Clone for Struct_scm_t_double {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_double {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_double = Struct_scm_t_double;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_complex {
+    pub _type: SCM,
+    pub pad: SCM,
+    pub real: ::std::os::raw::c_double,
+    pub imag: ::std::os::raw::c_double,
+}
+impl ::std::clone::Clone for Struct_scm_t_complex {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_complex {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_complex = Struct_scm_t_complex;
+pub type scm_i_t_array_ref =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut Struct_scm_t_array_handle,
+                                               arg2: size_t) -> SCM>;
+pub type scm_i_t_array_set =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut Struct_scm_t_array_handle,
+                                               arg2: size_t, arg3: SCM)>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed28 {
+    pub tag: scm_t_bits,
+    pub mask: scm_t_bits,
+    pub vref: scm_i_t_array_ref,
+    pub vset: scm_i_t_array_set,
+    pub get_handle: ::std::option::Option<unsafe extern "C" fn(arg1: SCM,
+                                                               arg2:
+                                                                   *mut Struct_scm_t_array_handle)>,
+}
+impl ::std::clone::Clone for Struct_Unnamed28 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed28 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_array_implementation = Struct_Unnamed28;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_array_dim {
+    pub lbnd: ssize_t,
+    pub ubnd: ssize_t,
+    pub inc: ssize_t,
+}
+impl ::std::clone::Clone for Struct_scm_t_array_dim {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_array_dim {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_array_dim = Struct_scm_t_array_dim;
+pub const SCM_ARRAY_ELEMENT_TYPE_LAST: Enum_Unnamed29 =
+    Enum_Unnamed29::SCM_ARRAY_ELEMENT_TYPE_C64;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed29 {
+    SCM_ARRAY_ELEMENT_TYPE_SCM = 0,
+    SCM_ARRAY_ELEMENT_TYPE_CHAR = 1,
+    SCM_ARRAY_ELEMENT_TYPE_BIT = 2,
+    SCM_ARRAY_ELEMENT_TYPE_VU8 = 3,
+    SCM_ARRAY_ELEMENT_TYPE_U8 = 4,
+    SCM_ARRAY_ELEMENT_TYPE_S8 = 5,
+    SCM_ARRAY_ELEMENT_TYPE_U16 = 6,
+    SCM_ARRAY_ELEMENT_TYPE_S16 = 7,
+    SCM_ARRAY_ELEMENT_TYPE_U32 = 8,
+    SCM_ARRAY_ELEMENT_TYPE_S32 = 9,
+    SCM_ARRAY_ELEMENT_TYPE_U64 = 10,
+    SCM_ARRAY_ELEMENT_TYPE_S64 = 11,
+    SCM_ARRAY_ELEMENT_TYPE_F32 = 12,
+    SCM_ARRAY_ELEMENT_TYPE_F64 = 13,
+    SCM_ARRAY_ELEMENT_TYPE_C32 = 14,
+    SCM_ARRAY_ELEMENT_TYPE_C64 = 15,
+}
+pub type scm_t_array_element_type = Enum_Unnamed29;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_array_handle {
+    pub array: SCM,
+    pub _impl: *mut scm_t_array_implementation,
+    pub base: size_t,
+    pub ndims: size_t,
+    pub dims: *mut scm_t_array_dim,
+    pub dim0: scm_t_array_dim,
+    pub element_type: scm_t_array_element_type,
+    pub elements: *const ::std::os::raw::c_void,
+    pub writable_elements: *mut ::std::os::raw::c_void,
+}
+impl ::std::clone::Clone for Struct_scm_t_array_handle {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_array_handle {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_array_handle = Struct_scm_t_array_handle;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_i_t_array {
+    pub v: SCM,
+    pub base: ::std::os::raw::c_ulong,
+}
+impl ::std::clone::Clone for Struct_scm_i_t_array {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_i_t_array {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_i_t_array = Struct_scm_i_t_array;
+#[repr(C)]
+#[derive(Copy)]
 pub struct Union_scm_t_debug_info {
     pub _bindgen_data_: [u64; 2usize],
 }
 impl Union_scm_t_debug_info {
-    pub unsafe fn e(&mut self) -> *mut Struct_Unnamed28 {
+    pub unsafe fn e(&mut self) -> *mut Struct_Unnamed30 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn a(&mut self) -> *mut Struct_Unnamed29 {
+    pub unsafe fn a(&mut self) -> *mut Struct_Unnamed31 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -912,44 +1072,29 @@ impl ::std::default::Default for Union_scm_t_debug_info {
 }
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed28 {
+pub struct Struct_Unnamed30 {
     pub exp: SCM,
     pub env: SCM,
 }
-impl ::std::clone::Clone for Struct_Unnamed28 {
+impl ::std::clone::Clone for Struct_Unnamed30 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed28 {
+impl ::std::default::Default for Struct_Unnamed30 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed29 {
+pub struct Struct_Unnamed31 {
     pub _proc: SCM,
     pub args: SCM,
 }
-impl ::std::clone::Clone for Struct_Unnamed29 {
+impl ::std::clone::Clone for Struct_Unnamed31 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed29 {
+impl ::std::default::Default for Struct_Unnamed31 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
 pub type scm_t_debug_info = Union_scm_t_debug_info;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_debug_frame {
-    pub prev: *mut Struct_scm_t_debug_frame,
-    pub status: ::std::os::raw::c_long,
-    pub vect: *mut scm_t_debug_info,
-    pub info: *mut scm_t_debug_info,
-}
-impl ::std::clone::Clone for Struct_scm_t_debug_frame {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_debug_frame {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_debug_frame = Struct_scm_t_debug_frame;
 pub type scm_t_catch_body =
     ::std::option::Option<unsafe extern "C" fn(data:
                                                    *mut ::std::os::raw::c_void)
@@ -971,55 +1116,36 @@ impl ::std::clone::Clone for Struct_scm_body_thunk_data {
 impl ::std::default::Default for Struct_scm_body_thunk_data {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_Unnamed30 {
-    pub handle: SCM,
-    pub name: SCM,
-    pub generic: *mut SCM,
-    pub properties: SCM,
-}
-impl ::std::clone::Clone for Struct_Unnamed30 {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_Unnamed30 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_subr_entry = Struct_Unnamed30;
 pub type scm_t_guard =
     ::std::option::Option<unsafe extern "C" fn(arg1:
                                                    *mut ::std::os::raw::c_void)>;
-pub type scm_t_inner =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void)
-                              -> SCM>;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed31 { SCM_F_DYNWIND_REWINDABLE = 1, }
-pub type scm_t_dynwind_flags = Enum_Unnamed31;
+pub enum Enum_Unnamed32 { SCM_F_DYNWIND_REWINDABLE = 1, }
+pub type scm_t_dynwind_flags = Enum_Unnamed32;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed32 { SCM_F_WIND_EXPLICITLY = 1, }
-pub type scm_t_wind_flags = Enum_Unnamed32;
+pub enum Enum_Unnamed33 { SCM_F_WIND_EXPLICITLY = 1, }
+pub type scm_t_wind_flags = Enum_Unnamed33;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed33 {
-    pub throw_value: SCM,
+pub struct Struct_Unnamed34 {
     pub jmpbuf: jmp_buf,
     pub dynenv: SCM,
     pub num_stack_items: size_t,
     pub root: SCM,
+    pub vm: SCM,
+    pub vm_cont: SCM,
     pub offset: scm_t_ptrdiff,
-    pub dframe: *mut Struct_scm_t_debug_frame,
     pub stack: [SCM_STACKITEM; 1usize],
 }
-impl ::std::clone::Clone for Struct_Unnamed33 {
+impl ::std::clone::Clone for Struct_Unnamed34 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed33 {
+impl ::std::default::Default for Struct_Unnamed34 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type scm_t_contregs = Struct_Unnamed33;
+pub type scm_t_contregs = Struct_Unnamed34;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_sched_param {
@@ -1045,79 +1171,79 @@ impl ::std::default::Default for Struct___sched_param {
 pub type __cpu_mask = ::std::os::raw::c_ulong;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed34 {
+pub struct Struct_Unnamed35 {
     pub __bits: [__cpu_mask; 16usize],
 }
-impl ::std::clone::Clone for Struct_Unnamed34 {
+impl ::std::clone::Clone for Struct_Unnamed35 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed34 {
+impl ::std::default::Default for Struct_Unnamed35 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type cpu_set_t = Struct_Unnamed34;
-#[derive(Clone, Copy)]
-#[repr(u32)]
-pub enum Enum_Unnamed35 {
-    PTHREAD_CREATE_JOINABLE = 0,
-    PTHREAD_CREATE_DETACHED = 1,
-}
-pub const PTHREAD_MUTEX_NORMAL: Enum_Unnamed36 =
-    Enum_Unnamed36::PTHREAD_MUTEX_TIMED_NP;
-pub const PTHREAD_MUTEX_RECURSIVE: Enum_Unnamed36 =
-    Enum_Unnamed36::PTHREAD_MUTEX_RECURSIVE_NP;
-pub const PTHREAD_MUTEX_ERRORCHECK: Enum_Unnamed36 =
-    Enum_Unnamed36::PTHREAD_MUTEX_ERRORCHECK_NP;
-pub const PTHREAD_MUTEX_DEFAULT: Enum_Unnamed36 =
-    Enum_Unnamed36::PTHREAD_MUTEX_TIMED_NP;
+pub type cpu_set_t = Struct_Unnamed35;
 #[derive(Clone, Copy)]
 #[repr(u32)]
 pub enum Enum_Unnamed36 {
+    PTHREAD_CREATE_JOINABLE = 0,
+    PTHREAD_CREATE_DETACHED = 1,
+}
+pub const PTHREAD_MUTEX_NORMAL: Enum_Unnamed37 =
+    Enum_Unnamed37::PTHREAD_MUTEX_TIMED_NP;
+pub const PTHREAD_MUTEX_RECURSIVE: Enum_Unnamed37 =
+    Enum_Unnamed37::PTHREAD_MUTEX_RECURSIVE_NP;
+pub const PTHREAD_MUTEX_ERRORCHECK: Enum_Unnamed37 =
+    Enum_Unnamed37::PTHREAD_MUTEX_ERRORCHECK_NP;
+pub const PTHREAD_MUTEX_DEFAULT: Enum_Unnamed37 =
+    Enum_Unnamed37::PTHREAD_MUTEX_TIMED_NP;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed37 {
     PTHREAD_MUTEX_TIMED_NP = 0,
     PTHREAD_MUTEX_RECURSIVE_NP = 1,
     PTHREAD_MUTEX_ERRORCHECK_NP = 2,
     PTHREAD_MUTEX_ADAPTIVE_NP = 3,
 }
-pub const PTHREAD_MUTEX_STALLED_NP: Enum_Unnamed37 =
-    Enum_Unnamed37::PTHREAD_MUTEX_STALLED;
-pub const PTHREAD_MUTEX_ROBUST_NP: Enum_Unnamed37 =
-    Enum_Unnamed37::PTHREAD_MUTEX_ROBUST;
+pub const PTHREAD_MUTEX_STALLED_NP: Enum_Unnamed38 =
+    Enum_Unnamed38::PTHREAD_MUTEX_STALLED;
+pub const PTHREAD_MUTEX_ROBUST_NP: Enum_Unnamed38 =
+    Enum_Unnamed38::PTHREAD_MUTEX_ROBUST;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed37 {
+pub enum Enum_Unnamed38 {
     PTHREAD_MUTEX_STALLED = 0,
     PTHREAD_MUTEX_ROBUST = 1,
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed38 {
+pub enum Enum_Unnamed39 {
     PTHREAD_PRIO_NONE = 0,
     PTHREAD_PRIO_INHERIT = 1,
     PTHREAD_PRIO_PROTECT = 2,
 }
-pub const PTHREAD_RWLOCK_DEFAULT_NP: Enum_Unnamed39 =
-    Enum_Unnamed39::PTHREAD_RWLOCK_PREFER_READER_NP;
+pub const PTHREAD_RWLOCK_DEFAULT_NP: Enum_Unnamed40 =
+    Enum_Unnamed40::PTHREAD_RWLOCK_PREFER_READER_NP;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed39 {
+pub enum Enum_Unnamed40 {
     PTHREAD_RWLOCK_PREFER_READER_NP = 0,
     PTHREAD_RWLOCK_PREFER_WRITER_NP = 1,
     PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP = 2,
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed40 {
+pub enum Enum_Unnamed41 {
     PTHREAD_INHERIT_SCHED = 0,
     PTHREAD_EXPLICIT_SCHED = 1,
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed41 {
+pub enum Enum_Unnamed42 {
     PTHREAD_SCOPE_SYSTEM = 0,
     PTHREAD_SCOPE_PROCESS = 1,
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed42 {
+pub enum Enum_Unnamed43 {
     PTHREAD_PROCESS_PRIVATE = 0,
     PTHREAD_PROCESS_SHARED = 1,
 }
@@ -1138,33 +1264,21 @@ impl ::std::default::Default for Struct__pthread_cleanup_buffer {
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed43 {
+pub enum Enum_Unnamed44 {
     PTHREAD_CANCEL_ENABLE = 0,
     PTHREAD_CANCEL_DISABLE = 1,
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed44 {
+pub enum Enum_Unnamed45 {
     PTHREAD_CANCEL_DEFERRED = 0,
     PTHREAD_CANCEL_ASYNCHRONOUS = 1,
 }
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed45 {
-    pub __cancel_jmp_buf: [Struct_Unnamed46; 1usize],
-    pub __pad: [*mut ::std::os::raw::c_void; 4usize],
-}
-impl ::std::clone::Clone for Struct_Unnamed45 {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_Unnamed45 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-#[repr(C)]
-#[derive(Copy)]
 pub struct Struct_Unnamed46 {
-    pub __cancel_jmp_buf: __jmp_buf,
-    pub __mask_was_saved: ::std::os::raw::c_int,
+    pub __cancel_jmp_buf: [Struct_Unnamed47; 1usize],
+    pub __pad: [*mut ::std::os::raw::c_void; 4usize],
 }
 impl ::std::clone::Clone for Struct_Unnamed46 {
     fn clone(&self) -> Self { *self }
@@ -1172,7 +1286,19 @@ impl ::std::clone::Clone for Struct_Unnamed46 {
 impl ::std::default::Default for Struct_Unnamed46 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type __pthread_unwind_buf_t = Struct_Unnamed45;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed47 {
+    pub __cancel_jmp_buf: __jmp_buf,
+    pub __mask_was_saved: ::std::os::raw::c_int,
+}
+impl ::std::clone::Clone for Struct_Unnamed47 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed47 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type __pthread_unwind_buf_t = Struct_Unnamed46;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct___pthread_cleanup_frame {
@@ -1188,35 +1314,734 @@ impl ::std::clone::Clone for Struct___pthread_cleanup_frame {
 impl ::std::default::Default for Struct___pthread_cleanup_frame {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
+pub type GC_PTR = *mut ::std::os::raw::c_void;
+pub type GC_word = ::std::os::raw::c_ulong;
+pub type GC_signed_word = ::std::os::raw::c_long;
+pub type GC_oom_func =
+    ::std::option::Option<extern "C" fn(arg1: size_t)
+                              -> *mut ::std::os::raw::c_void>;
+pub type GC_on_heap_resize_proc =
+    ::std::option::Option<extern "C" fn(arg1: GC_word)>;
+pub type GC_finalizer_notifier_proc = ::std::option::Option<extern "C" fn()>;
+pub type GC_stop_func =
+    ::std::option::Option<extern "C" fn() -> ::std::os::raw::c_int>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_GC_prof_stats_s {
+    pub heapsize_full: GC_word,
+    pub free_bytes_full: GC_word,
+    pub unmapped_bytes: GC_word,
+    pub bytes_allocd_since_gc: GC_word,
+    pub allocd_bytes_before_gc: GC_word,
+    pub non_gc_bytes: GC_word,
+    pub gc_no: GC_word,
+    pub markers_m1: GC_word,
+    pub bytes_reclaimed_since_gc: GC_word,
+    pub reclaimed_bytes_before_gc: GC_word,
+}
+impl ::std::clone::Clone for Struct_GC_prof_stats_s {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_GC_prof_stats_s {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type GC_finalization_proc =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut ::std::os::raw::c_void,
+                                               arg2:
+                                                   *mut ::std::os::raw::c_void)>;
+pub type GC_warn_proc =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut ::std::os::raw::c_char,
+                                               arg2: GC_word)>;
+pub type GC_abort_func =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *const ::std::os::raw::c_char)>;
+pub type GC_hidden_pointer = GC_word;
+pub type GC_fn_type =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut ::std::os::raw::c_void)
+                              -> *mut ::std::os::raw::c_void>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_GC_stack_base {
+    pub mem_base: *mut ::std::os::raw::c_void,
+}
+impl ::std::clone::Clone for Struct_GC_stack_base {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_GC_stack_base {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type GC_stack_base_func =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut Struct_GC_stack_base,
+                                               arg2:
+                                                   *mut ::std::os::raw::c_void)
+                              -> *mut ::std::os::raw::c_void>;
+pub type sig_atomic_t = __sig_atomic_t;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Union_sigval {
+    pub _bindgen_data_: [u64; 1usize],
+}
+impl Union_sigval {
+    pub unsafe fn sival_int(&mut self) -> *mut ::std::os::raw::c_int {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn sival_ptr(&mut self) -> *mut *mut ::std::os::raw::c_void {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+}
+impl ::std::clone::Clone for Union_sigval {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Union_sigval {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type sigval_t = Union_sigval;
+pub type __sigchld_clock_t = __clock_t;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed48 {
+    pub si_signo: ::std::os::raw::c_int,
+    pub si_errno: ::std::os::raw::c_int,
+    pub si_code: ::std::os::raw::c_int,
+    pub _sifields: Union_Unnamed49,
+}
+impl ::std::clone::Clone for Struct_Unnamed48 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed48 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Union_Unnamed49 {
+    pub _bindgen_data_: [u64; 14usize],
+}
+impl Union_Unnamed49 {
+    pub unsafe fn _pad(&mut self) -> *mut [::std::os::raw::c_int; 28usize] {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _kill(&mut self) -> *mut Struct_Unnamed50 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _timer(&mut self) -> *mut Struct_Unnamed51 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _rt(&mut self) -> *mut Struct_Unnamed52 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _sigchld(&mut self) -> *mut Struct_Unnamed53 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _sigfault(&mut self) -> *mut Struct_Unnamed54 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _sigpoll(&mut self) -> *mut Struct_Unnamed56 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _sigsys(&mut self) -> *mut Struct_Unnamed57 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+}
+impl ::std::clone::Clone for Union_Unnamed49 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Union_Unnamed49 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed50 {
+    pub si_pid: __pid_t,
+    pub si_uid: __uid_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed50 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed50 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed51 {
+    pub si_tid: ::std::os::raw::c_int,
+    pub si_overrun: ::std::os::raw::c_int,
+    pub si_sigval: sigval_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed51 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed51 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed52 {
+    pub si_pid: __pid_t,
+    pub si_uid: __uid_t,
+    pub si_sigval: sigval_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed52 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed52 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed53 {
+    pub si_pid: __pid_t,
+    pub si_uid: __uid_t,
+    pub si_status: ::std::os::raw::c_int,
+    pub si_utime: __sigchld_clock_t,
+    pub si_stime: __sigchld_clock_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed53 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed53 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed54 {
+    pub si_addr: *mut ::std::os::raw::c_void,
+    pub si_addr_lsb: ::std::os::raw::c_short,
+    pub si_addr_bnd: Struct_Unnamed55,
+}
+impl ::std::clone::Clone for Struct_Unnamed54 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed54 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed55 {
+    pub _lower: *mut ::std::os::raw::c_void,
+    pub _upper: *mut ::std::os::raw::c_void,
+}
+impl ::std::clone::Clone for Struct_Unnamed55 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed55 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed56 {
+    pub si_band: ::std::os::raw::c_long,
+    pub si_fd: ::std::os::raw::c_int,
+}
+impl ::std::clone::Clone for Struct_Unnamed56 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed56 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed57 {
+    pub _call_addr: *mut ::std::os::raw::c_void,
+    pub _syscall: ::std::os::raw::c_int,
+    pub _arch: ::std::os::raw::c_uint,
+}
+impl ::std::clone::Clone for Struct_Unnamed57 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed57 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type siginfo_t = Struct_Unnamed48;
+#[derive(Clone, Copy)]
+#[repr(i32)]
+pub enum Enum_Unnamed58 {
+    SI_ASYNCNL = -60,
+    SI_TKILL = -6,
+    SI_SIGIO = -5,
+    SI_ASYNCIO = -4,
+    SI_MESGQ = -3,
+    SI_TIMER = -2,
+    SI_QUEUE = -1,
+    SI_USER = 0,
+    SI_KERNEL = 128,
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed59 {
+    ILL_ILLOPC = 1,
+    ILL_ILLOPN = 2,
+    ILL_ILLADR = 3,
+    ILL_ILLTRP = 4,
+    ILL_PRVOPC = 5,
+    ILL_PRVREG = 6,
+    ILL_COPROC = 7,
+    ILL_BADSTK = 8,
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed60 {
+    FPE_INTDIV = 1,
+    FPE_INTOVF = 2,
+    FPE_FLTDIV = 3,
+    FPE_FLTOVF = 4,
+    FPE_FLTUND = 5,
+    FPE_FLTRES = 6,
+    FPE_FLTINV = 7,
+    FPE_FLTSUB = 8,
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed61 { SEGV_MAPERR = 1, SEGV_ACCERR = 2, }
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed62 {
+    BUS_ADRALN = 1,
+    BUS_ADRERR = 2,
+    BUS_OBJERR = 3,
+    BUS_MCEERR_AR = 4,
+    BUS_MCEERR_AO = 5,
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed63 {
+    CLD_EXITED = 1,
+    CLD_KILLED = 2,
+    CLD_DUMPED = 3,
+    CLD_TRAPPED = 4,
+    CLD_STOPPED = 5,
+    CLD_CONTINUED = 6,
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed64 {
+    POLL_IN = 1,
+    POLL_OUT = 2,
+    POLL_MSG = 3,
+    POLL_ERR = 4,
+    POLL_PRI = 5,
+    POLL_HUP = 6,
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_sigevent {
+    pub sigev_value: sigval_t,
+    pub sigev_signo: ::std::os::raw::c_int,
+    pub sigev_notify: ::std::os::raw::c_int,
+    pub _sigev_un: Union_Unnamed65,
+}
+impl ::std::clone::Clone for Struct_sigevent {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_sigevent {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Union_Unnamed65 {
+    pub _bindgen_data_: [u64; 6usize],
+}
+impl Union_Unnamed65 {
+    pub unsafe fn _pad(&mut self) -> *mut [::std::os::raw::c_int; 12usize] {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _tid(&mut self) -> *mut __pid_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn _sigev_thread(&mut self) -> *mut Struct_Unnamed66 {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+}
+impl ::std::clone::Clone for Union_Unnamed65 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Union_Unnamed65 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed66 {
+    pub _function: ::std::option::Option<extern "C" fn(arg1: sigval_t)>,
+    pub _attribute: *mut pthread_attr_t,
+}
+impl ::std::clone::Clone for Struct_Unnamed66 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed66 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type sigevent_t = Struct_sigevent;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed67 {
+    SIGEV_SIGNAL = 0,
+    SIGEV_NONE = 1,
+    SIGEV_THREAD = 2,
+    SIGEV_THREAD_ID = 4,
+}
+pub type __sighandler_t =
+    ::std::option::Option<extern "C" fn(arg1: ::std::os::raw::c_int)>;
+pub type sig_t = __sighandler_t;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_sigaction {
+    pub __sigaction_handler: Union_Unnamed68,
+    pub sa_mask: __sigset_t,
+    pub sa_flags: ::std::os::raw::c_int,
+    pub sa_restorer: ::std::option::Option<extern "C" fn()>,
+}
+impl ::std::clone::Clone for Struct_sigaction {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_sigaction {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Union_Unnamed68 {
+    pub _bindgen_data_: [u64; 1usize],
+}
+impl Union_Unnamed68 {
+    pub unsafe fn sa_handler(&mut self) -> *mut __sighandler_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn sa_sigaction(&mut self)
+     ->
+         *mut ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                             ::std::os::raw::c_int,
+                                                         arg2: *mut siginfo_t,
+                                                         arg3:
+                                                             *mut ::std::os::raw::c_void)> {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+}
+impl ::std::clone::Clone for Union_Unnamed68 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Union_Unnamed68 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__fpx_sw_bytes {
+    pub magic1: __uint32_t,
+    pub extended_size: __uint32_t,
+    pub xstate_bv: __uint64_t,
+    pub xstate_size: __uint32_t,
+    pub padding: [__uint32_t; 7usize],
+}
+impl ::std::clone::Clone for Struct__fpx_sw_bytes {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__fpx_sw_bytes {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__fpreg {
+    pub significand: [::std::os::raw::c_ushort; 4usize],
+    pub exponent: ::std::os::raw::c_ushort,
+}
+impl ::std::clone::Clone for Struct__fpreg {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__fpreg {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__fpxreg {
+    pub significand: [::std::os::raw::c_ushort; 4usize],
+    pub exponent: ::std::os::raw::c_ushort,
+    pub padding: [::std::os::raw::c_ushort; 3usize],
+}
+impl ::std::clone::Clone for Struct__fpxreg {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__fpxreg {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__xmmreg {
+    pub element: [__uint32_t; 4usize],
+}
+impl ::std::clone::Clone for Struct__xmmreg {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__xmmreg {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__fpstate {
+    pub cwd: __uint16_t,
+    pub swd: __uint16_t,
+    pub ftw: __uint16_t,
+    pub fop: __uint16_t,
+    pub rip: __uint64_t,
+    pub rdp: __uint64_t,
+    pub mxcsr: __uint32_t,
+    pub mxcr_mask: __uint32_t,
+    pub _st: [Struct__fpxreg; 8usize],
+    pub _xmm: [Struct__xmmreg; 16usize],
+    pub padding: [__uint32_t; 24usize],
+}
+impl ::std::clone::Clone for Struct__fpstate {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__fpstate {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_sigcontext {
+    pub r8: __uint64_t,
+    pub r9: __uint64_t,
+    pub r10: __uint64_t,
+    pub r11: __uint64_t,
+    pub r12: __uint64_t,
+    pub r13: __uint64_t,
+    pub r14: __uint64_t,
+    pub r15: __uint64_t,
+    pub rdi: __uint64_t,
+    pub rsi: __uint64_t,
+    pub rbp: __uint64_t,
+    pub rbx: __uint64_t,
+    pub rdx: __uint64_t,
+    pub rax: __uint64_t,
+    pub rcx: __uint64_t,
+    pub rsp: __uint64_t,
+    pub rip: __uint64_t,
+    pub eflags: __uint64_t,
+    pub cs: ::std::os::raw::c_ushort,
+    pub gs: ::std::os::raw::c_ushort,
+    pub fs: ::std::os::raw::c_ushort,
+    pub __pad0: ::std::os::raw::c_ushort,
+    pub err: __uint64_t,
+    pub trapno: __uint64_t,
+    pub oldmask: __uint64_t,
+    pub cr2: __uint64_t,
+    pub _bindgen_data_1_: [u64; 1usize],
+    pub __reserved1: [__uint64_t; 8usize],
+}
+impl Struct_sigcontext {
+    pub unsafe fn fpstate(&mut self) -> *mut *mut Struct__fpstate {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+    pub unsafe fn __fpstate_word(&mut self) -> *mut __uint64_t {
+        let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_1_);
+        ::std::mem::transmute(raw.offset(0))
+    }
+}
+impl ::std::clone::Clone for Struct_sigcontext {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_sigcontext {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__xsave_hdr {
+    pub xstate_bv: __uint64_t,
+    pub reserved1: [__uint64_t; 2usize],
+    pub reserved2: [__uint64_t; 5usize],
+}
+impl ::std::clone::Clone for Struct__xsave_hdr {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__xsave_hdr {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__ymmh_state {
+    pub ymmh_space: [__uint32_t; 64usize],
+}
+impl ::std::clone::Clone for Struct__ymmh_state {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__ymmh_state {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__xstate {
+    pub fpstate: Struct__fpstate,
+    pub xstate_hdr: Struct__xsave_hdr,
+    pub ymmh: Struct__ymmh_state,
+}
+impl ::std::clone::Clone for Struct__xstate {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__xstate {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_sigstack {
+    pub ss_sp: *mut ::std::os::raw::c_void,
+    pub ss_onstack: ::std::os::raw::c_int,
+}
+impl ::std::clone::Clone for Struct_sigstack {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_sigstack {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed69 { SS_ONSTACK = 1, SS_DISABLE = 2, }
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_sigaltstack {
+    pub ss_sp: *mut ::std::os::raw::c_void,
+    pub ss_flags: ::std::os::raw::c_int,
+    pub ss_size: size_t,
+}
+impl ::std::clone::Clone for Struct_sigaltstack {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_sigaltstack {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type stack_t = Struct_sigaltstack;
+pub type greg_t = ::std::os::raw::c_longlong;
+pub type gregset_t = [greg_t; 23usize];
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__libc_fpxreg {
+    pub significand: [::std::os::raw::c_ushort; 4usize],
+    pub exponent: ::std::os::raw::c_ushort,
+    pub padding: [::std::os::raw::c_ushort; 3usize],
+}
+impl ::std::clone::Clone for Struct__libc_fpxreg {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__libc_fpxreg {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__libc_xmmreg {
+    pub element: [__uint32_t; 4usize],
+}
+impl ::std::clone::Clone for Struct__libc_xmmreg {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__libc_xmmreg {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct__libc_fpstate {
+    pub cwd: __uint16_t,
+    pub swd: __uint16_t,
+    pub ftw: __uint16_t,
+    pub fop: __uint16_t,
+    pub rip: __uint64_t,
+    pub rdp: __uint64_t,
+    pub mxcsr: __uint32_t,
+    pub mxcr_mask: __uint32_t,
+    pub _st: [Struct__libc_fpxreg; 8usize],
+    pub _xmm: [Struct__libc_xmmreg; 16usize],
+    pub padding: [__uint32_t; 24usize],
+}
+impl ::std::clone::Clone for Struct__libc_fpstate {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct__libc_fpstate {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type fpregset_t = *mut Struct__libc_fpstate;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed70 {
+    pub gregs: gregset_t,
+    pub fpregs: fpregset_t,
+    pub __reserved1: [::std::os::raw::c_ulonglong; 8usize],
+}
+impl ::std::clone::Clone for Struct_Unnamed70 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed70 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type mcontext_t = Struct_Unnamed70;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_ucontext {
+    pub uc_flags: ::std::os::raw::c_ulong,
+    pub uc_link: *mut Struct_ucontext,
+    pub uc_stack: stack_t,
+    pub uc_mcontext: mcontext_t,
+    pub uc_sigmask: __sigset_t,
+    pub __fpregs_mem: Struct__libc_fpstate,
+}
+impl ::std::clone::Clone for Struct_ucontext {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_ucontext {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type ucontext_t = Struct_ucontext;
+pub type GC_has_static_roots_func =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *const ::std::os::raw::c_char,
+                                               arg2:
+                                                   *mut ::std::os::raw::c_void,
+                                               arg3: size_t)
+                              -> ::std::os::raw::c_int>;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_scm_i_thread {
     pub next_thread: *mut Struct_scm_i_thread,
     pub handle: SCM,
     pub pthread: pthread_t,
+    pub cleanup_handler: SCM,
     pub join_queue: SCM,
+    pub admin_mutex: pthread_mutex_t,
+    pub mutexes: SCM,
+    pub held_mutex: *mut pthread_mutex_t,
     pub result: SCM,
+    pub canceled: ::std::os::raw::c_int,
     pub exited: ::std::os::raw::c_int,
+    pub guile_mode: ::std::os::raw::c_int,
     pub sleep_object: SCM,
     pub sleep_mutex: *mut pthread_mutex_t,
     pub sleep_cond: pthread_cond_t,
     pub sleep_fd: ::std::os::raw::c_int,
     pub sleep_pipe: [::std::os::raw::c_int; 2usize],
-    pub heap_mutex: pthread_mutex_t,
-    pub freelist: SCM,
-    pub freelist2: SCM,
-    pub clear_freelists_p: ::std::os::raw::c_int,
-    pub gc_running_p: ::std::os::raw::c_int,
+    pub current_mark_stack_ptr: *mut ::std::os::raw::c_void,
+    pub current_mark_stack_limit: *mut ::std::os::raw::c_void,
     pub dynamic_state: SCM,
-    pub last_debug_frame: *mut scm_t_debug_frame,
     pub dynwinds: SCM,
     pub active_asyncs: SCM,
     pub block_asyncs: ::std::os::raw::c_uint,
     pub pending_asyncs: ::std::os::raw::c_uint,
     pub continuation_root: SCM,
     pub continuation_base: *mut SCM_STACKITEM,
+    pub vm: SCM,
     pub base: *mut SCM_STACKITEM,
-    pub top: *mut SCM_STACKITEM,
     pub regs: jmp_buf,
     pub critical_section_level: ::std::os::raw::c_int,
 }
@@ -1227,32 +2052,31 @@ impl ::std::default::Default for Struct_scm_i_thread {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
 pub type scm_i_thread = Struct_scm_i_thread;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_print_state {
-    pub handle: SCM,
-    pub revealed: ::std::os::raw::c_int,
-    pub writingp: ::std::os::raw::c_ulong,
-    pub fancyp: ::std::os::raw::c_ulong,
-    pub level: ::std::os::raw::c_ulong,
-    pub length: ::std::os::raw::c_ulong,
-    pub hot_ref: SCM,
-    pub list_offset: ::std::os::raw::c_ulong,
-    pub top: ::std::os::raw::c_ulong,
-    pub ceiling: ::std::os::raw::c_ulong,
-    pub ref_vect: SCM,
-    pub highlight_objects: SCM,
+pub type scm_t_struct_finalize =
+    ::std::option::Option<extern "C" fn(obj: SCM)>;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed71 {
+    SCM_M_BEGIN = 0,
+    SCM_M_IF = 1,
+    SCM_M_LAMBDA = 2,
+    SCM_M_LET = 3,
+    SCM_M_QUOTE = 4,
+    SCM_M_DEFINE = 5,
+    SCM_M_DYNWIND = 6,
+    SCM_M_WITH_FLUIDS = 7,
+    SCM_M_APPLY = 8,
+    SCM_M_CONT = 9,
+    SCM_M_CALL_WITH_VALUES = 10,
+    SCM_M_CALL = 11,
+    SCM_M_LEXICAL_REF = 12,
+    SCM_M_LEXICAL_SET = 13,
+    SCM_M_TOPLEVEL_REF = 14,
+    SCM_M_TOPLEVEL_SET = 15,
+    SCM_M_MODULE_REF = 16,
+    SCM_M_MODULE_SET = 17,
+    SCM_M_PROMPT = 18,
 }
-impl ::std::clone::Clone for Struct_scm_print_state {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_print_state {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_print_state = Struct_scm_print_state;
-pub type scm_t_struct_free =
-    ::std::option::Option<unsafe extern "C" fn(vtable: *mut scm_t_bits,
-                                               data: *mut scm_t_bits)>;
 pub type scm_t_trampoline_0 =
     ::std::option::Option<extern "C" fn(_proc: SCM) -> SCM>;
 pub type scm_t_trampoline_1 =
@@ -1260,410 +2084,40 @@ pub type scm_t_trampoline_1 =
 pub type scm_t_trampoline_2 =
     ::std::option::Option<extern "C" fn(_proc: SCM, arg1: SCM, arg2: SCM)
                               -> SCM>;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_array_dim {
-    pub lbnd: ssize_t,
-    pub ubnd: ssize_t,
-    pub inc: ssize_t,
-}
-impl ::std::clone::Clone for Struct_scm_t_array_dim {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_array_dim {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_array_dim = Struct_scm_t_array_dim;
-pub type scm_i_t_array_ref =
+pub type scm_t_extension_init_func =
     ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut Struct_scm_t_array_handle,
-                                               arg2: ssize_t) -> SCM>;
-pub type scm_i_t_array_set =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut Struct_scm_t_array_handle,
-                                               arg2: ssize_t, arg3: SCM)>;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_array_handle {
-    pub array: SCM,
-    pub base: size_t,
-    pub dims: *mut scm_t_array_dim,
-    pub dim0: scm_t_array_dim,
-    pub _ref: scm_i_t_array_ref,
-    pub set: scm_i_t_array_set,
-    pub elements: *const ::std::os::raw::c_void,
-    pub writable_elements: *mut ::std::os::raw::c_void,
-}
-impl ::std::clone::Clone for Struct_scm_t_array_handle {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_array_handle {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_array_handle = Struct_scm_t_array_handle;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_i_t_array {
-    pub v: SCM,
-    pub base: ::std::os::raw::c_ulong,
-}
-impl ::std::clone::Clone for Struct_scm_i_t_array {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_i_t_array {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_i_t_array = Struct_scm_i_t_array;
-#[derive(Clone, Copy)]
-#[repr(u32)]
-pub enum Enum_scm_t_port_rw_active {
-    SCM_PORT_NEITHER = 0,
-    SCM_PORT_READ = 1,
-    SCM_PORT_WRITE = 2,
-}
-pub type scm_t_port_rw_active = Enum_scm_t_port_rw_active;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_Unnamed47 {
-    pub port: SCM,
-    pub entry: ::std::os::raw::c_long,
-    pub revealed: ::std::os::raw::c_int,
-    pub stream: scm_t_bits,
-    pub file_name: SCM,
-    pub line_number: ::std::os::raw::c_long,
-    pub column_number: ::std::os::raw::c_int,
-    pub read_buf: *mut ::std::os::raw::c_uchar,
-    pub read_pos: *const ::std::os::raw::c_uchar,
-    pub read_end: *mut ::std::os::raw::c_uchar,
-    pub read_buf_size: off_t,
-    pub saved_read_buf: *mut ::std::os::raw::c_uchar,
-    pub saved_read_pos: *const ::std::os::raw::c_uchar,
-    pub saved_read_end: *mut ::std::os::raw::c_uchar,
-    pub saved_read_buf_size: off_t,
-    pub write_buf: *mut ::std::os::raw::c_uchar,
-    pub write_pos: *mut ::std::os::raw::c_uchar,
-    pub write_end: *mut ::std::os::raw::c_uchar,
-    pub write_buf_size: off_t,
-    pub shortbuf: ::std::os::raw::c_uchar,
-    pub rw_random: ::std::os::raw::c_int,
-    pub rw_active: scm_t_port_rw_active,
-    pub putback_buf: *mut ::std::os::raw::c_uchar,
-    pub putback_buf_size: size_t,
-}
-impl ::std::clone::Clone for Struct_Unnamed47 {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_Unnamed47 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_port = Struct_Unnamed47;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_ptob_descriptor {
-    pub name: *mut ::std::os::raw::c_char,
-    pub mark: ::std::option::Option<extern "C" fn(arg1: SCM) -> SCM>,
-    pub free: ::std::option::Option<extern "C" fn(arg1: SCM) -> size_t>,
-    pub print: ::std::option::Option<unsafe extern "C" fn(exp: SCM, port: SCM,
-                                                          pstate:
-                                                              *mut scm_print_state)
-                                         -> ::std::os::raw::c_int>,
-    pub equalp: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM)
-                                          -> SCM>,
-    pub close: ::std::option::Option<extern "C" fn(port: SCM)
-                                         -> ::std::os::raw::c_int>,
-    pub write: ::std::option::Option<unsafe extern "C" fn(port: SCM,
-                                                          data:
-                                                              *const ::std::os::raw::c_void,
-                                                          size: size_t)>,
-    pub flush: ::std::option::Option<extern "C" fn(port: SCM)>,
-    pub end_input: ::std::option::Option<extern "C" fn(port: SCM,
-                                                       offset:
-                                                           ::std::os::raw::c_int)>,
-    pub fill_input: ::std::option::Option<extern "C" fn(port: SCM)
-                                              -> ::std::os::raw::c_int>,
-    pub input_waiting: ::std::option::Option<extern "C" fn(port: SCM)
-                                                 -> ::std::os::raw::c_int>,
-    pub seek: ::std::option::Option<extern "C" fn(port: SCM, OFFSET: off_t,
-                                                  WHENCE:
-                                                      ::std::os::raw::c_int)
-                                        -> off_t>,
-    pub truncate: ::std::option::Option<extern "C" fn(port: SCM,
-                                                      length: off_t)>,
-}
-impl ::std::clone::Clone for Struct_scm_t_ptob_descriptor {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_ptob_descriptor {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_ptob_descriptor = Struct_scm_t_ptob_descriptor;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_fport {
-    pub fdes: ::std::os::raw::c_int,
-}
-impl ::std::clone::Clone for Struct_scm_t_fport {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_fport {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_fport = Struct_scm_t_fport;
-#[derive(Clone, Copy)]
-#[repr(u32)]
-pub enum Enum_scm_t_c_hook_type {
-    SCM_C_HOOK_NORMAL = 0,
-    SCM_C_HOOK_OR = 1,
-    SCM_C_HOOK_AND = 2,
-}
-pub type scm_t_c_hook_type = Enum_scm_t_c_hook_type;
-pub type scm_t_c_hook_function =
-    ::std::option::Option<unsafe extern "C" fn(hook_data:
-                                                   *mut ::std::os::raw::c_void,
-                                               fn_data:
+                                                   *mut ::std::os::raw::c_void)>;
+pub type scm_t_finalizer_proc =
+    ::std::option::Option<unsafe extern "C" fn(obj:
                                                    *mut ::std::os::raw::c_void,
                                                data:
-                                                   *mut ::std::os::raw::c_void)
-                              -> *mut ::std::os::raw::c_void>;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_c_hook_entry {
-    pub next: *mut Struct_scm_t_c_hook_entry,
-    pub func: scm_t_c_hook_function,
-    pub data: *mut ::std::os::raw::c_void,
+                                                   *mut ::std::os::raw::c_void)>;
+pub const SCM_FOREIGN_TYPE_LAST: Enum_scm_t_foreign_type =
+    Enum_scm_t_foreign_type::SCM_FOREIGN_TYPE_INT64;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_scm_t_foreign_type {
+    SCM_FOREIGN_TYPE_VOID = 0,
+    SCM_FOREIGN_TYPE_FLOAT = 1,
+    SCM_FOREIGN_TYPE_DOUBLE = 2,
+    SCM_FOREIGN_TYPE_UINT8 = 3,
+    SCM_FOREIGN_TYPE_INT8 = 4,
+    SCM_FOREIGN_TYPE_UINT16 = 5,
+    SCM_FOREIGN_TYPE_INT16 = 6,
+    SCM_FOREIGN_TYPE_UINT32 = 7,
+    SCM_FOREIGN_TYPE_INT32 = 8,
+    SCM_FOREIGN_TYPE_UINT64 = 9,
+    SCM_FOREIGN_TYPE_INT64 = 10,
 }
-impl ::std::clone::Clone for Struct_scm_t_c_hook_entry {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_c_hook_entry {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_c_hook_entry = Struct_scm_t_c_hook_entry;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_c_hook {
-    pub first: *mut scm_t_c_hook_entry,
-    pub _type: scm_t_c_hook_type,
-    pub data: *mut ::std::os::raw::c_void,
-}
-impl ::std::clone::Clone for Struct_scm_t_c_hook {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_c_hook {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_c_hook = Struct_scm_t_c_hook;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_cell {
-    pub word_0: SCM,
-    pub word_1: SCM,
-}
-impl ::std::clone::Clone for Struct_scm_t_cell {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_cell {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_cell = Struct_scm_t_cell;
-pub type scm_t_c_bvec_long = ::std::os::raw::c_ulong;
-pub enum Struct_scm_t_cell_type_statistics { }
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_method {
-    pub generic_function: SCM,
-    pub specializers: SCM,
-    pub procedure: SCM,
-}
-impl ::std::clone::Clone for Struct_scm_t_method {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_method {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_method = Struct_scm_t_method;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_hashtable {
-    pub flags: ::std::os::raw::c_int,
-    pub n_items: ::std::os::raw::c_ulong,
-    pub lower: ::std::os::raw::c_ulong,
-    pub upper: ::std::os::raw::c_ulong,
-    pub size_index: ::std::os::raw::c_int,
-    pub min_size_index: ::std::os::raw::c_int,
-    pub hash_fn: ::std::option::Option<extern "C" fn()
-                                           -> ::std::os::raw::c_ulong>,
-}
-impl ::std::clone::Clone for Struct_scm_t_hashtable {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_hashtable {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_hashtable = Struct_scm_t_hashtable;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_double {
-    pub _type: SCM,
-    pub pad: SCM,
-    pub real: ::std::os::raw::c_double,
-}
-impl ::std::clone::Clone for Struct_scm_t_double {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_double {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_double = Struct_scm_t_double;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_complex {
-    pub real: ::std::os::raw::c_double,
-    pub imag: ::std::os::raw::c_double,
-}
-impl ::std::clone::Clone for Struct_scm_t_complex {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_complex {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_complex = Struct_scm_t_complex;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_metaclass_standard {
-    pub layout: SCM,
-    pub vcell: SCM,
-    pub vtable: SCM,
-    pub print: SCM,
-}
-impl ::std::clone::Clone for Struct_scm_metaclass_standard {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_metaclass_standard {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_metaclass_operator {
-    pub layout: SCM,
-    pub vcell: SCM,
-    pub vtable: SCM,
-    pub print: SCM,
-    pub procedure: SCM,
-    pub setter: SCM,
-}
-impl ::std::clone::Clone for Struct_scm_metaclass_operator {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_metaclass_operator {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_effective_slot_definition {
-    pub name: SCM,
-    pub location: ::std::os::raw::c_long,
-    pub init_value: SCM,
-    pub get: ::std::option::Option<extern "C" fn(obj: SCM, slotdef: SCM)
-                                       -> SCM>,
-    pub set: ::std::option::Option<extern "C" fn(obj: SCM, slotdef: SCM,
-                                                 value: SCM) -> SCM>,
-}
-impl ::std::clone::Clone for Struct_scm_effective_slot_definition {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_effective_slot_definition {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_effective_slot_definition = Struct_scm_effective_slot_definition;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_rstate {
-    pub reserved0: ::std::os::raw::c_int,
-    pub reserved1: ::std::os::raw::c_double,
-}
-impl ::std::clone::Clone for Struct_scm_t_rstate {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_rstate {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_rstate = Struct_scm_t_rstate;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_rng {
-    pub rstate_size: size_t,
-    pub random_bits: ::std::option::Option<unsafe extern "C" fn(state:
-                                                                    *mut scm_t_rstate)
-                                               -> ::std::os::raw::c_ulong>,
-    pub init_rstate: ::std::option::Option<unsafe extern "C" fn(state:
-                                                                    *mut scm_t_rstate,
-                                                                seed:
-                                                                    *const ::std::os::raw::c_char,
-                                                                n:
-                                                                    ::std::os::raw::c_int)>,
-    pub copy_rstate: ::std::option::Option<unsafe extern "C" fn(state:
-                                                                    *mut scm_t_rstate)
-                                               -> *mut scm_t_rstate>,
-}
-impl ::std::clone::Clone for Struct_scm_t_rng {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_rng {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_rng = Struct_scm_t_rng;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_t_i_rstate {
-    pub rstate: scm_t_rstate,
-    pub w: ::std::os::raw::c_ulong,
-    pub c: ::std::os::raw::c_ulong,
-}
-impl ::std::clone::Clone for Struct_scm_t_i_rstate {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_t_i_rstate {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_t_i_rstate = Struct_scm_t_i_rstate;
-#[repr(C)]
-#[derive(Copy)]
-pub struct Struct_scm_smob_descriptor {
-    pub name: *const ::std::os::raw::c_char,
-    pub size: size_t,
-    pub mark: ::std::option::Option<extern "C" fn(arg1: SCM) -> SCM>,
-    pub free: ::std::option::Option<extern "C" fn(arg1: SCM) -> size_t>,
-    pub print: ::std::option::Option<unsafe extern "C" fn(exp: SCM, port: SCM,
-                                                          pstate:
-                                                              *mut scm_print_state)
-                                         -> ::std::os::raw::c_int>,
-    pub equalp: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM)
-                                          -> SCM>,
-    pub apply: ::std::option::Option<extern "C" fn() -> SCM>,
-    pub apply_0: ::std::option::Option<extern "C" fn(arg1: SCM) -> SCM>,
-    pub apply_1: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM)
-                                           -> SCM>,
-    pub apply_2: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM,
-                                                     arg3: SCM) -> SCM>,
-    pub apply_3: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM,
-                                                     arg3: SCM, arg4: SCM)
-                                           -> SCM>,
-    pub gsubr_type: ::std::os::raw::c_int,
-}
-impl ::std::clone::Clone for Struct_scm_smob_descriptor {
-    fn clone(&self) -> Self { *self }
-}
-impl ::std::default::Default for Struct_scm_smob_descriptor {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
-}
-pub type scm_smob_descriptor = Struct_scm_smob_descriptor;
-pub enum Struct_sockaddr { }
+pub type scm_t_foreign_type = Enum_scm_t_foreign_type;
+pub type scm_t_pointer_finalizer =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut ::std::os::raw::c_void)>;
 pub type useconds_t = __useconds_t;
 pub type socklen_t = __socklen_t;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed48 {
+pub enum Enum_Unnamed72 {
     _PC_LINK_MAX = 0,
     _PC_MAX_CANON = 1,
     _PC_MAX_INPUT = 2,
@@ -1686,10 +2140,10 @@ pub enum Enum_Unnamed48 {
     _PC_SYMLINK_MAX = 19,
     _PC_2_SYMLINKS = 20,
 }
-pub const _SC_IOV_MAX: Enum_Unnamed49 = Enum_Unnamed49::_SC_UIO_MAXIOV;
+pub const _SC_IOV_MAX: Enum_Unnamed73 = Enum_Unnamed73::_SC_UIO_MAXIOV;
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed49 {
+pub enum Enum_Unnamed73 {
     _SC_ARG_MAX = 0,
     _SC_CHILD_MAX = 1,
     _SC_CLK_TCK = 2,
@@ -1907,7 +2361,7 @@ pub enum Enum_Unnamed49 {
 }
 #[derive(Clone, Copy)]
 #[repr(u32)]
-pub enum Enum_Unnamed50 {
+pub enum Enum_Unnamed74 {
     _CS_PATH = 0,
     _CS_V6_WIDTH_RESTRICTED_ENVS = 1,
     _CS_GNU_LIBC_VERSION = 2,
@@ -1973,57 +2427,404 @@ pub enum Enum_Unnamed50 {
     _CS_V6_ENV = 1148,
     _CS_V7_ENV = 1149,
 }
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_Unnamed75 {
+    SCM_FAILED_CONVERSION_ERROR = 0,
+    SCM_FAILED_CONVERSION_QUESTION_MARK = 1,
+    SCM_FAILED_CONVERSION_ESCAPE_SEQUENCE = 2,
+}
+pub type scm_t_string_failed_conversion_handler = Enum_Unnamed75;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_scm_t_port_rw_active {
+    SCM_PORT_NEITHER = 0,
+    SCM_PORT_READ = 1,
+    SCM_PORT_WRITE = 2,
+}
+pub type scm_t_port_rw_active = Enum_scm_t_port_rw_active;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_scm_t_info_frame {
-    pub flags: scm_t_bits,
-    pub source: SCM,
-    pub _proc: SCM,
-    pub args: SCM,
+pub struct Struct_Unnamed76 {
+    pub port: SCM,
+    pub revealed: ::std::os::raw::c_int,
+    pub stream: scm_t_bits,
+    pub file_name: SCM,
+    pub line_number: ::std::os::raw::c_long,
+    pub column_number: ::std::os::raw::c_int,
+    pub encoding: *mut ::std::os::raw::c_char,
+    pub ilseq_handler: scm_t_string_failed_conversion_handler,
+    pub read_buf: *mut ::std::os::raw::c_uchar,
+    pub read_pos: *const ::std::os::raw::c_uchar,
+    pub read_end: *mut ::std::os::raw::c_uchar,
+    pub read_buf_size: scm_t_off,
+    pub saved_read_buf: *mut ::std::os::raw::c_uchar,
+    pub saved_read_pos: *const ::std::os::raw::c_uchar,
+    pub saved_read_end: *mut ::std::os::raw::c_uchar,
+    pub saved_read_buf_size: scm_t_off,
+    pub write_buf: *mut ::std::os::raw::c_uchar,
+    pub write_pos: *mut ::std::os::raw::c_uchar,
+    pub write_end: *mut ::std::os::raw::c_uchar,
+    pub write_buf_size: scm_t_off,
+    pub shortbuf: ::std::os::raw::c_uchar,
+    pub rw_random: ::std::os::raw::c_int,
+    pub rw_active: scm_t_port_rw_active,
+    pub putback_buf: *mut ::std::os::raw::c_uchar,
+    pub putback_buf_size: size_t,
+    pub input_cd: *mut ::std::os::raw::c_void,
+    pub output_cd: *mut ::std::os::raw::c_void,
 }
-impl ::std::clone::Clone for Struct_scm_t_info_frame {
+impl ::std::clone::Clone for Struct_Unnamed76 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_scm_t_info_frame {
+impl ::std::default::Default for Struct_Unnamed76 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type scm_t_info_frame = Struct_scm_t_info_frame;
+pub type scm_t_port = Struct_Unnamed76;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_scm_t_stack {
-    pub id: SCM,
-    pub frames: *mut scm_t_info_frame,
-    pub length: ::std::os::raw::c_ulong,
-    pub tail_length: ::std::os::raw::c_ulong,
-    pub tail: [scm_t_info_frame; 1usize],
+pub struct Struct_scm_t_ptob_descriptor {
+    pub name: *mut ::std::os::raw::c_char,
+    pub mark: ::std::option::Option<extern "C" fn(arg1: SCM) -> SCM>,
+    pub free: ::std::option::Option<extern "C" fn(arg1: SCM) -> size_t>,
+    pub print: ::std::option::Option<unsafe extern "C" fn(exp: SCM, port: SCM,
+                                                          pstate:
+                                                              *mut scm_print_state)
+                                         -> ::std::os::raw::c_int>,
+    pub equalp: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM)
+                                          -> SCM>,
+    pub close: ::std::option::Option<extern "C" fn(port: SCM)
+                                         -> ::std::os::raw::c_int>,
+    pub write: ::std::option::Option<unsafe extern "C" fn(port: SCM,
+                                                          data:
+                                                              *const ::std::os::raw::c_void,
+                                                          size: size_t)>,
+    pub flush: ::std::option::Option<extern "C" fn(port: SCM)>,
+    pub end_input: ::std::option::Option<extern "C" fn(port: SCM,
+                                                       offset:
+                                                           ::std::os::raw::c_int)>,
+    pub fill_input: ::std::option::Option<extern "C" fn(port: SCM)
+                                              -> ::std::os::raw::c_int>,
+    pub input_waiting: ::std::option::Option<extern "C" fn(port: SCM)
+                                                 -> ::std::os::raw::c_int>,
+    pub seek: ::std::option::Option<extern "C" fn(port: SCM,
+                                                  OFFSET: scm_t_off,
+                                                  WHENCE:
+                                                      ::std::os::raw::c_int)
+                                        -> scm_t_off>,
+    pub truncate: ::std::option::Option<extern "C" fn(port: SCM,
+                                                      length: scm_t_off)>,
 }
-impl ::std::clone::Clone for Struct_scm_t_stack {
+impl ::std::clone::Clone for Struct_scm_t_ptob_descriptor {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_scm_t_stack {
+impl ::std::default::Default for Struct_scm_t_ptob_descriptor {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type scm_t_stack = Struct_scm_t_stack;
+pub type scm_t_ptob_descriptor = Struct_scm_t_ptob_descriptor;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_fport {
+    pub fdes: ::std::os::raw::c_int,
+}
+impl ::std::clone::Clone for Struct_scm_t_fport {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_fport {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_fport = Struct_scm_t_fport;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_scm_t_c_hook_type {
+    SCM_C_HOOK_NORMAL = 0,
+    SCM_C_HOOK_OR = 1,
+    SCM_C_HOOK_AND = 2,
+}
+pub type scm_t_c_hook_type = Enum_scm_t_c_hook_type;
+pub type scm_t_c_hook_function =
+    ::std::option::Option<unsafe extern "C" fn(hook_data:
+                                                   *mut ::std::os::raw::c_void,
+                                               fn_data:
+                                                   *mut ::std::os::raw::c_void,
+                                               data:
+                                                   *mut ::std::os::raw::c_void)
+                              -> *mut ::std::os::raw::c_void>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_c_hook_entry {
+    pub next: *mut Struct_scm_t_c_hook_entry,
+    pub func: scm_t_c_hook_function,
+    pub data: *mut ::std::os::raw::c_void,
+}
+impl ::std::clone::Clone for Struct_scm_t_c_hook_entry {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_c_hook_entry {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_c_hook_entry = Struct_scm_t_c_hook_entry;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_c_hook {
+    pub first: *mut scm_t_c_hook_entry,
+    pub _type: scm_t_c_hook_type,
+    pub data: *mut ::std::os::raw::c_void,
+}
+impl ::std::clone::Clone for Struct_scm_t_c_hook {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_c_hook {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_c_hook = Struct_scm_t_c_hook;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_cell {
+    pub word_0: SCM,
+    pub word_1: SCM,
+}
+impl ::std::clone::Clone for Struct_scm_t_cell {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_cell {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_cell = Struct_scm_t_cell;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_method {
+    pub generic_function: SCM,
+    pub specializers: SCM,
+    pub procedure: SCM,
+}
+impl ::std::clone::Clone for Struct_scm_t_method {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_method {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_method = Struct_scm_t_method;
+pub type scm_t_hash_fn =
+    ::std::option::Option<unsafe extern "C" fn(obj: SCM,
+                                               max: ::std::os::raw::c_ulong,
+                                               closure:
+                                                   *mut ::std::os::raw::c_void)
+                              -> ::std::os::raw::c_ulong>;
+pub type scm_t_assoc_fn =
+    ::std::option::Option<unsafe extern "C" fn(obj: SCM, alist: SCM,
+                                               closure:
+                                                   *mut ::std::os::raw::c_void)
+                              -> SCM>;
+pub type scm_t_hash_predicate_fn =
+    ::std::option::Option<unsafe extern "C" fn(obj: SCM,
+                                               closure:
+                                                   *mut ::std::os::raw::c_void)
+                              -> ::std::os::raw::c_int>;
+pub type scm_t_hash_fold_fn =
+    ::std::option::Option<unsafe extern "C" fn(closure:
+                                                   *mut ::std::os::raw::c_void,
+                                               key: SCM, value: SCM,
+                                               result: SCM) -> SCM>;
+pub type scm_t_hash_handle_fn =
+    ::std::option::Option<unsafe extern "C" fn(closure:
+                                                   *mut ::std::os::raw::c_void,
+                                               handle: SCM) -> SCM>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_hashtable {
+    pub flags: ::std::os::raw::c_int,
+    pub n_items: ::std::os::raw::c_ulong,
+    pub lower: ::std::os::raw::c_ulong,
+    pub upper: ::std::os::raw::c_ulong,
+    pub size_index: ::std::os::raw::c_int,
+    pub min_size_index: ::std::os::raw::c_int,
+    pub hash_fn: scm_t_hash_fn,
+}
+impl ::std::clone::Clone for Struct_scm_t_hashtable {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_hashtable {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_hashtable = Struct_scm_t_hashtable;
+#[derive(Clone, Copy)]
+#[repr(u32)]
+pub enum Enum_scm_keyword_arguments_flags {
+    SCM_ALLOW_OTHER_KEYS = 1,
+    SCM_ALLOW_NON_KEYWORD_ARGUMENTS = 2,
+}
+pub type scm_t_keyword_arguments_flags = Enum_scm_keyword_arguments_flags;
+pub type scm_t_macro_primitive =
+    ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM) -> SCM>;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_rstate {
+    pub rng: *mut Struct_scm_t_rng,
+    pub normal_next: ::std::os::raw::c_double,
+}
+impl ::std::clone::Clone for Struct_scm_t_rstate {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_rstate {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_rstate = Struct_scm_t_rstate;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_t_rng {
+    pub rstate_size: size_t,
+    pub random_bits: ::std::option::Option<unsafe extern "C" fn(state:
+                                                                    *mut scm_t_rstate)
+                                               -> scm_t_uint32>,
+    pub init_rstate: ::std::option::Option<unsafe extern "C" fn(state:
+                                                                    *mut scm_t_rstate,
+                                                                seed:
+                                                                    *const ::std::os::raw::c_char,
+                                                                n:
+                                                                    ::std::os::raw::c_int)>,
+    pub copy_rstate: ::std::option::Option<unsafe extern "C" fn(state:
+                                                                    *mut scm_t_rstate)
+                                               -> *mut scm_t_rstate>,
+    pub from_datum: ::std::option::Option<unsafe extern "C" fn(state:
+                                                                   *mut scm_t_rstate,
+                                                               datum: SCM)>,
+    pub to_datum: ::std::option::Option<unsafe extern "C" fn(state:
+                                                                 *mut scm_t_rstate)
+                                            -> SCM>,
+}
+impl ::std::clone::Clone for Struct_scm_t_rng {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_t_rng {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_rng = Struct_scm_t_rng;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_smob_descriptor {
+    pub name: *const ::std::os::raw::c_char,
+    pub size: size_t,
+    pub mark: ::std::option::Option<extern "C" fn(arg1: SCM) -> SCM>,
+    pub free: ::std::option::Option<extern "C" fn(arg1: SCM) -> size_t>,
+    pub print: ::std::option::Option<unsafe extern "C" fn(exp: SCM, port: SCM,
+                                                          pstate:
+                                                              *mut scm_print_state)
+                                         -> ::std::os::raw::c_int>,
+    pub equalp: ::std::option::Option<extern "C" fn(arg1: SCM, arg2: SCM)
+                                          -> SCM>,
+    pub apply: scm_t_subr,
+    pub apply_trampoline_objcode: SCM,
+}
+impl ::std::clone::Clone for Struct_scm_smob_descriptor {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_smob_descriptor {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_smob_descriptor = Struct_scm_smob_descriptor;
+pub enum Struct_sockaddr { }
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed77 {
+    pub lo: scm_t_wchar,
+    pub hi: scm_t_wchar,
+}
+impl ::std::clone::Clone for Struct_Unnamed77 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed77 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_char_range = Struct_Unnamed77;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed78 {
+    pub len: size_t,
+    pub ranges: *mut scm_t_char_range,
+}
+impl ::std::clone::Clone for Struct_Unnamed78 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed78 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_char_set = Struct_Unnamed78;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_Unnamed79 {
+    pub range: size_t,
+    pub n: scm_t_wchar,
+}
+impl ::std::clone::Clone for Struct_Unnamed79 {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_Unnamed79 {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+pub type scm_t_char_set_cursor = Struct_Unnamed79;
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_objcode {
+    pub len: scm_t_uint32,
+    pub metalen: scm_t_uint32,
+}
+impl ::std::clone::Clone for Struct_scm_objcode {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_objcode {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_vm_frame {
+    pub dynamic_link: *mut SCM,
+    pub mv_return_address: *mut scm_t_uint8,
+    pub return_address: *mut scm_t_uint8,
+    pub program: SCM,
+    pub stack: [SCM; 1usize],
+}
+impl ::std::clone::Clone for Struct_scm_vm_frame {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_vm_frame {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
+#[repr(C)]
+#[derive(Copy)]
+pub struct Struct_scm_frame {
+    pub stack_holder: SCM,
+    pub fp: *mut SCM,
+    pub sp: *mut SCM,
+    pub ip: *mut scm_t_uint8,
+    pub offset: scm_t_ptrdiff,
+}
+impl ::std::clone::Clone for Struct_scm_frame {
+    fn clone(&self) -> Self { *self }
+}
+impl ::std::default::Default for Struct_scm_frame {
+    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+}
 pub type FILE = Struct__IO_FILE;
 pub type __FILE = Struct__IO_FILE;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed51 {
+pub struct Struct_Unnamed80 {
     pub __count: ::std::os::raw::c_int,
-    pub __value: Union_Unnamed52,
+    pub __value: Union_Unnamed81,
 }
-impl ::std::clone::Clone for Struct_Unnamed51 {
+impl ::std::clone::Clone for Struct_Unnamed80 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed51 {
+impl ::std::default::Default for Struct_Unnamed80 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
 #[repr(C)]
 #[derive(Copy)]
-pub struct Union_Unnamed52 {
+pub struct Union_Unnamed81 {
     pub _bindgen_data_: [u32; 1usize],
 }
-impl Union_Unnamed52 {
+impl Union_Unnamed81 {
     pub unsafe fn __wch(&mut self) -> *mut ::std::os::raw::c_uint {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
@@ -2033,39 +2834,39 @@ impl Union_Unnamed52 {
         ::std::mem::transmute(raw.offset(0))
     }
 }
-impl ::std::clone::Clone for Union_Unnamed52 {
+impl ::std::clone::Clone for Union_Unnamed81 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Union_Unnamed52 {
+impl ::std::default::Default for Union_Unnamed81 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type __mbstate_t = Struct_Unnamed51;
+pub type __mbstate_t = Struct_Unnamed80;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed53 {
+pub struct Struct_Unnamed82 {
     pub __pos: __off_t,
     pub __state: __mbstate_t,
 }
-impl ::std::clone::Clone for Struct_Unnamed53 {
+impl ::std::clone::Clone for Struct_Unnamed82 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed53 {
+impl ::std::default::Default for Struct_Unnamed82 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type _G_fpos_t = Struct_Unnamed53;
+pub type _G_fpos_t = Struct_Unnamed82;
 #[repr(C)]
 #[derive(Copy)]
-pub struct Struct_Unnamed54 {
+pub struct Struct_Unnamed83 {
     pub __pos: __off64_t,
     pub __state: __mbstate_t,
 }
-impl ::std::clone::Clone for Struct_Unnamed54 {
+impl ::std::clone::Clone for Struct_Unnamed83 {
     fn clone(&self) -> Self { *self }
 }
-impl ::std::default::Default for Struct_Unnamed54 {
+impl ::std::default::Default for Struct_Unnamed83 {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-pub type _G_fpos64_t = Struct_Unnamed54;
+pub type _G_fpos64_t = Struct_Unnamed83;
 pub type va_list = __gnuc_va_list;
 pub type __gnuc_va_list = __builtin_va_list;
 pub enum Struct__IO_jump_t { }
@@ -2148,6 +2949,10 @@ pub type __io_close_fn =
     unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void)
         -> ::std::os::raw::c_int;
 pub type fpos_t = _G_fpos_t;
+pub type scm_t_inner =
+    ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                   *mut ::std::os::raw::c_void)
+                              -> SCM>;
 pub type scm_t_array = scm_i_t_array;
 pub type __builtin_va_list = [__va_list_tag; 1usize];
 pub type __va_list_tag = Struct___va_list_tag;
@@ -2165,7 +2970,7 @@ impl ::std::clone::Clone for Struct___va_list_tag {
 impl ::std::default::Default for Struct___va_list_tag {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
-#[link(name = "guile")]
+#[link(name = "guile-2.0")]
 extern "C" {
     pub static __gmp_bits_per_limb: ::std::os::raw::c_int;
     pub static mut __gmp_errno: ::std::os::raw::c_int;
@@ -2176,31 +2981,6 @@ extern "C" {
     pub static mut tzname: [*mut ::std::os::raw::c_char; 2usize];
     pub static mut daylight: ::std::os::raw::c_int;
     pub static mut timezone: ::std::os::raw::c_long;
-    pub static mut scm_debug_opts: *mut scm_t_option;
-    pub static mut scm_debug_mode_p: ::std::os::raw::c_int;
-    pub static mut scm_check_entry_p: ::std::os::raw::c_int;
-    pub static mut scm_check_apply_p: ::std::os::raw::c_int;
-    pub static mut scm_check_exit_p: ::std::os::raw::c_int;
-    pub static mut scm_debug_eframe_size: ::std::os::raw::c_long;
-    pub static mut scm_tc16_debugobj: scm_t_bits;
-    pub static mut scm_tc16_memoized: scm_t_bits;
-    pub static mut scm_sys_protects: *mut SCM;
-    pub static mut scm_subr_table: *mut scm_t_subr_entry;
-    pub static mut scm_subr_table_size: ::std::os::raw::c_long;
-    pub static mut scm_subr_table_room: ::std::os::raw::c_long;
-    pub static mut scm_tc16_continuation: scm_t_bits;
-    pub static mut scm_i_pthread_mutexattr_recursive:
-               [pthread_mutexattr_t; 1usize];
-    pub static mut scm_tc16_thread: scm_t_bits;
-    pub static mut scm_tc16_mutex: scm_t_bits;
-    pub static mut scm_tc16_condvar: scm_t_bits;
-    pub static mut scm_i_thread_go_to_sleep: ::std::os::raw::c_int;
-    pub static mut scm_i_thread_key: pthread_key_t;
-    pub static mut scm_i_misc_mutex: pthread_mutex_t;
-    pub static mut scm_i_critical_section_mutex: pthread_mutex_t;
-    pub static mut scm_charnames: *const *mut ::std::os::raw::c_char;
-    pub static mut scm_n_charnames: ::std::os::raw::c_int;
-    pub static mut scm_charnums: *const ::std::os::raw::c_char;
     pub static mut scm_system_error_key: SCM;
     pub static mut scm_num_overflow_key: SCM;
     pub static mut scm_out_of_range_key: SCM;
@@ -2208,15 +2988,58 @@ extern "C" {
     pub static mut scm_arg_type_key: SCM;
     pub static mut scm_memory_alloc_key: SCM;
     pub static mut scm_misc_error_key: SCM;
-    pub static mut scm_print_opts: *mut scm_t_option;
     pub static mut scm_print_state_vtable: SCM;
     pub static mut scm_tc16_port_with_ps: scm_t_bits;
-    pub static mut scm_struct_table: SCM;
-    pub static mut scm_i_structs_to_free: SCM;
-    pub static mut scm_eval_opts: *mut scm_t_option;
-    pub static mut scm_eval_stack: ::std::os::raw::c_long;
-    pub static mut scm_evaluator_trap_table: *mut scm_t_option;
-    pub static mut scm_tc16_promise: scm_t_bits;
+    pub static mut scm_install_gmp_memory_functions: ::std::os::raw::c_int;
+    pub static mut scm_i_array_element_types: *mut SCM;
+    pub static mut scm_sym_documentation: SCM;
+    pub static mut GC_gc_no: GC_word;
+    pub static mut GC_parallel: ::std::os::raw::c_int;
+    pub static mut GC_oom_fn: GC_oom_func;
+    pub static mut GC_on_heap_resize: GC_on_heap_resize_proc;
+    pub static mut GC_find_leak: ::std::os::raw::c_int;
+    pub static mut GC_all_interior_pointers: ::std::os::raw::c_int;
+    pub static mut GC_finalize_on_demand: ::std::os::raw::c_int;
+    pub static mut GC_java_finalization: ::std::os::raw::c_int;
+    pub static mut GC_finalizer_notifier: GC_finalizer_notifier_proc;
+    pub static mut GC_dont_gc: ::std::os::raw::c_int;
+    pub static mut GC_dont_expand: ::std::os::raw::c_int;
+    pub static mut GC_use_entire_heap: ::std::os::raw::c_int;
+    pub static mut GC_full_freq: ::std::os::raw::c_int;
+    pub static mut GC_non_gc_bytes: GC_word;
+    pub static mut GC_no_dls: ::std::os::raw::c_int;
+    pub static mut GC_free_space_divisor: GC_word;
+    pub static mut GC_max_retries: GC_word;
+    pub static mut GC_stackbottom: *mut ::std::os::raw::c_char;
+    pub static mut GC_dont_precollect: ::std::os::raw::c_int;
+    pub static mut GC_time_limit: ::std::os::raw::c_ulong;
+    pub static mut GC_same_obj_print_proc:
+               ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                              *mut ::std::os::raw::c_void,
+                                                          arg2:
+                                                              *mut ::std::os::raw::c_void)>;
+    pub static mut GC_is_valid_displacement_print_proc:
+               ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                              *mut ::std::os::raw::c_void)>;
+    pub static mut GC_is_visible_print_proc:
+               ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                              *mut ::std::os::raw::c_void)>;
+    pub static mut _sys_siglist: [*const ::std::os::raw::c_char; 65usize];
+    pub static mut sys_siglist: [*const ::std::os::raw::c_char; 65usize];
+    pub static mut scm_i_pthread_mutexattr_recursive:
+               [pthread_mutexattr_t; 1usize];
+    pub static mut scm_tc16_thread: scm_t_bits;
+    pub static mut scm_tc16_mutex: scm_t_bits;
+    pub static mut scm_tc16_condvar: scm_t_bits;
+    pub static mut scm_i_misc_mutex: pthread_mutex_t;
+    pub static mut scm_i_critical_section_mutex: pthread_mutex_t;
+    pub static mut scm_endianness_big: SCM;
+    pub static mut scm_endianness_little: SCM;
+    pub static mut scm_i_native_endianness: SCM;
+    pub static mut scm_null_bytevector: SCM;
+    pub static mut scm_standard_vtable_vtable: SCM;
+    pub static mut scm_applicable_struct_vtable_vtable: SCM;
+    pub static mut scm_applicable_struct_with_setter_vtable_vtable: SCM;
     pub static mut scm_sym_and: SCM;
     pub static mut scm_sym_begin: SCM;
     pub static mut scm_sym_case: SCM;
@@ -2232,26 +3055,34 @@ extern "C" {
     pub static mut scm_sym_quasiquote: SCM;
     pub static mut scm_sym_unquote: SCM;
     pub static mut scm_sym_uq_splicing: SCM;
+    pub static mut scm_sym_with_fluids: SCM;
+    pub static mut scm_sym_at: SCM;
+    pub static mut scm_sym_atat: SCM;
     pub static mut scm_sym_atapply: SCM;
     pub static mut scm_sym_atcall_cc: SCM;
     pub static mut scm_sym_at_call_with_values: SCM;
+    pub static mut scm_sym_at_prompt: SCM;
     pub static mut scm_sym_delay: SCM;
+    pub static mut scm_sym_at_dynamic_wind: SCM;
+    pub static mut scm_sym_eval_when: SCM;
     pub static mut scm_sym_arrow: SCM;
     pub static mut scm_sym_else: SCM;
     pub static mut scm_sym_apply: SCM;
     pub static mut scm_sym_set_x: SCM;
     pub static mut scm_sym_args: SCM;
-    pub static mut scm_ceval_ptr:
-               ::std::option::Option<extern "C" fn(x: SCM, env: SCM) -> SCM>;
+    pub static mut scm_tc16_memoized: scm_t_bits;
+    pub static mut scm_program_arguments_fluid: SCM;
     pub static mut scm_tc16_dir: scm_t_bits;
-    pub static mut scm_i_tc16_array: scm_t_bits;
-    pub static mut scm_i_tc16_enclosed_array: scm_t_bits;
-    pub static mut scm_i_port_table: *mut *mut scm_t_port;
-    pub static mut scm_i_port_table_size: ::std::os::raw::c_long;
+    pub static mut __environ: *mut *mut ::std::os::raw::c_char;
+    pub static mut optarg: *mut ::std::os::raw::c_char;
+    pub static mut optind: ::std::os::raw::c_int;
+    pub static mut opterr: ::std::os::raw::c_int;
+    pub static mut optopt: ::std::os::raw::c_int;
+    pub static mut scm_nullstr: SCM;
     pub static mut scm_i_port_table_mutex: pthread_mutex_t;
+    pub static mut scm_i_port_weak_hash: SCM;
     pub static mut scm_ptobs: *mut scm_t_ptob_descriptor;
     pub static mut scm_numptob: ::std::os::raw::c_long;
-    pub static mut scm_i_port_table_room: ::std::os::raw::c_long;
     pub static mut scm_tc16_fport: scm_t_bits;
     pub static mut scm_tc16_hook: scm_t_bits;
     pub static mut scm_i_gc_admin_mutex: pthread_mutex_t;
@@ -2261,28 +3092,14 @@ extern "C" {
     pub static mut scm_default_init_heap_size_2: size_t;
     pub static mut scm_default_min_yield_2: ::std::os::raw::c_int;
     pub static mut scm_default_max_segment_size: size_t;
-    pub static mut scm_max_segment_size: size_t;
-    pub static mut scm_i_freelist: pthread_key_t;
-    pub static mut scm_i_freelist2: pthread_key_t;
-    pub static mut scm_i_master_freelist: Struct_scm_t_cell_type_statistics;
-    pub static mut scm_i_master_freelist2: Struct_scm_t_cell_type_statistics;
-    pub static mut scm_gc_cells_swept: ::std::os::raw::c_ulong;
-    pub static mut scm_gc_cells_collected: ::std::os::raw::c_ulong;
-    pub static mut scm_gc_malloc_collected: ::std::os::raw::c_ulong;
     pub static mut scm_gc_ports_collected: ::std::os::raw::c_ulong;
-    pub static mut scm_cells_allocated: ::std::os::raw::c_ulong;
-    pub static mut scm_last_cells_allocated: ::std::os::raw::c_ulong;
-    pub static mut scm_gc_cell_yield_percentage: ::std::os::raw::c_int;
-    pub static mut scm_gc_malloc_yield_percentage: ::std::os::raw::c_int;
-    pub static mut scm_mallocated: ::std::os::raw::c_ulong;
-    pub static mut scm_mtrigger: ::std::os::raw::c_ulong;
-    pub static mut scm_gc_cells_allocated_acc: ::std::os::raw::c_double;
     pub static mut scm_after_gc_hook: SCM;
     pub static mut scm_before_gc_c_hook: scm_t_c_hook;
     pub static mut scm_before_mark_c_hook: scm_t_c_hook;
     pub static mut scm_before_sweep_c_hook: scm_t_c_hook;
     pub static mut scm_after_sweep_c_hook: scm_t_c_hook;
     pub static mut scm_after_gc_c_hook: scm_t_c_hook;
+    pub static mut scm_protects: SCM;
     pub static mut scm_print_carefully_p: ::std::os::raw::c_int;
     pub static mut scm_class_boolean: SCM;
     pub static mut scm_class_char: SCM;
@@ -2290,7 +3107,6 @@ extern "C" {
     pub static mut scm_class_procedure: SCM;
     pub static mut scm_class_string: SCM;
     pub static mut scm_class_symbol: SCM;
-    pub static mut scm_class_procedure_with_setter: SCM;
     pub static mut scm_class_primitive_generic: SCM;
     pub static mut scm_class_vector: SCM;
     pub static mut scm_class_null: SCM;
@@ -2305,8 +3121,8 @@ extern "C" {
     pub static mut scm_class_object: SCM;
     pub static mut scm_class_class: SCM;
     pub static mut scm_class_applicable: SCM;
-    pub static mut scm_class_entity: SCM;
-    pub static mut scm_class_entity_with_setter: SCM;
+    pub static mut scm_class_applicable_struct: SCM;
+    pub static mut scm_class_applicable_struct_with_setter: SCM;
     pub static mut scm_class_generic: SCM;
     pub static mut scm_class_generic_with_setter: SCM;
     pub static mut scm_class_accessor: SCM;
@@ -2314,12 +3130,9 @@ extern "C" {
     pub static mut scm_class_extended_generic_with_setter: SCM;
     pub static mut scm_class_extended_accessor: SCM;
     pub static mut scm_class_method: SCM;
-    pub static mut scm_class_simple_method: SCM;
     pub static mut scm_class_accessor_method: SCM;
     pub static mut scm_class_procedure_class: SCM;
-    pub static mut scm_class_operator_class: SCM;
-    pub static mut scm_class_operator_with_setter_class: SCM;
-    pub static mut scm_class_entity_class: SCM;
+    pub static mut scm_class_applicable_struct_class: SCM;
     pub static mut scm_class_number: SCM;
     pub static mut scm_class_list: SCM;
     pub static mut scm_class_keyword: SCM;
@@ -2327,13 +3140,13 @@ extern "C" {
     pub static mut scm_class_input_output_port: SCM;
     pub static mut scm_class_input_port: SCM;
     pub static mut scm_class_output_port: SCM;
-    pub static mut scm_class_foreign_class: SCM;
-    pub static mut scm_class_foreign_object: SCM;
     pub static mut scm_class_foreign_slot: SCM;
     pub static mut scm_class_self: SCM;
     pub static mut scm_class_protected: SCM;
+    pub static mut scm_class_hidden: SCM;
     pub static mut scm_class_opaque: SCM;
     pub static mut scm_class_read_only: SCM;
+    pub static mut scm_class_protected_hidden: SCM;
     pub static mut scm_class_protected_opaque: SCM;
     pub static mut scm_class_protected_read_only: SCM;
     pub static mut scm_class_scm: SCM;
@@ -2343,27 +3156,24 @@ extern "C" {
     pub static mut scm_s_slot_set_x: *const ::std::os::raw::c_char;
     pub static mut scm_no_applicable_method: SCM;
     pub static mut scm_module_goops: SCM;
-    pub static mut scm_f_gsubr_apply: SCM;
-    pub static mut scm_tc16_hashtable: scm_t_bits;
+    pub static mut scm_global_locale: SCM;
     pub static mut scm_i_init_mutex: pthread_mutex_t;
     pub static mut scm_initialized_p: ::std::os::raw::c_int;
     pub static mut scm_tc16_keyword: scm_t_bits;
-    pub static mut scm_tc16_macro: scm_t_bits;
     pub static mut scm_tc16_malloc: scm_t_bits;
     pub static mut scm_module_system_booted_p: ::std::os::raw::c_int;
     pub static mut scm_module_tag: scm_t_bits;
-    pub static mut scm_tc16_eval_closure: scm_t_bits;
-    pub static mut scm_metaclass_standard: SCM;
-    pub static mut scm_metaclass_operator: SCM;
+    pub static mut scm_i_locale_mutex: pthread_mutex_t;
     pub static mut scm_sym_name: SCM;
     pub static mut scm_sym_arity: SCM;
     pub static mut scm_sym_system_procedure: SCM;
+    pub static mut scm_tc16_promise: scm_t_bits;
     pub static mut scm_the_rng: scm_t_rng;
     pub static mut scm_tc16_rstate: scm_t_bits;
     pub static mut scm_masktab: [::std::os::raw::c_uchar; 256usize];
     pub static mut scm_var_random_state: SCM;
-    pub static mut scm_read_opts: *mut scm_t_option;
     pub static mut scm_sym_dot: SCM;
+    pub static mut scm_i_signal_delivery_thread: *mut scm_i_thread;
     pub static mut scm_usage_name: *mut ::std::os::raw::c_char;
     pub static mut scm_numsmob: ::std::os::raw::c_long;
     pub static mut scm_smobs: *mut scm_smob_descriptor;
@@ -2372,13 +3182,8 @@ extern "C" {
     pub static mut scm_sym_copy: SCM;
     pub static mut scm_sym_line: SCM;
     pub static mut scm_sym_column: SCM;
-    pub static mut scm_sym_breakpoint: SCM;
     pub static mut scm_stack_checking_enabled_p: ::std::os::raw::c_int;
-    pub static mut __environ: *mut *mut ::std::os::raw::c_char;
-    pub static mut optarg: *mut ::std::os::raw::c_char;
-    pub static mut optind: ::std::os::raw::c_int;
-    pub static mut opterr: ::std::os::raw::c_int;
-    pub static mut optopt: ::std::os::raw::c_int;
+    pub static mut scm_c_time_units_per_second: ::std::os::raw::c_long;
     pub static mut scm_tc16_charset: ::std::os::raw::c_int;
     pub static mut scm_char_set_lower_case: SCM;
     pub static mut scm_char_set_upper_case: SCM;
@@ -2398,8 +3203,8 @@ extern "C" {
     pub static mut scm_char_set_empty: SCM;
     pub static mut scm_char_set_full: SCM;
     pub static mut scm_tc16_strport: scm_t_bits;
+    pub static mut scm_i_array_element_type_sizes: *const size_t;
     pub static mut scm_values_vtable: SCM;
-    pub static mut scm_the_last_stack_fluid_var: SCM;
     pub static mut scm_stack_type: SCM;
     pub static mut _IO_2_1_stdin_: Struct__IO_FILE_plus;
     pub static mut _IO_2_1_stdout_: Struct__IO_FILE_plus;
@@ -2409,18 +3214,14 @@ extern "C" {
     pub static mut stderr: *mut Struct__IO_FILE;
     pub static mut sys_nerr: ::std::os::raw::c_int;
     pub static mut sys_errlist: *const *const ::std::os::raw::c_char;
-    pub static mut scm_newcell2_count: ::std::os::raw::c_uint;
-    pub static mut scm_newcell_count: ::std::os::raw::c_uint;
     pub static mut scm_isymnames: *mut *mut ::std::os::raw::c_char;
-    pub static mut scm_s_expression: *const ::std::os::raw::c_char;
-    pub static mut scm_s_test: *const ::std::os::raw::c_char;
-    pub static mut scm_s_body: *const ::std::os::raw::c_char;
-    pub static mut scm_s_bindings: *const ::std::os::raw::c_char;
-    pub static mut scm_s_variable: *const ::std::os::raw::c_char;
-    pub static mut scm_s_clauses: *const ::std::os::raw::c_char;
-    pub static mut scm_s_formals: *const ::std::os::raw::c_char;
+    pub static mut scm_mallocated: ::std::os::raw::c_ulong;
+    pub static mut scm_mtrigger: ::std::os::raw::c_ulong;
+    pub static mut scm_max_segment_size: size_t;
+    pub static mut scm_struct_table: SCM;
+    pub static mut scm_tc16_eval_closure: scm_t_bits;
 }
-#[link(name = "guile")]
+#[link(name = "guile-2.0")]
 extern "C" {
     pub fn __gmp_set_memory_functions(arg1:
                                           ::std::option::Option<extern "C" fn(arg1:
@@ -3397,6 +4198,7 @@ extern "C" {
     pub fn _longjmp(__env: *mut Struct___jmp_buf_tag,
                     __val: ::std::os::raw::c_int);
     pub fn siglongjmp(__env: sigjmp_buf, __val: ::std::os::raw::c_int);
+    pub fn scm_async_tick();
     pub fn scm_call_generic_0(gf: SCM) -> SCM;
     pub fn scm_call_generic_1(gf: SCM, a1: SCM) -> SCM;
     pub fn scm_call_generic_2(gf: SCM, a1: SCM, a2: SCM) -> SCM;
@@ -3422,29 +4224,390 @@ extern "C" {
     pub fn scm_try_arbiter(arb: SCM) -> SCM;
     pub fn scm_release_arbiter(arb: SCM) -> SCM;
     pub fn scm_init_arbiters();
+    pub fn scm_error(key: SCM, subr: *const ::std::os::raw::c_char,
+                     message: *const ::std::os::raw::c_char, args: SCM,
+                     rest: SCM);
+    pub fn scm_error_scm(key: SCM, subr: SCM, message: SCM, args: SCM,
+                         rest: SCM) -> SCM;
+    pub fn scm_strerror(err: SCM) -> SCM;
+    pub fn scm_syserror(subr: *const ::std::os::raw::c_char);
+    pub fn scm_syserror_msg(subr: *const ::std::os::raw::c_char,
+                            message: *const ::std::os::raw::c_char, args: SCM,
+                            eno: ::std::os::raw::c_int);
+    pub fn scm_num_overflow(subr: *const ::std::os::raw::c_char);
+    pub fn scm_out_of_range(subr: *const ::std::os::raw::c_char,
+                            bad_value: SCM);
+    pub fn scm_out_of_range_pos(subr: *const ::std::os::raw::c_char,
+                                bad_value: SCM, pos: SCM);
+    pub fn scm_wrong_num_args(_proc: SCM);
+    pub fn scm_error_num_args_subr(subr: *const ::std::os::raw::c_char);
+    pub fn scm_wrong_type_arg(subr: *const ::std::os::raw::c_char,
+                              pos: ::std::os::raw::c_int, bad_value: SCM);
+    pub fn scm_i_wrong_type_arg_symbol(symbol: SCM,
+                                       pos: ::std::os::raw::c_int,
+                                       bad_value: SCM);
+    pub fn scm_wrong_type_arg_msg(subr: *const ::std::os::raw::c_char,
+                                  pos: ::std::os::raw::c_int, bad_value: SCM,
+                                  sz: *const ::std::os::raw::c_char);
+    pub fn scm_memory_error(subr: *const ::std::os::raw::c_char);
+    pub fn scm_misc_error(subr: *const ::std::os::raw::c_char,
+                          message: *const ::std::os::raw::c_char, args: SCM);
+    pub fn scm_init_error();
+    pub fn scm_char_p(x: SCM) -> SCM;
+    pub fn scm_char_eq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_less_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_leq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_gr_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_geq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_ci_eq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_ci_less_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_ci_leq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_ci_gr_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_ci_geq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_char_alphabetic_p(chr: SCM) -> SCM;
+    pub fn scm_char_numeric_p(chr: SCM) -> SCM;
+    pub fn scm_char_whitespace_p(chr: SCM) -> SCM;
+    pub fn scm_char_upper_case_p(chr: SCM) -> SCM;
+    pub fn scm_char_lower_case_p(chr: SCM) -> SCM;
+    pub fn scm_char_is_both_p(chr: SCM) -> SCM;
+    pub fn scm_char_to_integer(chr: SCM) -> SCM;
+    pub fn scm_integer_to_char(n: SCM) -> SCM;
+    pub fn scm_char_upcase(chr: SCM) -> SCM;
+    pub fn scm_char_downcase(chr: SCM) -> SCM;
+    pub fn scm_char_titlecase(chr: SCM) -> SCM;
+    pub fn scm_char_general_category(chr: SCM) -> SCM;
+    pub fn scm_c_upcase(c: scm_t_wchar) -> scm_t_wchar;
+    pub fn scm_c_downcase(c: scm_t_wchar) -> scm_t_wchar;
+    pub fn scm_c_titlecase(c: scm_t_wchar) -> scm_t_wchar;
+    pub fn scm_i_charname(chr: SCM) -> *const ::std::os::raw::c_char;
+    pub fn scm_i_charname_to_char(charname: *const ::std::os::raw::c_char,
+                                  charname_len: size_t) -> SCM;
+    pub fn scm_init_chars();
+    pub fn scm_options_try(args: SCM, options: *mut scm_t_option,
+                           s: *const ::std::os::raw::c_char,
+                           dry_run: ::std::os::raw::c_int) -> SCM;
     pub fn scm_options(arg1: SCM, arg2: *mut scm_t_option,
-                       arg3: ::std::os::raw::c_uint,
-                       arg4: *const ::std::os::raw::c_char) -> SCM;
+                       arg3: *const ::std::os::raw::c_char) -> SCM;
     pub fn scm_init_opts(arg1:
                              ::std::option::Option<extern "C" fn(arg1: SCM)
                                                        -> SCM>,
-                         arg2: *mut scm_t_option, n: ::std::os::raw::c_uint);
+                         arg2: *mut scm_t_option);
     pub fn scm_init_options();
-    pub fn scm_debug_object_p(obj: SCM) -> SCM;
+    pub fn scm_print_options(setting: SCM) -> SCM;
+    pub fn scm_make_print_state() -> SCM;
+    pub fn scm_free_print_state(print_state: SCM);
+    pub fn scm_i_port_with_print_state(port: SCM, print_state: SCM) -> SCM;
+    pub fn scm_i_display_substring(str: SCM, start: size_t, end: size_t,
+                                   port: SCM);
+    pub fn scm_intprint(n: scm_t_intmax, radix: ::std::os::raw::c_int,
+                        port: SCM);
+    pub fn scm_uintprint(n: scm_t_uintmax, radix: ::std::os::raw::c_int,
+                         port: SCM);
+    pub fn scm_ipruk(hdr: *mut ::std::os::raw::c_char, ptr: SCM, port: SCM);
+    pub fn scm_iprlist(hdr: *mut ::std::os::raw::c_char, exp: SCM,
+                       tlr: ::std::os::raw::c_int, port: SCM,
+                       pstate: *mut scm_print_state);
+    pub fn scm_i_print_symbol_name(sym: SCM, port: SCM);
+    pub fn scm_print_symbol_name(str: *const ::std::os::raw::c_char,
+                                 len: size_t, port: SCM);
+    pub fn scm_prin1(exp: SCM, port: SCM, writingp: ::std::os::raw::c_int);
+    pub fn scm_iprin1(exp: SCM, port: SCM, pstate: *mut scm_print_state);
+    pub fn scm_write(obj: SCM, port: SCM) -> SCM;
+    pub fn scm_display(obj: SCM, port: SCM) -> SCM;
+    pub fn scm_simple_format(port: SCM, message: SCM, args: SCM) -> SCM;
+    pub fn scm_newline(port: SCM) -> SCM;
+    pub fn scm_write_char(chr: SCM, port: SCM) -> SCM;
+    pub fn scm_printer_apply(_proc: SCM, exp: SCM, port: SCM,
+                             arg1: *mut scm_print_state) -> SCM;
+    pub fn scm_port_with_print_state(port: SCM, pstate: SCM) -> SCM;
+    pub fn scm_get_print_state(port: SCM) -> SCM;
+    pub fn scm_valid_oport_value_p(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_init_print();
+    pub fn scm_exact_p(x: SCM) -> SCM;
+    pub fn scm_is_exact(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_odd_p(n: SCM) -> SCM;
+    pub fn scm_even_p(n: SCM) -> SCM;
+    pub fn scm_finite_p(x: SCM) -> SCM;
+    pub fn scm_inf_p(x: SCM) -> SCM;
+    pub fn scm_nan_p(x: SCM) -> SCM;
+    pub fn scm_inf() -> SCM;
+    pub fn scm_nan() -> SCM;
+    pub fn scm_abs(x: SCM) -> SCM;
+    pub fn scm_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_modulo(x: SCM, y: SCM) -> SCM;
+    pub fn scm_euclidean_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_euclidean_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_euclidean_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_floor_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_floor_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_floor_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_ceiling_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_ceiling_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_ceiling_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_truncate_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_truncate_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_truncate_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_centered_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_centered_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_centered_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_round_divide(x: SCM, y: SCM, q: *mut SCM, r: *mut SCM);
+    pub fn scm_round_quotient(x: SCM, y: SCM) -> SCM;
+    pub fn scm_round_remainder(x: SCM, y: SCM) -> SCM;
+    pub fn scm_gcd(x: SCM, y: SCM) -> SCM;
+    pub fn scm_lcm(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_logand(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_logior(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_logxor(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_logtest(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_logbit_p(n1: SCM, n2: SCM) -> SCM;
+    pub fn scm_lognot(n: SCM) -> SCM;
+    pub fn scm_modulo_expt(n: SCM, k: SCM, m: SCM) -> SCM;
+    pub fn scm_integer_expt(z1: SCM, z2: SCM) -> SCM;
+    pub fn scm_ash(n: SCM, count: SCM) -> SCM;
+    pub fn scm_round_ash(n: SCM, count: SCM) -> SCM;
+    pub fn scm_bit_extract(n: SCM, start: SCM, end: SCM) -> SCM;
+    pub fn scm_logcount(n: SCM) -> SCM;
+    pub fn scm_integer_length(n: SCM) -> SCM;
+    pub fn scm_i_euclidean_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_floor_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_ceiling_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_truncate_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_centered_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_round_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_gcd(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_lcm(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_logand(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_logior(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_logxor(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_iint2str(num: scm_t_intmax, rad: ::std::os::raw::c_int,
+                        p: *mut ::std::os::raw::c_char) -> size_t;
+    pub fn scm_iuint2str(num: scm_t_uintmax, rad: ::std::os::raw::c_int,
+                         p: *mut ::std::os::raw::c_char) -> size_t;
+    pub fn scm_number_to_string(x: SCM, radix: SCM) -> SCM;
+    pub fn scm_print_real(sexp: SCM, port: SCM, pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_print_complex(sexp: SCM, port: SCM,
+                             pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_bigprint(exp: SCM, port: SCM, pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_c_locale_stringn_to_number(mem: *const ::std::os::raw::c_char,
+                                          len: size_t,
+                                          radix: ::std::os::raw::c_uint)
+     -> SCM;
+    pub fn scm_i_string_to_number(str: SCM, radix: ::std::os::raw::c_uint)
+     -> SCM;
+    pub fn scm_string_to_number(str: SCM, radix: SCM) -> SCM;
+    pub fn scm_bigequal(x: SCM, y: SCM) -> SCM;
+    pub fn scm_real_equalp(x: SCM, y: SCM) -> SCM;
+    pub fn scm_complex_equalp(x: SCM, y: SCM) -> SCM;
+    pub fn scm_number_p(x: SCM) -> SCM;
+    pub fn scm_complex_p(x: SCM) -> SCM;
+    pub fn scm_real_p(x: SCM) -> SCM;
+    pub fn scm_rational_p(z: SCM) -> SCM;
+    pub fn scm_integer_p(x: SCM) -> SCM;
+    pub fn scm_exact_integer_p(x: SCM) -> SCM;
+    pub fn scm_inexact_p(x: SCM) -> SCM;
+    pub fn scm_is_inexact(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_num_eq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_less_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_gr_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_leq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_geq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_zero_p(z: SCM) -> SCM;
+    pub fn scm_positive_p(x: SCM) -> SCM;
+    pub fn scm_negative_p(x: SCM) -> SCM;
+    pub fn scm_max(x: SCM, y: SCM) -> SCM;
+    pub fn scm_min(x: SCM, y: SCM) -> SCM;
+    pub fn scm_sum(x: SCM, y: SCM) -> SCM;
+    pub fn scm_oneplus(x: SCM) -> SCM;
+    pub fn scm_difference(x: SCM, y: SCM) -> SCM;
+    pub fn scm_oneminus(x: SCM) -> SCM;
+    pub fn scm_product(x: SCM, y: SCM) -> SCM;
+    pub fn scm_divide(x: SCM, y: SCM) -> SCM;
+    pub fn scm_floor(x: SCM) -> SCM;
+    pub fn scm_ceiling(x: SCM) -> SCM;
+    pub fn scm_c_truncate(x: ::std::os::raw::c_double)
+     -> ::std::os::raw::c_double;
+    pub fn scm_c_round(x: ::std::os::raw::c_double)
+     -> ::std::os::raw::c_double;
+    pub fn scm_truncate_number(x: SCM) -> SCM;
+    pub fn scm_round_number(x: SCM) -> SCM;
+    pub fn scm_expt(z1: SCM, z2: SCM) -> SCM;
+    pub fn scm_sin(z: SCM) -> SCM;
+    pub fn scm_cos(z: SCM) -> SCM;
+    pub fn scm_tan(z: SCM) -> SCM;
+    pub fn scm_sinh(z: SCM) -> SCM;
+    pub fn scm_cosh(z: SCM) -> SCM;
+    pub fn scm_tanh(z: SCM) -> SCM;
+    pub fn scm_asin(z: SCM) -> SCM;
+    pub fn scm_acos(z: SCM) -> SCM;
+    pub fn scm_atan(x: SCM, y: SCM) -> SCM;
+    pub fn scm_sys_asinh(z: SCM) -> SCM;
+    pub fn scm_sys_acosh(z: SCM) -> SCM;
+    pub fn scm_sys_atanh(z: SCM) -> SCM;
+    pub fn scm_make_rectangular(z1: SCM, z2: SCM) -> SCM;
+    pub fn scm_make_polar(z1: SCM, z2: SCM) -> SCM;
+    pub fn scm_real_part(z: SCM) -> SCM;
+    pub fn scm_imag_part(z: SCM) -> SCM;
+    pub fn scm_magnitude(z: SCM) -> SCM;
+    pub fn scm_angle(z: SCM) -> SCM;
+    pub fn scm_exact_to_inexact(z: SCM) -> SCM;
+    pub fn scm_inexact_to_exact(z: SCM) -> SCM;
+    pub fn scm_trunc(x: SCM) -> SCM;
+    pub fn scm_log(z: SCM) -> SCM;
+    pub fn scm_log10(z: SCM) -> SCM;
+    pub fn scm_exp(z: SCM) -> SCM;
+    pub fn scm_sqrt(z: SCM) -> SCM;
+    pub fn scm_exact_integer_sqrt(k: SCM, s: *mut SCM, r: *mut SCM);
+    pub fn scm_i_min(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_max(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_sum(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_difference(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_product(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_divide(x: SCM, y: SCM, rest: SCM) -> SCM;
+    pub fn scm_i_exact_integer_sqrt(k: SCM) -> SCM;
+    pub fn scm_i_mkbig() -> SCM;
+    pub fn scm_i_normbig(x: SCM) -> SCM;
+    pub fn scm_i_bigcmp(a: SCM, b: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_dbl2big(d: ::std::os::raw::c_double) -> SCM;
+    pub fn scm_i_dbl2num(d: ::std::os::raw::c_double) -> SCM;
+    pub fn scm_i_big2dbl(b: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_i_long2big(n: ::std::os::raw::c_long) -> SCM;
+    pub fn scm_i_ulong2big(n: ::std::os::raw::c_ulong) -> SCM;
+    pub fn scm_i_clonebig(src_big: SCM, same_sign_p: ::std::os::raw::c_int)
+     -> SCM;
+    pub fn scm_rationalize(x: SCM, err: SCM) -> SCM;
+    pub fn scm_numerator(z: SCM) -> SCM;
+    pub fn scm_denominator(z: SCM) -> SCM;
+    pub fn scm_i_fraction2double(z: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_i_fraction_equalp(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_print_fraction(sexp: SCM, port: SCM,
+                                pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_i_print_double(val: ::std::os::raw::c_double, port: SCM);
+    pub fn scm_i_print_complex(real: ::std::os::raw::c_double,
+                               imag: ::std::os::raw::c_double, port: SCM);
+    pub fn scm_is_integer(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_is_exact_integer(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_is_signed_integer(val: SCM, min: scm_t_intmax,
+                                 max: scm_t_intmax) -> ::std::os::raw::c_int;
+    pub fn scm_is_unsigned_integer(val: SCM, min: scm_t_uintmax,
+                                   max: scm_t_uintmax)
+     -> ::std::os::raw::c_int;
+    pub fn scm_from_signed_integer(val: scm_t_intmax) -> SCM;
+    pub fn scm_from_unsigned_integer(val: scm_t_uintmax) -> SCM;
+    pub fn scm_to_signed_integer(val: SCM, min: scm_t_intmax,
+                                 max: scm_t_intmax) -> scm_t_intmax;
+    pub fn scm_to_unsigned_integer(val: SCM, min: scm_t_uintmax,
+                                   max: scm_t_uintmax) -> scm_t_uintmax;
+    pub fn scm_to_int8(x: SCM) -> scm_t_int8;
+    pub fn scm_from_int8(x: scm_t_int8) -> SCM;
+    pub fn scm_to_uint8(x: SCM) -> scm_t_uint8;
+    pub fn scm_from_uint8(x: scm_t_uint8) -> SCM;
+    pub fn scm_to_int16(x: SCM) -> scm_t_int16;
+    pub fn scm_from_int16(x: scm_t_int16) -> SCM;
+    pub fn scm_to_uint16(x: SCM) -> scm_t_uint16;
+    pub fn scm_from_uint16(x: scm_t_uint16) -> SCM;
+    pub fn scm_to_int32(x: SCM) -> scm_t_int32;
+    pub fn scm_from_int32(x: scm_t_int32) -> SCM;
+    pub fn scm_to_uint32(x: SCM) -> scm_t_uint32;
+    pub fn scm_from_uint32(x: scm_t_uint32) -> SCM;
+    pub fn scm_to_wchar(x: SCM) -> scm_t_wchar;
+    pub fn scm_from_wchar(x: scm_t_wchar) -> SCM;
+    pub fn scm_to_int64(x: SCM) -> scm_t_int64;
+    pub fn scm_from_int64(x: scm_t_int64) -> SCM;
+    pub fn scm_to_uint64(x: SCM) -> scm_t_uint64;
+    pub fn scm_from_uint64(x: scm_t_uint64) -> SCM;
+    pub fn scm_to_mpz(x: SCM, rop: mpz_t);
+    pub fn scm_from_mpz(rop: mpz_t) -> SCM;
+    pub fn scm_is_real(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_is_rational(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_to_double(val: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_from_double(val: ::std::os::raw::c_double) -> SCM;
+    pub fn scm_is_complex(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_c_make_rectangular(re: ::std::os::raw::c_double,
+                                  im: ::std::os::raw::c_double) -> SCM;
+    pub fn scm_c_make_polar(mag: ::std::os::raw::c_double,
+                            ang: ::std::os::raw::c_double) -> SCM;
+    pub fn scm_c_real_part(z: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_c_imag_part(z: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_c_magnitude(z: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_c_angle(z: SCM) -> ::std::os::raw::c_double;
+    pub fn scm_is_number(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_init_numbers();
+    pub fn scm_i_register_array_implementation(_impl:
+                                                   *mut scm_t_array_implementation);
+    pub fn scm_i_array_implementation_for_obj(obj: SCM)
+     -> *mut scm_t_array_implementation;
+    pub fn scm_array_get_handle(array: SCM, h: *mut scm_t_array_handle);
+    pub fn scm_array_handle_pos(h: *mut scm_t_array_handle, indices: SCM)
+     -> ssize_t;
+    pub fn scm_array_handle_pos_1(h: *mut scm_t_array_handle, idx0: ssize_t)
+     -> ssize_t;
+    pub fn scm_array_handle_pos_2(h: *mut scm_t_array_handle, idx0: ssize_t,
+                                  idx1: ssize_t) -> ssize_t;
+    pub fn scm_array_handle_element_type(h: *mut scm_t_array_handle) -> SCM;
+    pub fn scm_array_handle_release(h: *mut scm_t_array_handle);
+    pub fn scm_array_handle_elements(h: *mut scm_t_array_handle)
+     -> *const SCM;
+    pub fn scm_array_handle_writable_elements(h: *mut scm_t_array_handle)
+     -> *mut SCM;
+    pub fn scm_array_handle_ref(h: *mut scm_t_array_handle, p: ssize_t)
+     -> SCM;
+    pub fn scm_array_handle_set(h: *mut scm_t_array_handle, p: ssize_t,
+                                v: SCM);
+    pub fn scm_init_array_handle();
+    pub fn scm_ra_matchp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ramapc(cproc: *mut ::std::os::raw::c_void, data: SCM, ra0: SCM,
+                      lra: SCM, what: *const ::std::os::raw::c_char)
+     -> ::std::os::raw::c_int;
+    pub fn scm_array_fill_x(ra: SCM, fill: SCM) -> SCM;
+    pub fn scm_array_copy_x(src: SCM, dst: SCM) -> SCM;
+    pub fn scm_array_map_x(ra0: SCM, _proc: SCM, lra: SCM) -> SCM;
+    pub fn scm_array_for_each(_proc: SCM, ra0: SCM, lra: SCM) -> SCM;
+    pub fn scm_array_index_map_x(ra: SCM, _proc: SCM) -> SCM;
+    pub fn scm_array_equal_p(ra0: SCM, ra1: SCM) -> SCM;
+    pub fn scm_init_array_map();
+    pub fn scm_array_fill_int(ra: SCM, fill: SCM, ignore: SCM)
+     -> ::std::os::raw::c_int;
+    pub fn scm_ra_eqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_lessp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_leqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_grp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_greqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_sum(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_difference(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_product(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_ra_divide(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_array_identity(src: SCM, dst: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_make_array(fill: SCM, bounds: SCM) -> SCM;
+    pub fn scm_from_contiguous_array(bounds: SCM, elts: *const SCM,
+                                     len: size_t) -> SCM;
+    pub fn scm_make_typed_array(_type: SCM, fill: SCM, bounds: SCM) -> SCM;
+    pub fn scm_from_contiguous_typed_array(_type: SCM, bounds: SCM,
+                                           bytes:
+                                               *const ::std::os::raw::c_void,
+                                           byte_len: size_t) -> SCM;
+    pub fn scm_shared_array_root(ra: SCM) -> SCM;
+    pub fn scm_shared_array_offset(ra: SCM) -> SCM;
+    pub fn scm_shared_array_increments(ra: SCM) -> SCM;
+    pub fn scm_make_shared_array(oldra: SCM, mapfunc: SCM, dims: SCM) -> SCM;
+    pub fn scm_transpose_array(ra: SCM, args: SCM) -> SCM;
+    pub fn scm_array_contents(ra: SCM, strict: SCM) -> SCM;
+    pub fn scm_list_to_array(ndim: SCM, lst: SCM) -> SCM;
+    pub fn scm_list_to_typed_array(_type: SCM, ndim: SCM, lst: SCM) -> SCM;
+    pub fn scm_i_make_array(ndim: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_i_print_array(array: SCM, port: SCM,
+                             pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_init_arrays();
     pub fn scm_local_eval(exp: SCM, env: SCM) -> SCM;
     pub fn scm_reverse_lookup(env: SCM, data: SCM) -> SCM;
-    pub fn scm_start_stack(info_id: SCM, exp: SCM, env: SCM) -> SCM;
-    pub fn scm_procedure_environment(_proc: SCM) -> SCM;
     pub fn scm_procedure_source(_proc: SCM) -> SCM;
     pub fn scm_procedure_name(_proc: SCM) -> SCM;
-    pub fn scm_memoized_environment(m: SCM) -> SCM;
-    pub fn scm_make_memoized(exp: SCM, env: SCM) -> SCM;
-    pub fn scm_memoized_p(obj: SCM) -> SCM;
-    pub fn scm_with_traps(thunk: SCM) -> SCM;
-    pub fn scm_evaluator_traps(setting: SCM) -> SCM;
     pub fn scm_debug_options(setting: SCM) -> SCM;
-    pub fn scm_make_debugobj(debug: *mut scm_t_debug_frame) -> SCM;
-    pub fn scm_i_unmemoize_expr(memoized: SCM) -> SCM;
     pub fn scm_init_debug();
     pub fn scm_c_catch(tag: SCM, body: scm_t_catch_body,
                        body_data: *mut ::std::os::raw::c_void,
@@ -3464,16 +4627,6 @@ extern "C" {
                               handler: scm_t_catch_handler,
                               handler_data: *mut ::std::os::raw::c_void)
      -> SCM;
-    pub fn scm_internal_lazy_catch(tag: SCM, body: scm_t_catch_body,
-                                   body_data: *mut ::std::os::raw::c_void,
-                                   handler: scm_t_catch_handler,
-                                   handler_data: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_internal_stack_catch(tag: SCM, body: scm_t_catch_body,
-                                    body_data: *mut ::std::os::raw::c_void,
-                                    handler: scm_t_catch_handler,
-                                    handler_data: *mut ::std::os::raw::c_void)
-     -> SCM;
     pub fn scm_body_thunk(arg1: *mut ::std::os::raw::c_void) -> SCM;
     pub fn scm_handle_by_proc(arg1: *mut ::std::os::raw::c_void, arg2: SCM,
                               arg3: SCM) -> SCM;
@@ -3491,8 +4644,7 @@ extern "C" {
      -> SCM;
     pub fn scm_catch(tag: SCM, thunk: SCM, handler: SCM) -> SCM;
     pub fn scm_with_throw_handler(tag: SCM, thunk: SCM, handler: SCM) -> SCM;
-    pub fn scm_lazy_catch(tag: SCM, thunk: SCM, handler: SCM) -> SCM;
-    pub fn scm_ithrow(key: SCM, args: SCM, noreturn: ::std::os::raw::c_int)
+    pub fn scm_ithrow(key: SCM, args: SCM, no_return: ::std::os::raw::c_int)
      -> SCM;
     pub fn scm_throw(key: SCM, args: SCM) -> SCM;
     pub fn scm_init_throw();
@@ -3506,52 +4658,19 @@ extern "C" {
     pub fn scm_apply_with_dynamic_root(_proc: SCM, a1: SCM, args: SCM,
                                        handler: SCM) -> SCM;
     pub fn scm_init_root();
-    pub fn scm_mark_subr_table();
-    pub fn scm_free_subr_entry(subr: SCM);
-    pub fn scm_c_make_subr(name: *const ::std::os::raw::c_char,
-                           _type: ::std::os::raw::c_long,
-                           fcn: ::std::option::Option<extern "C" fn() -> SCM>)
-     -> SCM;
-    pub fn scm_c_make_subr_with_generic(name: *const ::std::os::raw::c_char,
-                                        _type: ::std::os::raw::c_long,
-                                        fcn:
-                                            ::std::option::Option<extern "C" fn()
-                                                                      -> SCM>,
-                                        gf: *mut SCM) -> SCM;
-    pub fn scm_c_define_subr(name: *const ::std::os::raw::c_char,
-                             _type: ::std::os::raw::c_long,
-                             fcn:
-                                 ::std::option::Option<extern "C" fn()
-                                                           -> SCM>) -> SCM;
-    pub fn scm_c_define_subr_with_generic(name: *const ::std::os::raw::c_char,
-                                          _type: ::std::os::raw::c_long,
-                                          fcn:
-                                              ::std::option::Option<extern "C" fn()
-                                                                        ->
-                                                                            SCM>,
-                                          gf: *mut SCM) -> SCM;
-    pub fn scm_makcclo(_proc: SCM, len: size_t) -> SCM;
     pub fn scm_procedure_p(obj: SCM) -> SCM;
-    pub fn scm_closure_p(obj: SCM) -> SCM;
     pub fn scm_thunk_p(obj: SCM) -> SCM;
-    pub fn scm_subr_p(obj: SCM) -> ::std::os::raw::c_int;
     pub fn scm_procedure_documentation(_proc: SCM) -> SCM;
     pub fn scm_procedure_with_setter_p(obj: SCM) -> SCM;
     pub fn scm_make_procedure_with_setter(procedure: SCM, setter: SCM) -> SCM;
     pub fn scm_procedure(_proc: SCM) -> SCM;
     pub fn scm_setter(_proc: SCM) -> SCM;
-    pub fn scm_init_subr_table();
     pub fn scm_init_procs();
     pub fn scm_std_select(fds: ::std::os::raw::c_int, rfds: *mut fd_set,
                           wfds: *mut fd_set, efds: *mut fd_set,
                           timeout: *mut Struct_timeval)
      -> ::std::os::raw::c_int;
     pub fn scm_dynamic_wind(thunk1: SCM, thunk2: SCM, thunk3: SCM) -> SCM;
-    pub fn scm_internal_dynamic_wind(before: scm_t_guard, inner: scm_t_inner,
-                                     after: scm_t_guard,
-                                     inner_data: *mut ::std::os::raw::c_void,
-                                     guard_data: *mut ::std::os::raw::c_void)
-     -> SCM;
     pub fn scm_dowinds(to: SCM, delta: ::std::os::raw::c_long);
     pub fn scm_i_dowinds(to: SCM, delta: ::std::os::raw::c_long,
                          turn_func:
@@ -3583,7 +4702,14 @@ extern "C" {
                                                data: SCM,
                                                arg1: scm_t_wind_flags);
     pub fn scm_dynwind_free(mem: *mut ::std::os::raw::c_void);
-    pub fn scm_make_continuation(first: *mut ::std::os::raw::c_int) -> SCM;
+    pub fn scm_i_make_continuation(first: *mut ::std::os::raw::c_int, vm: SCM,
+                                   vm_cont: SCM) -> SCM;
+    pub fn scm_i_check_continuation(cont: SCM);
+    pub fn scm_i_reinstate_continuation(cont: SCM);
+    pub fn scm_i_call_with_current_continuation(_proc: SCM) -> SCM;
+    pub fn scm_i_continuation_to_frame(cont: SCM) -> SCM;
+    pub fn scm_i_contregs_vm(contregs: SCM) -> SCM;
+    pub fn scm_i_contregs_vm_cont(contregs: SCM) -> SCM;
     pub fn scm_c_with_continuation_barrier(func:
                                                ::std::option::Option<unsafe extern "C" fn(arg1:
                                                                                               *mut ::std::os::raw::c_void)
@@ -3912,6 +5038,386 @@ extern "C" {
                           __parent: ::std::option::Option<extern "C" fn()>,
                           __child: ::std::option::Option<extern "C" fn()>)
      -> ::std::os::raw::c_int;
+    pub fn GC_get_version() -> ::std::os::raw::c_uint;
+    pub fn GC_get_gc_no() -> GC_word;
+    pub fn GC_get_parallel() -> ::std::os::raw::c_int;
+    pub fn GC_set_oom_fn(arg1: GC_oom_func);
+    pub fn GC_get_oom_fn() -> GC_oom_func;
+    pub fn GC_set_on_heap_resize(arg1: GC_on_heap_resize_proc);
+    pub fn GC_get_on_heap_resize() -> GC_on_heap_resize_proc;
+    pub fn GC_set_find_leak(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_find_leak() -> ::std::os::raw::c_int;
+    pub fn GC_set_all_interior_pointers(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_all_interior_pointers() -> ::std::os::raw::c_int;
+    pub fn GC_set_finalize_on_demand(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_finalize_on_demand() -> ::std::os::raw::c_int;
+    pub fn GC_set_java_finalization(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_java_finalization() -> ::std::os::raw::c_int;
+    pub fn GC_set_finalizer_notifier(arg1: GC_finalizer_notifier_proc);
+    pub fn GC_get_finalizer_notifier() -> GC_finalizer_notifier_proc;
+    pub fn GC_set_dont_expand(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_dont_expand() -> ::std::os::raw::c_int;
+    pub fn GC_set_full_freq(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_full_freq() -> ::std::os::raw::c_int;
+    pub fn GC_set_non_gc_bytes(arg1: GC_word);
+    pub fn GC_get_non_gc_bytes() -> GC_word;
+    pub fn GC_set_no_dls(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_no_dls() -> ::std::os::raw::c_int;
+    pub fn GC_set_free_space_divisor(arg1: GC_word);
+    pub fn GC_get_free_space_divisor() -> GC_word;
+    pub fn GC_set_max_retries(arg1: GC_word);
+    pub fn GC_get_max_retries() -> GC_word;
+    pub fn GC_set_dont_precollect(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_dont_precollect() -> ::std::os::raw::c_int;
+    pub fn GC_set_time_limit(arg1: ::std::os::raw::c_ulong);
+    pub fn GC_get_time_limit() -> ::std::os::raw::c_ulong;
+    pub fn GC_set_pages_executable(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_pages_executable() -> ::std::os::raw::c_int;
+    pub fn GC_set_handle_fork(arg1: ::std::os::raw::c_int);
+    pub fn GC_atfork_prepare();
+    pub fn GC_atfork_parent();
+    pub fn GC_atfork_child();
+    pub fn GC_init();
+    pub fn GC_malloc(arg1: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_malloc_atomic(arg1: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_strdup(arg1: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn GC_strndup(arg1: *const ::std::os::raw::c_char, arg2: size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn GC_malloc_uncollectable(arg1: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_malloc_stubborn(arg1: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_memalign(arg1: size_t, arg2: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_posix_memalign(arg1: *mut *mut ::std::os::raw::c_void,
+                             arg2: size_t, arg3: size_t)
+     -> ::std::os::raw::c_int;
+    pub fn GC_free(arg1: *mut ::std::os::raw::c_void);
+    pub fn GC_change_stubborn(arg1: *const ::std::os::raw::c_void);
+    pub fn GC_end_stubborn_change(arg1: *const ::std::os::raw::c_void);
+    pub fn GC_base(arg1: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_is_heap_ptr(arg1: *const ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_size(arg1: *const ::std::os::raw::c_void) -> size_t;
+    pub fn GC_realloc(arg1: *mut ::std::os::raw::c_void, arg2: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_expand_hp(arg1: size_t) -> ::std::os::raw::c_int;
+    pub fn GC_set_max_heap_size(arg1: GC_word);
+    pub fn GC_exclude_static_roots(arg1: *mut ::std::os::raw::c_void,
+                                   arg2: *mut ::std::os::raw::c_void);
+    pub fn GC_clear_roots();
+    pub fn GC_add_roots(arg1: *mut ::std::os::raw::c_void,
+                        arg2: *mut ::std::os::raw::c_void);
+    pub fn GC_remove_roots(arg1: *mut ::std::os::raw::c_void,
+                           arg2: *mut ::std::os::raw::c_void);
+    pub fn GC_register_displacement(arg1: size_t);
+    pub fn GC_debug_register_displacement(arg1: size_t);
+    pub fn GC_gcollect();
+    pub fn GC_gcollect_and_unmap();
+    pub fn GC_try_to_collect(arg1: GC_stop_func) -> ::std::os::raw::c_int;
+    pub fn GC_set_stop_func(arg1: GC_stop_func);
+    pub fn GC_get_stop_func() -> GC_stop_func;
+    pub fn GC_get_heap_size() -> size_t;
+    pub fn GC_get_free_bytes() -> size_t;
+    pub fn GC_get_unmapped_bytes() -> size_t;
+    pub fn GC_get_bytes_since_gc() -> size_t;
+    pub fn GC_get_total_bytes() -> size_t;
+    pub fn GC_get_heap_usage_safe(arg1: *mut GC_word, arg2: *mut GC_word,
+                                  arg3: *mut GC_word, arg4: *mut GC_word,
+                                  arg5: *mut GC_word);
+    pub fn GC_get_prof_stats(arg1: *mut Struct_GC_prof_stats_s, arg2: size_t)
+     -> size_t;
+    pub fn GC_get_prof_stats_unsafe(arg1: *mut Struct_GC_prof_stats_s,
+                                    arg2: size_t) -> size_t;
+    pub fn GC_disable();
+    pub fn GC_is_disabled() -> ::std::os::raw::c_int;
+    pub fn GC_enable();
+    pub fn GC_enable_incremental();
+    pub fn GC_incremental_protection_needs() -> ::std::os::raw::c_int;
+    pub fn GC_collect_a_little() -> ::std::os::raw::c_int;
+    pub fn GC_malloc_ignore_off_page(arg1: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_malloc_atomic_ignore_off_page(arg1: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_malloc_atomic_uncollectable(arg1: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc_atomic_uncollectable(arg1: size_t,
+                                                s:
+                                                    *const ::std::os::raw::c_char,
+                                                i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc(arg1: size_t, s: *const ::std::os::raw::c_char,
+                           i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc_atomic(arg1: size_t,
+                                  s: *const ::std::os::raw::c_char,
+                                  i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_strdup(arg1: *const ::std::os::raw::c_char,
+                           s: *const ::std::os::raw::c_char,
+                           i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_char;
+    pub fn GC_debug_strndup(arg1: *const ::std::os::raw::c_char, arg2: size_t,
+                            s: *const ::std::os::raw::c_char,
+                            i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_char;
+    pub fn GC_debug_malloc_uncollectable(arg1: size_t,
+                                         s: *const ::std::os::raw::c_char,
+                                         i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc_stubborn(arg1: size_t,
+                                    s: *const ::std::os::raw::c_char,
+                                    i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc_ignore_off_page(arg1: size_t,
+                                           s: *const ::std::os::raw::c_char,
+                                           i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_malloc_atomic_ignore_off_page(arg1: size_t,
+                                                  s:
+                                                      *const ::std::os::raw::c_char,
+                                                  i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_free(arg1: *mut ::std::os::raw::c_void);
+    pub fn GC_debug_realloc(arg1: *mut ::std::os::raw::c_void, arg2: size_t,
+                            s: *const ::std::os::raw::c_char,
+                            i: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_change_stubborn(arg1: *const ::std::os::raw::c_void);
+    pub fn GC_debug_end_stubborn_change(arg1: *const ::std::os::raw::c_void);
+    pub fn GC_debug_malloc_replacement(arg1: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_debug_realloc_replacement(arg1: *mut ::std::os::raw::c_void,
+                                        arg2: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_register_finalizer(arg1: *mut ::std::os::raw::c_void,
+                                 arg2: GC_finalization_proc,
+                                 arg3: *mut ::std::os::raw::c_void,
+                                 arg4: *mut GC_finalization_proc,
+                                 arg5: *mut *mut ::std::os::raw::c_void);
+    pub fn GC_debug_register_finalizer(arg1: *mut ::std::os::raw::c_void,
+                                       arg2: GC_finalization_proc,
+                                       arg3: *mut ::std::os::raw::c_void,
+                                       arg4: *mut GC_finalization_proc,
+                                       arg5:
+                                           *mut *mut ::std::os::raw::c_void);
+    pub fn GC_register_finalizer_ignore_self(arg1:
+                                                 *mut ::std::os::raw::c_void,
+                                             arg2: GC_finalization_proc,
+                                             arg3:
+                                                 *mut ::std::os::raw::c_void,
+                                             arg4: *mut GC_finalization_proc,
+                                             arg5:
+                                                 *mut *mut ::std::os::raw::c_void);
+    pub fn GC_debug_register_finalizer_ignore_self(arg1:
+                                                       *mut ::std::os::raw::c_void,
+                                                   arg2: GC_finalization_proc,
+                                                   arg3:
+                                                       *mut ::std::os::raw::c_void,
+                                                   arg4:
+                                                       *mut GC_finalization_proc,
+                                                   arg5:
+                                                       *mut *mut ::std::os::raw::c_void);
+    pub fn GC_register_finalizer_no_order(arg1: *mut ::std::os::raw::c_void,
+                                          arg2: GC_finalization_proc,
+                                          arg3: *mut ::std::os::raw::c_void,
+                                          arg4: *mut GC_finalization_proc,
+                                          arg5:
+                                              *mut *mut ::std::os::raw::c_void);
+    pub fn GC_debug_register_finalizer_no_order(arg1:
+                                                    *mut ::std::os::raw::c_void,
+                                                arg2: GC_finalization_proc,
+                                                arg3:
+                                                    *mut ::std::os::raw::c_void,
+                                                arg4:
+                                                    *mut GC_finalization_proc,
+                                                arg5:
+                                                    *mut *mut ::std::os::raw::c_void);
+    pub fn GC_register_finalizer_unreachable(arg1:
+                                                 *mut ::std::os::raw::c_void,
+                                             arg2: GC_finalization_proc,
+                                             arg3:
+                                                 *mut ::std::os::raw::c_void,
+                                             arg4: *mut GC_finalization_proc,
+                                             arg5:
+                                                 *mut *mut ::std::os::raw::c_void);
+    pub fn GC_debug_register_finalizer_unreachable(arg1:
+                                                       *mut ::std::os::raw::c_void,
+                                                   arg2: GC_finalization_proc,
+                                                   arg3:
+                                                       *mut ::std::os::raw::c_void,
+                                                   arg4:
+                                                       *mut GC_finalization_proc,
+                                                   arg5:
+                                                       *mut *mut ::std::os::raw::c_void);
+    pub fn GC_register_disappearing_link(arg1:
+                                             *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_general_register_disappearing_link(arg1:
+                                                     *mut *mut ::std::os::raw::c_void,
+                                                 arg2:
+                                                     *const ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_move_disappearing_link(arg1: *mut *mut ::std::os::raw::c_void,
+                                     arg2: *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_unregister_disappearing_link(arg1:
+                                               *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_register_long_link(arg1: *mut *mut ::std::os::raw::c_void,
+                                 arg2: *const ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_move_long_link(arg1: *mut *mut ::std::os::raw::c_void,
+                             arg2: *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_unregister_long_link(arg1: *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_should_invoke_finalizers() -> ::std::os::raw::c_int;
+    pub fn GC_invoke_finalizers() -> ::std::os::raw::c_int;
+    pub fn GC_set_warn_proc(arg1: GC_warn_proc);
+    pub fn GC_get_warn_proc() -> GC_warn_proc;
+    pub fn GC_ignore_warn_proc(arg1: *mut ::std::os::raw::c_char,
+                               arg2: GC_word);
+    pub fn GC_set_abort_func(arg1: GC_abort_func);
+    pub fn GC_get_abort_func() -> GC_abort_func;
+    pub fn GC_call_with_alloc_lock(arg1: GC_fn_type,
+                                   arg2: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_call_with_stack_base(arg1: GC_stack_base_func,
+                                   arg2: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_set_suspend_signal(arg1: ::std::os::raw::c_int);
+    pub fn GC_set_thr_restart_signal(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_suspend_signal() -> ::std::os::raw::c_int;
+    pub fn GC_get_thr_restart_signal() -> ::std::os::raw::c_int;
+    pub fn GC_start_mark_threads();
+    pub fn GC_allow_register_threads();
+    pub fn GC_register_my_thread(arg1: *const Struct_GC_stack_base)
+     -> ::std::os::raw::c_int;
+    pub fn GC_thread_is_registered() -> ::std::os::raw::c_int;
+    pub fn GC_unregister_my_thread() -> ::std::os::raw::c_int;
+    pub fn GC_do_blocking(arg1: GC_fn_type, arg2: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_call_with_gc_active(arg1: GC_fn_type,
+                                  arg2: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_get_stack_base(arg1: *mut Struct_GC_stack_base)
+     -> ::std::os::raw::c_int;
+    pub fn GC_same_obj(arg1: *mut ::std::os::raw::c_void,
+                       arg2: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_pre_incr(arg1: *mut *mut ::std::os::raw::c_void,
+                       arg2: ptrdiff_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_post_incr(arg1: *mut *mut ::std::os::raw::c_void,
+                        arg2: ptrdiff_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_is_visible(arg1: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_is_valid_displacement(arg1: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn GC_dump();
+    pub fn dlopen(__file: *const ::std::os::raw::c_char,
+                  __mode: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn dlclose(__handle: *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn dlsym(__handle: *mut ::std::os::raw::c_void,
+                 __name: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn dlerror() -> *mut ::std::os::raw::c_char;
+    pub fn GC_dlopen(arg1: *const ::std::os::raw::c_char,
+                     arg2: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_void;
+    pub fn __sigismember(arg1: *const __sigset_t, arg2: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn __sigaddset(arg1: *mut __sigset_t, arg2: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn __sigdelset(arg1: *mut __sigset_t, arg2: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn __sysv_signal(__sig: ::std::os::raw::c_int,
+                         __handler: __sighandler_t) -> __sighandler_t;
+    pub fn signal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t)
+     -> __sighandler_t;
+    pub fn kill(__pid: __pid_t, __sig: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn killpg(__pgrp: __pid_t, __sig: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn raise(__sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn ssignal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t)
+     -> __sighandler_t;
+    pub fn gsignal(__sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn psignal(__sig: ::std::os::raw::c_int,
+                   __s: *const ::std::os::raw::c_char);
+    pub fn psiginfo(__pinfo: *const siginfo_t,
+                    __s: *const ::std::os::raw::c_char);
+    pub fn sigblock(__mask: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn sigsetmask(__mask: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn siggetmask() -> ::std::os::raw::c_int;
+    pub fn sigemptyset(__set: *mut sigset_t) -> ::std::os::raw::c_int;
+    pub fn sigfillset(__set: *mut sigset_t) -> ::std::os::raw::c_int;
+    pub fn sigaddset(__set: *mut sigset_t, __signo: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn sigdelset(__set: *mut sigset_t, __signo: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn sigismember(__set: *const sigset_t, __signo: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn sigprocmask(__how: ::std::os::raw::c_int, __set: *const sigset_t,
+                       __oset: *mut sigset_t) -> ::std::os::raw::c_int;
+    pub fn sigsuspend(__set: *const sigset_t) -> ::std::os::raw::c_int;
+    pub fn sigaction(__sig: ::std::os::raw::c_int,
+                     __act: *const Struct_sigaction,
+                     __oact: *mut Struct_sigaction) -> ::std::os::raw::c_int;
+    pub fn sigpending(__set: *mut sigset_t) -> ::std::os::raw::c_int;
+    pub fn sigwait(__set: *const sigset_t, __sig: *mut ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn sigwaitinfo(__set: *const sigset_t, __info: *mut siginfo_t)
+     -> ::std::os::raw::c_int;
+    pub fn sigtimedwait(__set: *const sigset_t, __info: *mut siginfo_t,
+                        __timeout: *const Struct_timespec)
+     -> ::std::os::raw::c_int;
+    pub fn sigqueue(__pid: __pid_t, __sig: ::std::os::raw::c_int,
+                    __val: Union_sigval) -> ::std::os::raw::c_int;
+    pub fn sigreturn(__scp: *mut Struct_sigcontext) -> ::std::os::raw::c_int;
+    pub fn siginterrupt(__sig: ::std::os::raw::c_int,
+                        __interrupt: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn sigstack(__ss: *mut Struct_sigstack, __oss: *mut Struct_sigstack)
+     -> ::std::os::raw::c_int;
+    pub fn sigaltstack(__ss: *const Struct_sigaltstack,
+                       __oss: *mut Struct_sigaltstack)
+     -> ::std::os::raw::c_int;
+    pub fn pthread_sigmask(__how: ::std::os::raw::c_int,
+                           __newmask: *const __sigset_t,
+                           __oldmask: *mut __sigset_t)
+     -> ::std::os::raw::c_int;
+    pub fn pthread_kill(__threadid: pthread_t, __signo: ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn __libc_current_sigrtmin() -> ::std::os::raw::c_int;
+    pub fn __libc_current_sigrtmax() -> ::std::os::raw::c_int;
+    pub fn GC_pthread_sigmask(arg1: ::std::os::raw::c_int,
+                              arg2: *const sigset_t, arg3: *mut sigset_t)
+     -> ::std::os::raw::c_int;
+    pub fn GC_pthread_create(arg1: *mut pthread_t,
+                             arg2: *const pthread_attr_t,
+                             arg3:
+                                 ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                *mut ::std::os::raw::c_void)
+                                                           ->
+                                                               *mut ::std::os::raw::c_void>,
+                             arg4: *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_pthread_join(arg1: pthread_t,
+                           arg2: *mut *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_int;
+    pub fn GC_pthread_detach(arg1: pthread_t) -> ::std::os::raw::c_int;
+    pub fn GC_pthread_cancel(arg1: pthread_t) -> ::std::os::raw::c_int;
+    pub fn GC_pthread_exit(arg1: *mut ::std::os::raw::c_void);
+    pub fn GC_malloc_many(arg1: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn GC_register_has_static_roots_callback(arg1:
+                                                     GC_has_static_roots_func);
+    pub fn GC_set_force_unmap_on_gcollect(arg1: ::std::os::raw::c_int);
+    pub fn GC_get_force_unmap_on_gcollect() -> ::std::os::raw::c_int;
+    pub fn GC_win32_free_heap();
     pub fn scm_spawn_thread(body: scm_t_catch_body,
                             body_data: *mut ::std::os::raw::c_void,
                             handler: scm_t_catch_handler,
@@ -3930,39 +5436,42 @@ extern "C" {
                                                             *mut ::std::os::raw::c_void>,
                           data: *mut ::std::os::raw::c_void)
      -> *mut ::std::os::raw::c_void;
-    pub fn scm_i_with_guile_and_parent(func:
-                                           ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                          *mut ::std::os::raw::c_void)
-                                                                     ->
-                                                                         *mut ::std::os::raw::c_void>,
-                                       data: *mut ::std::os::raw::c_void,
-                                       parent: SCM)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_i_thread_put_to_sleep();
-    pub fn scm_i_thread_wake_up();
-    pub fn scm_i_thread_invalidate_freelists();
-    pub fn scm_i_thread_sleep_for_gc();
-    pub fn scm_threads_prehistory(arg1: *mut SCM_STACKITEM);
-    pub fn scm_threads_init_first_thread();
-    pub fn scm_threads_mark_stacks();
+    pub fn scm_i_reset_fluid(arg1: size_t);
+    pub fn scm_threads_prehistory(arg1: *mut ::std::os::raw::c_void);
     pub fn scm_init_threads();
     pub fn scm_init_thread_procs();
     pub fn scm_init_threads_default_dynamic_state();
+    pub fn scm_i_dynwind_pthread_mutex_lock_block_asyncs(mutex:
+                                                             *mut pthread_mutex_t);
     pub fn scm_call_with_new_thread(thunk: SCM, handler: SCM) -> SCM;
     pub fn scm_yield() -> SCM;
+    pub fn scm_cancel_thread(t: SCM) -> SCM;
+    pub fn scm_set_thread_cleanup_x(thread: SCM, _proc: SCM) -> SCM;
+    pub fn scm_thread_cleanup(thread: SCM) -> SCM;
     pub fn scm_join_thread(t: SCM) -> SCM;
+    pub fn scm_join_thread_timed(t: SCM, timeout: SCM, timeoutval: SCM)
+     -> SCM;
+    pub fn scm_thread_p(t: SCM) -> SCM;
     pub fn scm_make_mutex() -> SCM;
     pub fn scm_make_recursive_mutex() -> SCM;
+    pub fn scm_make_mutex_with_flags(flags: SCM) -> SCM;
     pub fn scm_lock_mutex(m: SCM) -> SCM;
+    pub fn scm_lock_mutex_timed(m: SCM, timeout: SCM, owner: SCM) -> SCM;
     pub fn scm_dynwind_lock_mutex(mutex: SCM);
     pub fn scm_try_mutex(m: SCM) -> SCM;
     pub fn scm_unlock_mutex(m: SCM) -> SCM;
+    pub fn scm_unlock_mutex_timed(m: SCM, cond: SCM, timeout: SCM) -> SCM;
+    pub fn scm_mutex_p(o: SCM) -> SCM;
+    pub fn scm_mutex_locked_p(m: SCM) -> SCM;
+    pub fn scm_mutex_owner(m: SCM) -> SCM;
+    pub fn scm_mutex_level(m: SCM) -> SCM;
     pub fn scm_make_condition_variable() -> SCM;
     pub fn scm_wait_condition_variable(cond: SCM, mutex: SCM) -> SCM;
     pub fn scm_timed_wait_condition_variable(cond: SCM, mutex: SCM,
                                              abstime: SCM) -> SCM;
     pub fn scm_signal_condition_variable(cond: SCM) -> SCM;
     pub fn scm_broadcast_condition_variable(cond: SCM) -> SCM;
+    pub fn scm_condition_variable_p(o: SCM) -> SCM;
     pub fn scm_current_thread() -> SCM;
     pub fn scm_all_threads() -> SCM;
     pub fn scm_c_thread_exited_p(thread: SCM) -> ::std::os::raw::c_int;
@@ -3982,6 +5491,8 @@ extern "C" {
      -> ::std::os::raw::c_uint;
     pub fn scm_std_usleep(arg1: ::std::os::raw::c_ulong)
      -> ::std::os::raw::c_ulong;
+    pub fn scm_total_processor_count() -> SCM;
+    pub fn scm_current_processor_count() -> SCM;
     pub fn scm_async_click();
     pub fn scm_switch();
     pub fn scm_async(thunk: SCM) -> SCM;
@@ -4014,305 +5525,17 @@ extern "C" {
      -> *mut ::std::os::raw::c_void;
     pub fn scm_dynwind_block_asyncs();
     pub fn scm_dynwind_unblock_asyncs();
+    pub fn scm_critical_section_start();
+    pub fn scm_critical_section_end();
     pub fn scm_init_async();
     pub fn scm_system_async(thunk: SCM) -> SCM;
     pub fn scm_unmask_signals() -> SCM;
     pub fn scm_mask_signals() -> SCM;
-    pub fn scm_is_bool(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_is_bool(arg1: SCM) -> ::std::os::raw::c_int;
     pub fn scm_to_bool(x: SCM) -> ::std::os::raw::c_int;
     pub fn scm_not(x: SCM) -> SCM;
     pub fn scm_boolean_p(obj: SCM) -> SCM;
     pub fn scm_init_boolean();
-    pub fn scm_char_p(x: SCM) -> SCM;
-    pub fn scm_char_eq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_less_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_leq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_gr_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_geq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_ci_eq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_ci_less_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_ci_leq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_ci_gr_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_ci_geq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_char_alphabetic_p(chr: SCM) -> SCM;
-    pub fn scm_char_numeric_p(chr: SCM) -> SCM;
-    pub fn scm_char_whitespace_p(chr: SCM) -> SCM;
-    pub fn scm_char_upper_case_p(chr: SCM) -> SCM;
-    pub fn scm_char_lower_case_p(chr: SCM) -> SCM;
-    pub fn scm_char_is_both_p(chr: SCM) -> SCM;
-    pub fn scm_char_to_integer(chr: SCM) -> SCM;
-    pub fn scm_integer_to_char(n: SCM) -> SCM;
-    pub fn scm_char_upcase(chr: SCM) -> SCM;
-    pub fn scm_char_downcase(chr: SCM) -> SCM;
-    pub fn scm_c_upcase(c: ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
-    pub fn scm_c_downcase(c: ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
-    pub fn scm_init_chars();
-    pub fn scm_dynamic_link(fname: SCM) -> SCM;
-    pub fn scm_dynamic_unlink(dobj: SCM) -> SCM;
-    pub fn scm_dynamic_object_p(obj: SCM) -> SCM;
-    pub fn scm_dynamic_func(symb: SCM, dobj: SCM) -> SCM;
-    pub fn scm_dynamic_call(symb: SCM, dobj: SCM) -> SCM;
-    pub fn scm_dynamic_args_call(symb: SCM, dobj: SCM, args: SCM) -> SCM;
-    pub fn scm_init_dynamic_linking();
-    pub fn scm_eq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_eqv_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_equal_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_init_eq();
-    pub fn scm_error(key: SCM, subr: *const ::std::os::raw::c_char,
-                     message: *const ::std::os::raw::c_char, args: SCM,
-                     rest: SCM);
-    pub fn scm_error_scm(key: SCM, subr: SCM, message: SCM, args: SCM,
-                         rest: SCM) -> SCM;
-    pub fn scm_strerror(err: SCM) -> SCM;
-    pub fn scm_syserror(subr: *const ::std::os::raw::c_char);
-    pub fn scm_syserror_msg(subr: *const ::std::os::raw::c_char,
-                            message: *const ::std::os::raw::c_char, args: SCM,
-                            eno: ::std::os::raw::c_int);
-    pub fn scm_num_overflow(subr: *const ::std::os::raw::c_char);
-    pub fn scm_out_of_range(subr: *const ::std::os::raw::c_char,
-                            bad_value: SCM);
-    pub fn scm_out_of_range_pos(subr: *const ::std::os::raw::c_char,
-                                bad_value: SCM, pos: SCM);
-    pub fn scm_wrong_num_args(_proc: SCM);
-    pub fn scm_error_num_args_subr(subr: *const ::std::os::raw::c_char);
-    pub fn scm_wrong_type_arg(subr: *const ::std::os::raw::c_char,
-                              pos: ::std::os::raw::c_int, bad_value: SCM);
-    pub fn scm_wrong_type_arg_msg(subr: *const ::std::os::raw::c_char,
-                                  pos: ::std::os::raw::c_int, bad_value: SCM,
-                                  sz: *const ::std::os::raw::c_char);
-    pub fn scm_memory_error(subr: *const ::std::os::raw::c_char);
-    pub fn scm_misc_error(subr: *const ::std::os::raw::c_char,
-                          message: *const ::std::os::raw::c_char, args: SCM);
-    pub fn scm_init_error();
-    pub fn scm_print_options(setting: SCM) -> SCM;
-    pub fn scm_make_print_state() -> SCM;
-    pub fn scm_free_print_state(print_state: SCM);
-    pub fn scm_i_port_with_print_state(port: SCM, print_state: SCM) -> SCM;
-    pub fn scm_intprint(n: scm_t_intmax, radix: ::std::os::raw::c_int,
-                        port: SCM);
-    pub fn scm_uintprint(n: scm_t_uintmax, radix: ::std::os::raw::c_int,
-                         port: SCM);
-    pub fn scm_ipruk(hdr: *mut ::std::os::raw::c_char, ptr: SCM, port: SCM);
-    pub fn scm_iprlist(hdr: *mut ::std::os::raw::c_char, exp: SCM,
-                       tlr: ::std::os::raw::c_int, port: SCM,
-                       pstate: *mut scm_print_state);
-    pub fn scm_print_symbol_name(str: *const ::std::os::raw::c_char,
-                                 len: size_t, port: SCM);
-    pub fn scm_prin1(exp: SCM, port: SCM, writingp: ::std::os::raw::c_int);
-    pub fn scm_iprin1(exp: SCM, port: SCM, pstate: *mut scm_print_state);
-    pub fn scm_write(obj: SCM, port: SCM) -> SCM;
-    pub fn scm_display(obj: SCM, port: SCM) -> SCM;
-    pub fn scm_simple_format(port: SCM, message: SCM, args: SCM) -> SCM;
-    pub fn scm_newline(port: SCM) -> SCM;
-    pub fn scm_write_char(chr: SCM, port: SCM) -> SCM;
-    pub fn scm_printer_apply(_proc: SCM, exp: SCM, port: SCM,
-                             arg1: *mut scm_print_state) -> SCM;
-    pub fn scm_port_with_print_state(port: SCM, pstate: SCM) -> SCM;
-    pub fn scm_get_print_state(port: SCM) -> SCM;
-    pub fn scm_valid_oport_value_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_init_print();
-    pub fn scm_alloc_struct(n_words: ::std::os::raw::c_int,
-                            n_extra: ::std::os::raw::c_int,
-                            what: *const ::std::os::raw::c_char)
-     -> *mut scm_t_bits;
-    pub fn scm_struct_free_0(vtable: *mut scm_t_bits, data: *mut scm_t_bits);
-    pub fn scm_struct_free_light(vtable: *mut scm_t_bits,
-                                 data: *mut scm_t_bits);
-    pub fn scm_struct_free_standard(vtable: *mut scm_t_bits,
-                                    data: *mut scm_t_bits);
-    pub fn scm_struct_free_entity(vtable: *mut scm_t_bits,
-                                  data: *mut scm_t_bits);
-    pub fn scm_make_struct_layout(fields: SCM) -> SCM;
-    pub fn scm_struct_p(x: SCM) -> SCM;
-    pub fn scm_struct_vtable_p(x: SCM) -> SCM;
-    pub fn scm_make_struct(vtable: SCM, tail_array_size: SCM, init: SCM)
-     -> SCM;
-    pub fn scm_make_vtable(fields: SCM, printer: SCM) -> SCM;
-    pub fn scm_make_vtable_vtable(extra_fields: SCM, tail_array_size: SCM,
-                                  init: SCM) -> SCM;
-    pub fn scm_i_struct_equalp(s1: SCM, s2: SCM) -> SCM;
-    pub fn scm_struct_ref(handle: SCM, pos: SCM) -> SCM;
-    pub fn scm_struct_set_x(handle: SCM, pos: SCM, val: SCM) -> SCM;
-    pub fn scm_struct_vtable(handle: SCM) -> SCM;
-    pub fn scm_struct_vtable_tag(handle: SCM) -> SCM;
-    pub fn scm_struct_ihashq(obj: SCM, n: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_struct_create_handle(obj: SCM) -> SCM;
-    pub fn scm_struct_vtable_name(vtable: SCM) -> SCM;
-    pub fn scm_set_struct_vtable_name_x(vtable: SCM, name: SCM) -> SCM;
-    pub fn scm_print_struct(exp: SCM, port: SCM, arg1: *mut scm_print_state);
-    pub fn scm_struct_prehistory();
-    pub fn scm_init_struct();
-    pub fn scm_eval_options_interface(setting: SCM) -> SCM;
-    pub fn scm_ilookup(iloc: SCM, env: SCM) -> *mut SCM;
-    pub fn scm_lookupcar(vloc: SCM, genv: SCM, check: ::std::os::raw::c_int)
-     -> *mut SCM;
-    pub fn scm_eval_car(pair: SCM, env: SCM) -> SCM;
-    pub fn scm_eval_body(code: SCM, env: SCM) -> SCM;
-    pub fn scm_eval_args(i: SCM, env: SCM, _proc: SCM) -> SCM;
-    pub fn scm_m_quote(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_begin(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_if(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_set_x(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_vref(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_vset(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_and(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_or(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_case(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_cond(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_lambda(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_letstar(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_do(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_quasiquote(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_delay(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_generalized_set_x(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_future(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_define(x: SCM, env: SCM) -> SCM;
-    pub fn scm_m_letrec(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_let(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_apply(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_cont(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_nil_cond(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_atfop(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_atbind(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_atslot_ref(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_atslot_set_x(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_atdispatch(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_m_at_call_with_values(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_badargsp(formals: SCM, args: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_call_0(_proc: SCM) -> SCM;
-    pub fn scm_call_1(_proc: SCM, arg1: SCM) -> SCM;
-    pub fn scm_call_2(_proc: SCM, arg1: SCM, arg2: SCM) -> SCM;
-    pub fn scm_call_3(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
-    pub fn scm_call_4(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
-     -> SCM;
-    pub fn scm_apply_0(_proc: SCM, args: SCM) -> SCM;
-    pub fn scm_apply_1(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
-    pub fn scm_apply_2(_proc: SCM, arg1: SCM, arg2: SCM, args: SCM) -> SCM;
-    pub fn scm_apply_3(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, args: SCM)
-     -> SCM;
-    pub fn scm_i_call_closure_0(_proc: SCM) -> SCM;
-    pub fn scm_trampoline_0(_proc: SCM) -> scm_t_trampoline_0;
-    pub fn scm_trampoline_1(_proc: SCM) -> scm_t_trampoline_1;
-    pub fn scm_trampoline_2(_proc: SCM) -> scm_t_trampoline_2;
-    pub fn scm_nconc2last(lst: SCM) -> SCM;
-    pub fn scm_apply(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
-    pub fn scm_dapply(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
-    pub fn scm_map(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
-    pub fn scm_for_each(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
-    pub fn scm_closure(code: SCM, env: SCM) -> SCM;
-    pub fn scm_makprom(code: SCM) -> SCM;
-    pub fn scm_force(x: SCM) -> SCM;
-    pub fn scm_promise_p(x: SCM) -> SCM;
-    pub fn scm_cons_source(xorig: SCM, x: SCM, y: SCM) -> SCM;
-    pub fn scm_copy_tree(obj: SCM) -> SCM;
-    pub fn scm_i_eval_x(exp: SCM, env: SCM) -> SCM;
-    pub fn scm_i_eval(exp: SCM, env: SCM) -> SCM;
-    pub fn scm_primitive_eval(exp: SCM) -> SCM;
-    pub fn scm_primitive_eval_x(exp: SCM) -> SCM;
-    pub fn scm_eval(exp: SCM, module: SCM) -> SCM;
-    pub fn scm_eval_x(exp: SCM, module: SCM) -> SCM;
-    pub fn scm_i_print_iloc(arg1: SCM, arg2: SCM);
-    pub fn scm_i_print_isym(arg1: SCM, arg2: SCM);
-    pub fn scm_i_unmemocopy_expr(expr: SCM, env: SCM) -> SCM;
-    pub fn scm_i_unmemocopy_body(forms: SCM, env: SCM) -> SCM;
-    pub fn scm_init_eval();
-    pub fn scm_m_undefine(x: SCM, env: SCM) -> SCM;
-    pub fn scm_m_expand_body(xorig: SCM, env: SCM) -> SCM;
-    pub fn scm_unmemocar(form: SCM, env: SCM) -> SCM;
-    pub fn scm_macroexp(x: SCM, env: SCM) -> SCM;
-    pub fn scm_ceval(x: SCM, env: SCM) -> SCM;
-    pub fn scm_deval(x: SCM, env: SCM) -> SCM;
-    pub fn scm_defined_p(sym: SCM, env: SCM) -> SCM;
-    pub fn scm_self_evaluating_p(obj: SCM) -> SCM;
-    pub fn scm_init_evalext();
-    pub fn scm_c_register_extension(lib: *const ::std::os::raw::c_char,
-                                    init: *const ::std::os::raw::c_char,
-                                    func:
-                                        ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                       *mut ::std::os::raw::c_void)>,
-                                    data: *mut ::std::os::raw::c_void);
-    pub fn scm_c_load_extension(lib: *const ::std::os::raw::c_char,
-                                init: *const ::std::os::raw::c_char);
-    pub fn scm_load_extension(lib: SCM, init: SCM) -> SCM;
-    pub fn scm_init_extensions();
-    pub fn scm_add_feature(str: *const ::std::os::raw::c_char);
-    pub fn scm_program_arguments() -> SCM;
-    pub fn scm_set_program_arguments(argc: ::std::os::raw::c_int,
-                                     argv: *mut *mut ::std::os::raw::c_char,
-                                     first: *mut ::std::os::raw::c_char);
-    pub fn scm_set_program_arguments_scm(lst: SCM) -> SCM;
-    pub fn scm_init_feature();
-    pub fn scm_chown(object: SCM, owner: SCM, group: SCM) -> SCM;
-    pub fn scm_chmod(object: SCM, mode: SCM) -> SCM;
-    pub fn scm_umask(mode: SCM) -> SCM;
-    pub fn scm_open_fdes(path: SCM, flags: SCM, mode: SCM) -> SCM;
-    pub fn scm_open(path: SCM, flags: SCM, mode: SCM) -> SCM;
-    pub fn scm_close(fd_or_port: SCM) -> SCM;
-    pub fn scm_close_fdes(fd: SCM) -> SCM;
-    pub fn scm_stat(object: SCM) -> SCM;
-    pub fn scm_link(oldpath: SCM, newpath: SCM) -> SCM;
-    pub fn scm_rename(oldname: SCM, newname: SCM) -> SCM;
-    pub fn scm_delete_file(str: SCM) -> SCM;
-    pub fn scm_mkdir(path: SCM, mode: SCM) -> SCM;
-    pub fn scm_rmdir(path: SCM) -> SCM;
-    pub fn scm_directory_stream_p(obj: SCM) -> SCM;
-    pub fn scm_opendir(dirname: SCM) -> SCM;
-    pub fn scm_readdir(port: SCM) -> SCM;
-    pub fn scm_rewinddir(port: SCM) -> SCM;
-    pub fn scm_closedir(port: SCM) -> SCM;
-    pub fn scm_chdir(str: SCM) -> SCM;
-    pub fn scm_getcwd() -> SCM;
-    pub fn scm_select(reads: SCM, writes: SCM, excepts: SCM, secs: SCM,
-                      msecs: SCM) -> SCM;
-    pub fn scm_fcntl(object: SCM, cmd: SCM, value: SCM) -> SCM;
-    pub fn scm_fsync(object: SCM) -> SCM;
-    pub fn scm_symlink(oldpath: SCM, newpath: SCM) -> SCM;
-    pub fn scm_readlink(path: SCM) -> SCM;
-    pub fn scm_lstat(str: SCM) -> SCM;
-    pub fn scm_copy_file(oldfile: SCM, newfile: SCM) -> SCM;
-    pub fn scm_dirname(filename: SCM) -> SCM;
-    pub fn scm_basename(filename: SCM, suffix: SCM) -> SCM;
-    pub fn scm_init_filesys();
-    pub fn scm_array_p(v: SCM, prot: SCM) -> SCM;
-    pub fn scm_typed_array_p(v: SCM, _type: SCM) -> SCM;
-    pub fn scm_make_array(fill: SCM, bounds: SCM) -> SCM;
-    pub fn scm_make_typed_array(_type: SCM, fill: SCM, bounds: SCM) -> SCM;
-    pub fn scm_array_rank(ra: SCM) -> SCM;
-    pub fn scm_c_array_rank(ra: SCM) -> size_t;
-    pub fn scm_array_dimensions(ra: SCM) -> SCM;
-    pub fn scm_shared_array_root(ra: SCM) -> SCM;
-    pub fn scm_shared_array_offset(ra: SCM) -> SCM;
-    pub fn scm_shared_array_increments(ra: SCM) -> SCM;
-    pub fn scm_make_shared_array(oldra: SCM, mapfunc: SCM, dims: SCM) -> SCM;
-    pub fn scm_transpose_array(ra: SCM, args: SCM) -> SCM;
-    pub fn scm_enclose_array(ra: SCM, axes: SCM) -> SCM;
-    pub fn scm_array_in_bounds_p(v: SCM, args: SCM) -> SCM;
-    pub fn scm_array_ref(v: SCM, args: SCM) -> SCM;
-    pub fn scm_array_set_x(v: SCM, obj: SCM, args: SCM) -> SCM;
-    pub fn scm_array_contents(ra: SCM, strict: SCM) -> SCM;
-    pub fn scm_uniform_array_read_x(ra: SCM, port_or_fd: SCM, start: SCM,
-                                    end: SCM) -> SCM;
-    pub fn scm_uniform_array_write(v: SCM, port_or_fd: SCM, start: SCM,
-                                   end: SCM) -> SCM;
-    pub fn scm_array_to_list(v: SCM) -> SCM;
-    pub fn scm_list_to_array(ndim: SCM, lst: SCM) -> SCM;
-    pub fn scm_list_to_typed_array(_type: SCM, ndim: SCM, lst: SCM) -> SCM;
-    pub fn scm_array_type(ra: SCM) -> SCM;
-    pub fn scm_is_array(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_is_typed_array(obj: SCM, _type: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra2contig(ra: SCM, copy: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_array_get_handle(array: SCM, h: *mut scm_t_array_handle);
-    pub fn scm_array_handle_rank(h: *mut scm_t_array_handle) -> size_t;
-    pub fn scm_array_handle_dims(h: *mut scm_t_array_handle)
-     -> *mut scm_t_array_dim;
-    pub fn scm_array_handle_pos(h: *mut scm_t_array_handle, indices: SCM)
-     -> ssize_t;
-    pub fn scm_array_handle_elements(h: *mut scm_t_array_handle)
-     -> *const SCM;
-    pub fn scm_array_handle_writable_elements(h: *mut scm_t_array_handle)
-     -> *mut SCM;
-    pub fn scm_array_handle_release(h: *mut scm_t_array_handle);
     pub fn scm_bitvector_p(vec: SCM) -> SCM;
     pub fn scm_bitvector(bits: SCM) -> SCM;
     pub fn scm_make_bitvector(len: SCM, fill: SCM) -> SCM;
@@ -4348,25 +5571,262 @@ extern "C" {
                                            lenp: *mut size_t,
                                            incp: *mut ssize_t)
      -> *mut scm_t_uint32;
-    pub fn scm_i_make_ra(ndim: ::std::os::raw::c_int,
-                         enclosed: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_i_cvref(v: SCM, p: size_t, enclosed: ::std::os::raw::c_int)
-     -> SCM;
-    pub fn scm_i_read_array(port: SCM, c: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_make_uve(k: ::std::os::raw::c_long, prot: SCM) -> SCM;
-    pub fn scm_array_prototype(ra: SCM) -> SCM;
-    pub fn scm_list_to_uniform_array(ndim: SCM, prot: SCM, lst: SCM) -> SCM;
-    pub fn scm_dimensions_to_uniform_array(dims: SCM, prot: SCM, fill: SCM)
-     -> SCM;
-    pub fn scm_make_ra(ndim: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_shap2ra(args: SCM, what: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_cvref(v: SCM, pos: ::std::os::raw::c_ulong, last: SCM) -> SCM;
-    pub fn scm_ra_set_contp(ra: SCM);
-    pub fn scm_aind(ra: SCM, args: SCM, what: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_long;
-    pub fn scm_raprin1(exp: SCM, port: SCM, pstate: *mut scm_print_state)
+    pub fn scm_i_print_bitvector(vec: SCM, port: SCM,
+                                 pstate: *mut scm_print_state)
      -> ::std::os::raw::c_int;
-    pub fn scm_init_unif();
+    pub fn scm_i_bitvector_equal_p(vec1: SCM, vec2: SCM) -> SCM;
+    pub fn scm_init_bitvectors();
+    pub fn scm_c_make_bytevector(arg1: size_t) -> SCM;
+    pub fn scm_is_bytevector(arg1: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_c_bytevector_length(arg1: SCM) -> size_t;
+    pub fn scm_c_bytevector_ref(arg1: SCM, arg2: size_t) -> scm_t_uint8;
+    pub fn scm_c_bytevector_set_x(arg1: SCM, arg2: size_t, arg3: scm_t_uint8);
+    pub fn scm_make_bytevector(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_native_endianness() -> SCM;
+    pub fn scm_bytevector_p(arg1: SCM) -> SCM;
+    pub fn scm_bytevector_length(arg1: SCM) -> SCM;
+    pub fn scm_bytevector_eq_p(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_fill_x(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_copy_x(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                                 arg5: SCM) -> SCM;
+    pub fn scm_bytevector_copy(arg1: SCM) -> SCM;
+    pub fn scm_uniform_array_to_bytevector(arg1: SCM) -> SCM;
+    pub fn scm_bytevector_to_u8_list(arg1: SCM) -> SCM;
+    pub fn scm_u8_list_to_bytevector(arg1: SCM) -> SCM;
+    pub fn scm_uint_list_to_bytevector(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_to_uint_list(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_sint_list_to_bytevector(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_to_sint_list(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_u16_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_s16_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_u32_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_s32_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_u64_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_s64_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_u8_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_s8_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_uint_ref(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_bytevector_sint_ref(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_bytevector_u16_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_s16_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_u32_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_s32_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_u64_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_s64_ref(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_u16_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_s16_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_u32_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_s32_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_u64_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_s64_native_set_x(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_u8_set_x(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_s8_set_x(arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_bytevector_uint_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                     arg4: SCM, arg5: SCM) -> SCM;
+    pub fn scm_bytevector_sint_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                     arg4: SCM, arg5: SCM) -> SCM;
+    pub fn scm_bytevector_u16_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_s16_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_u32_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_s32_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_u64_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_s64_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                    arg4: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_single_ref(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_ieee_single_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_single_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                            arg4: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_single_native_set_x(arg1: SCM, arg2: SCM,
+                                                   arg3: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_double_ref(arg1: SCM, arg2: SCM, arg3: SCM)
+     -> SCM;
+    pub fn scm_bytevector_ieee_double_native_ref(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_double_set_x(arg1: SCM, arg2: SCM, arg3: SCM,
+                                            arg4: SCM) -> SCM;
+    pub fn scm_bytevector_ieee_double_native_set_x(arg1: SCM, arg2: SCM,
+                                                   arg3: SCM) -> SCM;
+    pub fn scm_string_to_utf8(arg1: SCM) -> SCM;
+    pub fn scm_string_to_utf16(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_string_to_utf32(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_utf8_to_string(arg1: SCM) -> SCM;
+    pub fn scm_utf16_to_string(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_utf32_to_string(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_i_make_typed_bytevector(arg1: size_t,
+                                       arg2: scm_t_array_element_type) -> SCM;
+    pub fn scm_c_take_typed_bytevector(arg1: *mut ::std::os::raw::c_char,
+                                       arg2: size_t,
+                                       arg3: scm_t_array_element_type) -> SCM;
+    pub fn scm_bootstrap_bytevectors();
+    pub fn scm_init_bytevectors();
+    pub fn scm_c_take_gc_bytevector(arg1: *mut ::std::os::raw::c_char,
+                                    arg2: size_t) -> SCM;
+    pub fn scm_i_print_bytevector(arg1: SCM, arg2: SCM,
+                                  arg3: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_c_shrink_bytevector(arg1: SCM, arg2: size_t) -> SCM;
+    pub fn scm_i_bytevector_generalized_set_x(arg1: SCM, arg2: size_t,
+                                              arg3: SCM);
+    pub fn scm_dynamic_link(fname: SCM) -> SCM;
+    pub fn scm_dynamic_unlink(dobj: SCM) -> SCM;
+    pub fn scm_dynamic_object_p(obj: SCM) -> SCM;
+    pub fn scm_dynamic_pointer(name: SCM, dobj: SCM) -> SCM;
+    pub fn scm_dynamic_func(symb: SCM, dobj: SCM) -> SCM;
+    pub fn scm_dynamic_call(symb: SCM, dobj: SCM) -> SCM;
+    pub fn scm_init_dynamic_linking();
+    pub fn scm_eq_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_eqv_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_equal_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_init_eq();
+    pub fn scm_make_struct_layout(fields: SCM) -> SCM;
+    pub fn scm_struct_p(x: SCM) -> SCM;
+    pub fn scm_struct_vtable_p(x: SCM) -> SCM;
+    pub fn scm_make_struct(vtable: SCM, tail_array_size: SCM, init: SCM)
+     -> SCM;
+    pub fn scm_c_make_struct(vtable: SCM, n_tail: size_t, n_inits: size_t,
+                             init: scm_t_bits, ...) -> SCM;
+    pub fn scm_c_make_structv(vtable: SCM, n_tail: size_t, n_inits: size_t,
+                              init: *mut scm_t_bits) -> SCM;
+    pub fn scm_make_vtable(fields: SCM, printer: SCM) -> SCM;
+    pub fn scm_i_make_vtable_vtable(extra_fields: SCM) -> SCM;
+    pub fn scm_make_vtable_vtable(extra_fields: SCM, tail_array_size: SCM,
+                                  init: SCM) -> SCM;
+    pub fn scm_struct_ref(handle: SCM, pos: SCM) -> SCM;
+    pub fn scm_struct_set_x(handle: SCM, pos: SCM, val: SCM) -> SCM;
+    pub fn scm_struct_vtable(handle: SCM) -> SCM;
+    pub fn scm_struct_vtable_name(vtable: SCM) -> SCM;
+    pub fn scm_set_struct_vtable_name_x(vtable: SCM, name: SCM) -> SCM;
+    pub fn scm_print_struct(exp: SCM, port: SCM, arg1: *mut scm_print_state);
+    pub fn scm_i_struct_equalp(s1: SCM, s2: SCM) -> SCM;
+    pub fn scm_struct_ihashq(arg1: SCM, arg2: ::std::os::raw::c_ulong,
+                             arg3: *mut ::std::os::raw::c_void)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_i_struct_hash(s: SCM, n: ::std::os::raw::c_ulong,
+                             depth: size_t) -> ::std::os::raw::c_ulong;
+    pub fn scm_i_alloc_struct(vtable_data: *mut scm_t_bits,
+                              n_words: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_i_struct_inherit_vtable_magic(vtable: SCM, obj: SCM);
+    pub fn scm_init_struct();
+    pub fn scm_memoize_expression(exp: SCM) -> SCM;
+    pub fn scm_unmemoize_expression(memoized: SCM) -> SCM;
+    pub fn scm_memoized_expression_typecode(memoized: SCM) -> SCM;
+    pub fn scm_memoized_expression_data(memoized: SCM) -> SCM;
+    pub fn scm_memoized_typecode(sym: SCM) -> SCM;
+    pub fn scm_memoize_variable_access_x(memoized: SCM, module: SCM) -> SCM;
+    pub fn scm_memoized_p(obj: SCM) -> SCM;
+    pub fn scm_init_memoize();
+    pub fn scm_call_0(_proc: SCM) -> SCM;
+    pub fn scm_call_1(_proc: SCM, arg1: SCM) -> SCM;
+    pub fn scm_call_2(_proc: SCM, arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_call_3(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
+    pub fn scm_call_4(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_call_5(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                      arg5: SCM) -> SCM;
+    pub fn scm_call_6(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                      arg5: SCM, arg6: SCM) -> SCM;
+    pub fn scm_call_7(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                      arg5: SCM, arg6: SCM, arg7: SCM) -> SCM;
+    pub fn scm_call_8(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                      arg5: SCM, arg6: SCM, arg7: SCM, arg8: SCM) -> SCM;
+    pub fn scm_call_9(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                      arg5: SCM, arg6: SCM, arg7: SCM, arg8: SCM, arg9: SCM)
+     -> SCM;
+    pub fn scm_call_n(_proc: SCM, argv: *mut SCM, nargs: size_t) -> SCM;
+    pub fn scm_call(_proc: SCM, ...) -> SCM;
+    pub fn scm_apply_0(_proc: SCM, args: SCM) -> SCM;
+    pub fn scm_apply_1(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
+    pub fn scm_apply_2(_proc: SCM, arg1: SCM, arg2: SCM, args: SCM) -> SCM;
+    pub fn scm_apply_3(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM, args: SCM)
+     -> SCM;
+    pub fn scm_nconc2last(lst: SCM) -> SCM;
+    pub fn scm_apply(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
+    pub fn scm_map(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
+    pub fn scm_for_each(_proc: SCM, arg1: SCM, args: SCM) -> SCM;
+    pub fn scm_primitive_eval(exp: SCM) -> SCM;
+    pub fn scm_eval(exp: SCM, module: SCM) -> SCM;
+    pub fn scm_init_eval();
+    pub fn scm_defined_p(sym: SCM, env: SCM) -> SCM;
+    pub fn scm_self_evaluating_p(obj: SCM) -> SCM;
+    pub fn scm_init_evalext();
+    pub fn scm_c_register_extension(lib: *const ::std::os::raw::c_char,
+                                    init: *const ::std::os::raw::c_char,
+                                    func:
+                                        ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                       *mut ::std::os::raw::c_void)>,
+                                    data: *mut ::std::os::raw::c_void);
+    pub fn scm_c_load_extension(lib: *const ::std::os::raw::c_char,
+                                init: *const ::std::os::raw::c_char);
+    pub fn scm_load_extension(lib: SCM, init: SCM) -> SCM;
+    pub fn scm_init_extensions();
+    pub fn scm_add_feature(str: *const ::std::os::raw::c_char);
+    pub fn scm_program_arguments() -> SCM;
+    pub fn scm_set_program_arguments(argc: ::std::os::raw::c_int,
+                                     argv: *mut *mut ::std::os::raw::c_char,
+                                     first: *mut ::std::os::raw::c_char);
+    pub fn scm_set_program_arguments_scm(lst: SCM) -> SCM;
+    pub fn scm_init_feature();
+    pub fn scm_chown(object: SCM, owner: SCM, group: SCM) -> SCM;
+    pub fn scm_chmod(object: SCM, mode: SCM) -> SCM;
+    pub fn scm_umask(mode: SCM) -> SCM;
+    pub fn scm_open_fdes(path: SCM, flags: SCM, mode: SCM) -> SCM;
+    pub fn scm_open(path: SCM, flags: SCM, mode: SCM) -> SCM;
+    pub fn scm_close(fd_or_port: SCM) -> SCM;
+    pub fn scm_close_fdes(fd: SCM) -> SCM;
+    pub fn scm_stat(object: SCM, exception_on_error: SCM) -> SCM;
+    pub fn scm_link(oldpath: SCM, newpath: SCM) -> SCM;
+    pub fn scm_rename(oldname: SCM, newname: SCM) -> SCM;
+    pub fn scm_delete_file(str: SCM) -> SCM;
+    pub fn scm_mkdir(path: SCM, mode: SCM) -> SCM;
+    pub fn scm_rmdir(path: SCM) -> SCM;
+    pub fn scm_directory_stream_p(obj: SCM) -> SCM;
+    pub fn scm_opendir(dirname: SCM) -> SCM;
+    pub fn scm_readdir(port: SCM) -> SCM;
+    pub fn scm_rewinddir(port: SCM) -> SCM;
+    pub fn scm_closedir(port: SCM) -> SCM;
+    pub fn scm_chdir(str: SCM) -> SCM;
+    pub fn scm_getcwd() -> SCM;
+    pub fn scm_select(reads: SCM, writes: SCM, excepts: SCM, secs: SCM,
+                      msecs: SCM) -> SCM;
+    pub fn scm_fcntl(object: SCM, cmd: SCM, value: SCM) -> SCM;
+    pub fn scm_fsync(object: SCM) -> SCM;
+    pub fn scm_symlink(oldpath: SCM, newpath: SCM) -> SCM;
+    pub fn scm_readlink(path: SCM) -> SCM;
+    pub fn scm_lstat(str: SCM) -> SCM;
+    pub fn scm_copy_file(oldfile: SCM, newfile: SCM) -> SCM;
+    pub fn scm_dirname(filename: SCM) -> SCM;
+    pub fn scm_basename(filename: SCM, suffix: SCM) -> SCM;
+    pub fn scm_canonicalize_path(path: SCM) -> SCM;
+    pub fn scm_sendfile(out: SCM, _in: SCM, count: SCM, offset: SCM) -> SCM;
+    pub fn scm_i_relativize_path(path: SCM, in_path: SCM) -> SCM;
+    pub fn scm_init_filesys();
+    pub fn scm_i_set_finalizer(obj: *mut ::std::os::raw::c_void,
+                               arg1: scm_t_finalizer_proc,
+                               data: *mut ::std::os::raw::c_void);
+    pub fn scm_i_add_finalizer(obj: *mut ::std::os::raw::c_void,
+                               arg1: scm_t_finalizer_proc,
+                               data: *mut ::std::os::raw::c_void);
+    pub fn scm_i_add_resuscitator(obj: *mut ::std::os::raw::c_void,
+                                  arg1: scm_t_finalizer_proc,
+                                  data: *mut ::std::os::raw::c_void);
+    pub fn scm_init_finalizers();
     pub fn scm_vector_p(x: SCM) -> SCM;
     pub fn scm_vector_length(v: SCM) -> SCM;
     pub fn scm_vector(l: SCM) -> SCM;
@@ -4392,30 +5852,24 @@ extern "C" {
     pub fn scm_vector_writable_elements(vec: SCM, h: *mut scm_t_array_handle,
                                         lenp: *mut size_t, incp: *mut ssize_t)
      -> *mut SCM;
-    pub fn scm_generalized_vector_p(v: SCM) -> SCM;
-    pub fn scm_generalized_vector_length(v: SCM) -> SCM;
-    pub fn scm_generalized_vector_ref(v: SCM, idx: SCM) -> SCM;
-    pub fn scm_generalized_vector_set_x(v: SCM, idx: SCM, val: SCM) -> SCM;
-    pub fn scm_generalized_vector_to_list(v: SCM) -> SCM;
-    pub fn scm_is_generalized_vector(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_c_generalized_vector_length(v: SCM) -> size_t;
-    pub fn scm_c_generalized_vector_ref(v: SCM, idx: size_t) -> SCM;
-    pub fn scm_c_generalized_vector_set_x(v: SCM, idx: size_t, val: SCM);
-    pub fn scm_generalized_vector_get_handle(vec: SCM,
-                                             h: *mut scm_t_array_handle);
-    pub fn scm_i_vector_free(vec: SCM);
     pub fn scm_i_vector_equal_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_i_allocate_weak_vector(_type: scm_t_bits, size: SCM, fill: SCM)
+    pub fn scm_i_make_weak_vector(_type: scm_t_bits, size: SCM, fill: SCM)
+     -> SCM;
+    pub fn scm_i_make_weak_vector_from_list(_type: scm_t_bits, lst: SCM)
      -> SCM;
     pub fn scm_init_vectors();
     pub fn scm_make_fluid() -> SCM;
+    pub fn scm_make_fluid_with_default(dflt: SCM) -> SCM;
+    pub fn scm_make_unbound_fluid() -> SCM;
     pub fn scm_is_fluid(obj: SCM) -> ::std::os::raw::c_int;
     pub fn scm_fluid_p(fl: SCM) -> SCM;
     pub fn scm_fluid_ref(fluid: SCM) -> SCM;
     pub fn scm_fluid_set_x(fluid: SCM, value: SCM) -> SCM;
-    pub fn scm_i_fluid_num(fl: SCM) -> size_t;
-    pub fn scm_i_fast_fluid_ref(n: size_t) -> SCM;
-    pub fn scm_i_fast_fluid_set_x(n: size_t, val: SCM);
+    pub fn scm_fluid_unset_x(fluid: SCM) -> SCM;
+    pub fn scm_fluid_bound_p(fluid: SCM) -> SCM;
+    pub fn scm_i_make_with_fluids(n: size_t, fluids: *mut SCM, vals: *mut SCM)
+     -> SCM;
+    pub fn scm_i_swap_with_fluids(with_fluids: SCM, dynamic_state: SCM);
     pub fn scm_c_with_fluids(fluids: SCM, vals: SCM,
                              cproc:
                                  ::std::option::Option<unsafe extern "C" fn(arg1:
@@ -4447,1220 +5901,37 @@ extern "C" {
      -> *mut ::std::os::raw::c_void;
     pub fn scm_with_dynamic_state(state: SCM, _proc: SCM) -> SCM;
     pub fn scm_i_make_initial_dynamic_state() -> SCM;
-    pub fn scm_fluids_prehistory();
+    pub fn scm_i_fluid_print(exp: SCM, port: SCM,
+                             pstate: *mut scm_print_state);
+    pub fn scm_i_dynamic_state_print(exp: SCM, port: SCM,
+                                     pstate: *mut scm_print_state);
+    pub fn scm_i_with_fluids_print(exp: SCM, port: SCM,
+                                   pstate: *mut scm_print_state);
     pub fn scm_init_fluids();
-    pub fn scm_markstream(ptr: SCM) -> SCM;
-    pub fn scm_make_port_type(name: *mut ::std::os::raw::c_char,
-                              fill_input:
-                                  ::std::option::Option<extern "C" fn(port:
-                                                                          SCM)
-                                                            ->
-                                                                ::std::os::raw::c_int>,
-                              write:
-                                  ::std::option::Option<unsafe extern "C" fn(port:
-                                                                                 SCM,
-                                                                             data:
-                                                                                 *const ::std::os::raw::c_void,
-                                                                             size:
-                                                                                 size_t)>)
-     -> scm_t_bits;
-    pub fn scm_set_port_mark(tc: scm_t_bits,
-                             mark:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> SCM>);
-    pub fn scm_set_port_free(tc: scm_t_bits,
-                             free:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> size_t>);
-    pub fn scm_set_port_print(tc: scm_t_bits,
-                              print:
-                                  ::std::option::Option<unsafe extern "C" fn(exp:
-                                                                                 SCM,
-                                                                             port:
-                                                                                 SCM,
-                                                                             pstate:
-                                                                                 *mut scm_print_state)
-                                                            ->
-                                                                ::std::os::raw::c_int>);
-    pub fn scm_set_port_equalp(tc: scm_t_bits,
-                               equalp:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM)
-                                                             -> SCM>);
-    pub fn scm_set_port_close(tc: scm_t_bits,
-                              close:
-                                  ::std::option::Option<extern "C" fn(arg1:
-                                                                          SCM)
-                                                            ->
-                                                                ::std::os::raw::c_int>);
-    pub fn scm_set_port_flush(tc: scm_t_bits,
-                              flush:
-                                  ::std::option::Option<extern "C" fn(port:
-                                                                          SCM)>);
-    pub fn scm_set_port_end_input(tc: scm_t_bits,
-                                  end_input:
-                                      ::std::option::Option<extern "C" fn(port:
-                                                                              SCM,
-                                                                          offset:
-                                                                              ::std::os::raw::c_int)>);
-    pub fn scm_set_port_seek(tc: scm_t_bits,
-                             seek:
-                                 ::std::option::Option<extern "C" fn(port:
-                                                                         SCM,
-                                                                     OFFSET:
-                                                                         off_t,
-                                                                     WHENCE:
-                                                                         ::std::os::raw::c_int)
-                                                           -> off_t>);
-    pub fn scm_set_port_truncate(tc: scm_t_bits,
-                                 truncate:
-                                     ::std::option::Option<extern "C" fn(port:
-                                                                             SCM,
-                                                                         length:
-                                                                             off_t)>);
-    pub fn scm_set_port_input_waiting(tc: scm_t_bits,
-                                      input_waiting:
-                                          ::std::option::Option<extern "C" fn(arg1:
-                                                                                  SCM)
-                                                                    ->
-                                                                        ::std::os::raw::c_int>);
-    pub fn scm_char_ready_p(port: SCM) -> SCM;
-    pub fn scm_take_from_input_buffers(port: SCM,
-                                       dest: *mut ::std::os::raw::c_char,
-                                       read_len: size_t) -> size_t;
-    pub fn scm_drain_input(port: SCM) -> SCM;
-    pub fn scm_current_input_port() -> SCM;
-    pub fn scm_current_output_port() -> SCM;
-    pub fn scm_current_error_port() -> SCM;
-    pub fn scm_current_load_port() -> SCM;
-    pub fn scm_set_current_input_port(port: SCM) -> SCM;
-    pub fn scm_set_current_output_port(port: SCM) -> SCM;
-    pub fn scm_set_current_error_port(port: SCM) -> SCM;
-    pub fn scm_dynwind_current_input_port(port: SCM);
-    pub fn scm_dynwind_current_output_port(port: SCM);
-    pub fn scm_dynwind_current_error_port(port: SCM);
-    pub fn scm_new_port_table_entry(tag: scm_t_bits) -> SCM;
-    pub fn scm_remove_from_port_table(port: SCM);
-    pub fn scm_grow_port_cbuf(port: SCM, requested: size_t);
-    pub fn scm_pt_size() -> SCM;
-    pub fn scm_pt_member(member: SCM) -> SCM;
-    pub fn scm_port_non_buffer(pt: *mut scm_t_port);
-    pub fn scm_revealed_count(port: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_port_revealed(port: SCM) -> SCM;
-    pub fn scm_set_port_revealed_x(port: SCM, rcount: SCM) -> SCM;
-    pub fn scm_mode_bits(modes: *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_long;
-    pub fn scm_port_mode(port: SCM) -> SCM;
-    pub fn scm_close_input_port(port: SCM) -> SCM;
-    pub fn scm_close_output_port(port: SCM) -> SCM;
-    pub fn scm_close_port(port: SCM) -> SCM;
-    pub fn scm_port_for_each(_proc: SCM) -> SCM;
-    pub fn scm_c_port_for_each(_proc:
-                                   ::std::option::Option<unsafe extern "C" fn(data:
-                                                                                  *mut ::std::os::raw::c_void,
-                                                                              p:
-                                                                                  SCM)>,
-                               data: *mut ::std::os::raw::c_void);
-    pub fn scm_input_port_p(x: SCM) -> SCM;
-    pub fn scm_output_port_p(x: SCM) -> SCM;
-    pub fn scm_port_p(x: SCM) -> SCM;
-    pub fn scm_port_closed_p(port: SCM) -> SCM;
-    pub fn scm_eof_object_p(x: SCM) -> SCM;
-    pub fn scm_force_output(port: SCM) -> SCM;
-    pub fn scm_flush_all_ports() -> SCM;
-    pub fn scm_read_char(port: SCM) -> SCM;
-    pub fn scm_c_read(port: SCM, buffer: *mut ::std::os::raw::c_void,
-                      size: size_t) -> size_t;
-    pub fn scm_c_write(port: SCM, buffer: *const ::std::os::raw::c_void,
-                       size: size_t);
-    pub fn scm_lfwrite(ptr: *const ::std::os::raw::c_char, size: size_t,
-                       port: SCM);
-    pub fn scm_flush(port: SCM);
-    pub fn scm_end_input(port: SCM);
-    pub fn scm_fill_input(port: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ungetc(c: ::std::os::raw::c_int, port: SCM);
-    pub fn scm_ungets(s: *const ::std::os::raw::c_char,
-                      n: ::std::os::raw::c_int, port: SCM);
-    pub fn scm_peek_char(port: SCM) -> SCM;
-    pub fn scm_unread_char(cobj: SCM, port: SCM) -> SCM;
-    pub fn scm_unread_string(str: SCM, port: SCM) -> SCM;
-    pub fn scm_seek(object: SCM, offset: SCM, whence: SCM) -> SCM;
-    pub fn scm_truncate_file(object: SCM, length: SCM) -> SCM;
-    pub fn scm_port_line(port: SCM) -> SCM;
-    pub fn scm_set_port_line_x(port: SCM, line: SCM) -> SCM;
-    pub fn scm_port_column(port: SCM) -> SCM;
-    pub fn scm_set_port_column_x(port: SCM, line: SCM) -> SCM;
-    pub fn scm_port_filename(port: SCM) -> SCM;
-    pub fn scm_set_port_filename_x(port: SCM, filename: SCM) -> SCM;
-    pub fn scm_port_print(exp: SCM, port: SCM, arg1: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_print_port_mode(exp: SCM, port: SCM);
-    pub fn scm_ports_prehistory();
-    pub fn scm_void_port(mode_str: *mut ::std::os::raw::c_char) -> SCM;
-    pub fn scm_sys_make_void_port(mode: SCM) -> SCM;
-    pub fn scm_init_ports();
-    pub fn scm_add_to_port_table(port: SCM) -> *mut scm_t_port;
-    pub fn scm_i_mode_bits(modes: SCM) -> ::std::os::raw::c_long;
-    pub fn scm_i_dynwind_current_load_port(port: SCM);
-    pub fn scm_setbuf0(port: SCM) -> SCM;
-    pub fn scm_setvbuf(port: SCM, mode: SCM, size: SCM) -> SCM;
-    pub fn scm_evict_ports(fd: ::std::os::raw::c_int);
-    pub fn scm_open_file(filename: SCM, modes: SCM) -> SCM;
-    pub fn scm_fdes_to_port(fdes: ::std::os::raw::c_int,
-                            mode: *mut ::std::os::raw::c_char, name: SCM)
+    pub fn scm_to_pointer(pointer: SCM) -> *mut ::std::os::raw::c_void;
+    pub fn scm_from_pointer(arg1: *mut ::std::os::raw::c_void,
+                            arg2: scm_t_pointer_finalizer) -> SCM;
+    pub fn scm_alignof(_type: SCM) -> SCM;
+    pub fn scm_sizeof(_type: SCM) -> SCM;
+    pub fn scm_pointer_address(pointer: SCM) -> SCM;
+    pub fn scm_pointer_to_bytevector(pointer: SCM, _type: SCM, offset: SCM,
+                                     len: SCM) -> SCM;
+    pub fn scm_set_pointer_finalizer_x(pointer: SCM, finalizer: SCM) -> SCM;
+    pub fn scm_bytevector_to_pointer(bv: SCM, offset: SCM) -> SCM;
+    pub fn scm_pointer_p(obj: SCM) -> SCM;
+    pub fn scm_make_pointer(address: SCM, finalizer: SCM) -> SCM;
+    pub fn scm_i_pointer_print(pointer: SCM, port: SCM,
+                               pstate: *mut scm_print_state);
+    pub fn scm_dereference_pointer(pointer: SCM) -> SCM;
+    pub fn scm_string_to_pointer(string: SCM, encoding: SCM) -> SCM;
+    pub fn scm_pointer_to_string(pointer: SCM, length: SCM, encoding: SCM)
      -> SCM;
-    pub fn scm_file_port_p(obj: SCM) -> SCM;
-    pub fn scm_init_fports();
-    pub fn scm_i_fdes_to_port(fdes: ::std::os::raw::c_int,
-                              mode_bits: ::std::os::raw::c_long, name: SCM)
-     -> SCM;
-    pub fn scm_i_fport_truncate(arg1: SCM, arg2: SCM)
-     -> ::std::os::raw::c_int;
-    pub fn scm_i_fport_seek(arg1: SCM, arg2: SCM, arg3: ::std::os::raw::c_int)
-     -> SCM;
-    pub fn scm_c_hook_init(hook: *mut scm_t_c_hook,
-                           hook_data: *mut ::std::os::raw::c_void,
-                           _type: scm_t_c_hook_type);
-    pub fn scm_c_hook_add(hook: *mut scm_t_c_hook,
-                          func: scm_t_c_hook_function,
-                          fn_data: *mut ::std::os::raw::c_void,
-                          appendp: ::std::os::raw::c_int);
-    pub fn scm_c_hook_remove(hook: *mut scm_t_c_hook,
-                             func: scm_t_c_hook_function,
-                             fn_data: *mut ::std::os::raw::c_void);
-    pub fn scm_c_hook_run(hook: *mut scm_t_c_hook,
-                          data: *mut ::std::os::raw::c_void)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_make_hook(n_args: SCM) -> SCM;
-    pub fn scm_hook_p(x: SCM) -> SCM;
-    pub fn scm_hook_empty_p(hook: SCM) -> SCM;
-    pub fn scm_add_hook_x(hook: SCM, thunk: SCM, appendp: SCM) -> SCM;
-    pub fn scm_remove_hook_x(hook: SCM, thunk: SCM) -> SCM;
-    pub fn scm_reset_hook_x(hook: SCM) -> SCM;
-    pub fn scm_run_hook(hook: SCM, args: SCM) -> SCM;
-    pub fn scm_c_run_hook(hook: SCM, args: SCM);
-    pub fn scm_hook_to_list(hook: SCM) -> SCM;
-    pub fn scm_init_hooks();
-    pub fn scm_set_debug_cell_accesses_x(flag: SCM) -> SCM;
-    pub fn scm_object_address(obj: SCM) -> SCM;
-    pub fn scm_gc_stats() -> SCM;
-    pub fn scm_gc_live_object_stats() -> SCM;
-    pub fn scm_gc() -> SCM;
-    pub fn scm_gc_for_alloc(freelist: *mut Struct_scm_t_cell_type_statistics);
-    pub fn scm_gc_for_newcell(master: *mut Struct_scm_t_cell_type_statistics,
-                              freelist: *mut SCM) -> SCM;
-    pub fn scm_i_gc(what: *const ::std::os::raw::c_char);
-    pub fn scm_gc_mark(p: SCM);
-    pub fn scm_gc_mark_dependencies(p: SCM);
-    pub fn scm_mark_locations(x: *mut SCM_STACKITEM,
-                              n: ::std::os::raw::c_ulong);
-    pub fn scm_in_heap_p(value: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_gc_sweep();
-    pub fn scm_malloc(size: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn scm_calloc(size: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn scm_realloc(mem: *mut ::std::os::raw::c_void, size: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_strdup(str: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_strndup(str: *const ::std::os::raw::c_char, n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_gc_register_collectable_memory(mem:
-                                                  *mut ::std::os::raw::c_void,
-                                              size: size_t,
-                                              what:
-                                                  *const ::std::os::raw::c_char);
-    pub fn scm_gc_unregister_collectable_memory(mem:
-                                                    *mut ::std::os::raw::c_void,
-                                                size: size_t,
-                                                what:
-                                                    *const ::std::os::raw::c_char);
-    pub fn scm_gc_calloc(size: size_t, what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_gc_malloc(size: size_t, what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_gc_realloc(mem: *mut ::std::os::raw::c_void, old_size: size_t,
-                          new_size: size_t,
-                          what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_gc_free(mem: *mut ::std::os::raw::c_void, size: size_t,
-                       what: *const ::std::os::raw::c_char);
-    pub fn scm_gc_strdup(str: *const ::std::os::raw::c_char,
-                         what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_gc_strndup(str: *const ::std::os::raw::c_char, n: size_t,
-                          what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_remember_upto_here_1(obj: SCM);
-    pub fn scm_remember_upto_here_2(obj1: SCM, obj2: SCM);
-    pub fn scm_remember_upto_here(obj1: SCM, ...);
-    pub fn scm_return_first(elt: SCM, ...) -> SCM;
-    pub fn scm_return_first_int(x: ::std::os::raw::c_int, ...)
-     -> ::std::os::raw::c_int;
-    pub fn scm_permanent_object(obj: SCM) -> SCM;
-    pub fn scm_gc_protect_object(obj: SCM) -> SCM;
-    pub fn scm_gc_unprotect_object(obj: SCM) -> SCM;
-    pub fn scm_gc_register_root(p: *mut SCM);
-    pub fn scm_gc_unregister_root(p: *mut SCM);
-    pub fn scm_gc_register_roots(b: *mut SCM, n: ::std::os::raw::c_ulong);
-    pub fn scm_gc_unregister_roots(b: *mut SCM, n: ::std::os::raw::c_ulong);
-    pub fn scm_storage_prehistory();
-    pub fn scm_init_storage() -> ::std::os::raw::c_int;
-    pub fn scm_get_stack_base() -> *mut ::std::os::raw::c_void;
-    pub fn scm_init_gc();
-    pub fn scm_deprecated_newcell() -> SCM;
-    pub fn scm_deprecated_newcell2() -> SCM;
-    pub fn scm_must_malloc(len: size_t, what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_must_realloc(_where: *mut ::std::os::raw::c_void, olen: size_t,
-                            len: size_t, what: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_void;
-    pub fn scm_must_strdup(str: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_must_strndup(str: *const ::std::os::raw::c_char, n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_done_malloc(size: ::std::os::raw::c_long);
-    pub fn scm_done_free(size: ::std::os::raw::c_long);
-    pub fn scm_must_free(obj: *mut ::std::os::raw::c_void);
-    pub fn scm_init_gdbint();
-    pub fn scm_goops_version() -> SCM;
-    pub fn scm_oldfmt(arg1: SCM) -> SCM;
-    pub fn scm_c_oldfmt0(arg1: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_c_oldfmt(arg1: *mut ::std::os::raw::c_char,
-                        n: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_load_goops();
-    pub fn scm_make_foreign_object(cls: SCM, initargs: SCM) -> SCM;
-    pub fn scm_make_class(meta: SCM, s_name: *mut ::std::os::raw::c_char,
-                          supers: SCM, size: size_t,
-                          constructor:
-                              ::std::option::Option<extern "C" fn(initargs:
-                                                                      SCM)
-                                                        ->
-                                                            *mut ::std::os::raw::c_void>,
-                          destructor:
-                              ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                             *mut ::std::os::raw::c_void)
-                                                        -> size_t>) -> SCM;
-    pub fn scm_add_slot(c: SCM, slot: *mut ::std::os::raw::c_char,
-                        slot_class: SCM,
-                        getter:
-                            ::std::option::Option<extern "C" fn(obj: SCM)
-                                                      -> SCM>,
-                        setter:
-                            ::std::option::Option<extern "C" fn(obj: SCM,
-                                                                x: SCM)
-                                                      -> SCM>,
-                        accessor_name: *mut ::std::os::raw::c_char);
-    pub fn scm_wrap_object(c: SCM, arg1: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_wrap_component(c: SCM, obj: SCM,
-                              arg1: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_ensure_accessor(name: SCM) -> SCM;
-    pub fn scm_add_method(gf: SCM, m: SCM);
-    pub fn scm_class_of(obj: SCM) -> SCM;
-    pub fn scm_make_next_method(methods: SCM, args: SCM, gf: SCM) -> SCM;
-    pub fn scm_basic_basic_make_class(c: SCM, name: SCM, dsupers: SCM,
-                                      dslots: SCM) -> SCM;
-    pub fn scm_basic_make_class(c: SCM, name: SCM, dsupers: SCM, dslots: SCM)
-     -> SCM;
-    pub fn scm_sys_allocate_instance(c: SCM, initargs: SCM) -> SCM;
-    pub fn scm_sys_set_object_setter_x(obj: SCM, setter: SCM) -> SCM;
-    pub fn scm_slot_ref(obj: SCM, slot_name: SCM) -> SCM;
-    pub fn scm_slot_set_x(obj: SCM, slot_name: SCM, value: SCM) -> SCM;
-    pub fn scm_compute_applicable_methods(gf: SCM, args: SCM,
-                                          len: ::std::os::raw::c_long,
-                                          scm_find_method:
-                                              ::std::os::raw::c_int) -> SCM;
-    pub fn scm_sys_compute_applicable_methods(gf: SCM, args: SCM) -> SCM;
-    pub fn scm_sys_compute_slots(c: SCM) -> SCM;
-    pub fn scm_i_get_keyword(key: SCM, l: SCM, len: ::std::os::raw::c_long,
-                             default_value: SCM,
-                             subr: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_get_keyword(key: SCM, l: SCM, default_value: SCM) -> SCM;
-    pub fn scm_sys_initialize_object(obj: SCM, initargs: SCM) -> SCM;
-    pub fn scm_sys_prep_layout_x(c: SCM) -> SCM;
-    pub fn scm_sys_inherit_magic_x(c: SCM, dsupers: SCM) -> SCM;
-    pub fn scm_instance_p(obj: SCM) -> SCM;
-    pub fn scm_class_name(obj: SCM) -> SCM;
-    pub fn scm_class_direct_supers(obj: SCM) -> SCM;
-    pub fn scm_class_direct_slots(obj: SCM) -> SCM;
-    pub fn scm_class_direct_subclasses(obj: SCM) -> SCM;
-    pub fn scm_class_direct_methods(obj: SCM) -> SCM;
-    pub fn scm_class_precedence_list(obj: SCM) -> SCM;
-    pub fn scm_class_slots(obj: SCM) -> SCM;
-    pub fn scm_class_environment(obj: SCM) -> SCM;
-    pub fn scm_generic_function_name(obj: SCM) -> SCM;
-    pub fn scm_generic_function_methods(obj: SCM) -> SCM;
-    pub fn scm_method_generic_function(obj: SCM) -> SCM;
-    pub fn scm_method_specializers(obj: SCM) -> SCM;
-    pub fn scm_method_procedure(obj: SCM) -> SCM;
-    pub fn scm_accessor_method_slot_definition(obj: SCM) -> SCM;
-    pub fn scm_sys_tag_body(body: SCM) -> SCM;
-    pub fn scm_sys_fast_slot_ref(obj: SCM, index: SCM) -> SCM;
-    pub fn scm_sys_fast_slot_set_x(obj: SCM, index: SCM, value: SCM) -> SCM;
-    pub fn scm_slot_ref_using_class(cls: SCM, obj: SCM, slot_name: SCM)
-     -> SCM;
-    pub fn scm_slot_set_using_class_x(cls: SCM, obj: SCM, slot_name: SCM,
-                                      value: SCM) -> SCM;
-    pub fn scm_slot_bound_using_class_p(cls: SCM, obj: SCM, slot_name: SCM)
-     -> SCM;
-    pub fn scm_slot_exists_using_class_p(cls: SCM, obj: SCM, slot_name: SCM)
-     -> SCM;
-    pub fn scm_slot_bound_p(obj: SCM, slot_name: SCM) -> SCM;
-    pub fn scm_slot_exists_p(obj: SCM, slot_name: SCM) -> SCM;
-    pub fn scm_sys_modify_instance(old: SCM, newinst: SCM) -> SCM;
-    pub fn scm_sys_modify_class(old: SCM, newcls: SCM) -> SCM;
-    pub fn scm_sys_invalidate_class(cls: SCM) -> SCM;
-    pub fn scm_make_method_cache(gf: SCM) -> SCM;
-    pub fn scm_sys_invalidate_method_cache_x(gf: SCM) -> SCM;
-    pub fn scm_generic_capability_p(_proc: SCM) -> SCM;
-    pub fn scm_enable_primitive_generic_x(subrs: SCM) -> SCM;
-    pub fn scm_primitive_generic_generic(subr: SCM) -> SCM;
-    pub fn scm_c_extend_primitive_generic(subr: SCM, extension: SCM);
-    pub fn stklos_version() -> SCM;
-    pub fn scm_make(args: SCM) -> SCM;
-    pub fn scm_find_method(args: SCM) -> SCM;
-    pub fn scm_sys_method_more_specific_p(m1: SCM, m2: SCM, targs: SCM)
-     -> SCM;
-    pub fn scm_init_goops_builtins() -> SCM;
-    pub fn scm_init_goops();
-    pub fn scm_c_make_gsubr(name: *const ::std::os::raw::c_char,
-                            req: ::std::os::raw::c_int,
-                            opt: ::std::os::raw::c_int,
-                            rst: ::std::os::raw::c_int,
-                            fcn:
-                                ::std::option::Option<extern "C" fn() -> SCM>)
-     -> SCM;
-    pub fn scm_c_make_gsubr_with_generic(name: *const ::std::os::raw::c_char,
-                                         req: ::std::os::raw::c_int,
-                                         opt: ::std::os::raw::c_int,
-                                         rst: ::std::os::raw::c_int,
-                                         fcn:
-                                             ::std::option::Option<extern "C" fn()
-                                                                       ->
-                                                                           SCM>,
-                                         gf: *mut SCM) -> SCM;
-    pub fn scm_c_define_gsubr(name: *const ::std::os::raw::c_char,
-                              req: ::std::os::raw::c_int,
-                              opt: ::std::os::raw::c_int,
-                              rst: ::std::os::raw::c_int,
-                              fcn:
-                                  ::std::option::Option<extern "C" fn()
-                                                            -> SCM>) -> SCM;
-    pub fn scm_c_define_gsubr_with_generic(name:
-                                               *const ::std::os::raw::c_char,
-                                           req: ::std::os::raw::c_int,
-                                           opt: ::std::os::raw::c_int,
-                                           rst: ::std::os::raw::c_int,
-                                           fcn:
-                                               ::std::option::Option<extern "C" fn()
-                                                                         ->
-                                                                             SCM>,
-                                           gf: *mut SCM) -> SCM;
-    pub fn scm_gsubr_apply(args: SCM) -> SCM;
-    pub fn scm_init_gsubr();
-    pub fn scm_make_guardian() -> SCM;
-    pub fn scm_i_init_guardians_for_gc();
-    pub fn scm_i_identify_inaccessible_guardeds();
-    pub fn scm_i_mark_inaccessible_guardeds() -> ::std::os::raw::c_int;
-    pub fn scm_init_guardians();
-    pub fn scm_string_hash(str: *const ::std::os::raw::c_uchar, len: size_t)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_hasher(obj: SCM, n: ::std::os::raw::c_ulong, d: size_t)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_ihashq(obj: SCM, n: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_hashq(obj: SCM, n: SCM) -> SCM;
-    pub fn scm_ihashv(obj: SCM, n: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_hashv(obj: SCM, n: SCM) -> SCM;
-    pub fn scm_ihash(obj: SCM, n: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_hash(obj: SCM, n: SCM) -> SCM;
-    pub fn scm_init_hash();
-    pub fn scm_make_weak_vector(k: SCM, fill: SCM) -> SCM;
-    pub fn scm_weak_vector(l: SCM) -> SCM;
-    pub fn scm_weak_vector_p(x: SCM) -> SCM;
-    pub fn scm_make_weak_key_alist_vector(k: SCM) -> SCM;
-    pub fn scm_make_weak_value_alist_vector(k: SCM) -> SCM;
-    pub fn scm_make_doubly_weak_alist_vector(k: SCM) -> SCM;
-    pub fn scm_weak_key_alist_vector_p(x: SCM) -> SCM;
-    pub fn scm_weak_value_alist_vector_p(x: SCM) -> SCM;
-    pub fn scm_doubly_weak_alist_vector_p(x: SCM) -> SCM;
-    pub fn scm_init_weaks_builtins() -> SCM;
-    pub fn scm_init_weaks();
-    pub fn scm_i_init_weak_vectors_for_gc();
-    pub fn scm_i_mark_weak_vector(w: SCM);
-    pub fn scm_i_mark_weak_vectors_non_weaks() -> ::std::os::raw::c_int;
-    pub fn scm_i_remove_weaks_from_weak_vectors();
-    pub fn scm_vector_to_hash_table(vector: SCM) -> SCM;
-    pub fn scm_c_make_hash_table(k: ::std::os::raw::c_ulong) -> SCM;
-    pub fn scm_make_hash_table(n: SCM) -> SCM;
-    pub fn scm_make_weak_key_hash_table(k: SCM) -> SCM;
-    pub fn scm_make_weak_value_hash_table(k: SCM) -> SCM;
-    pub fn scm_make_doubly_weak_hash_table(k: SCM) -> SCM;
-    pub fn scm_hash_table_p(h: SCM) -> SCM;
-    pub fn scm_weak_key_hash_table_p(h: SCM) -> SCM;
-    pub fn scm_weak_value_hash_table_p(h: SCM) -> SCM;
-    pub fn scm_doubly_weak_hash_table_p(h: SCM) -> SCM;
-    pub fn scm_i_rehash(table: SCM,
-                        hash_fn:
-                            ::std::option::Option<extern "C" fn()
-                                                      ->
-                                                          ::std::os::raw::c_ulong>,
-                        closure: *mut ::std::os::raw::c_void,
-                        func_name: *const ::std::os::raw::c_char);
-    pub fn scm_i_scan_weak_hashtables();
-    pub fn scm_hash_fn_get_handle(table: SCM, obj: SCM,
-                                  hash_fn:
-                                      ::std::option::Option<extern "C" fn()
-                                                                ->
-                                                                    ::std::os::raw::c_ulong>,
-                                  assoc_fn:
-                                      ::std::option::Option<extern "C" fn()
-                                                                -> SCM>,
-                                  closure: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_hash_fn_create_handle_x(table: SCM, obj: SCM, init: SCM,
-                                       hash_fn:
-                                           ::std::option::Option<extern "C" fn()
-                                                                     ->
-                                                                         ::std::os::raw::c_ulong>,
-                                       assoc_fn:
-                                           ::std::option::Option<extern "C" fn()
-                                                                     -> SCM>,
-                                       closure: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_hash_fn_ref(table: SCM, obj: SCM, dflt: SCM,
-                           hash_fn:
-                               ::std::option::Option<extern "C" fn()
-                                                         ->
-                                                             ::std::os::raw::c_ulong>,
-                           assoc_fn:
-                               ::std::option::Option<extern "C" fn() -> SCM>,
-                           closure: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_hash_fn_set_x(table: SCM, obj: SCM, val: SCM,
-                             hash_fn:
-                                 ::std::option::Option<extern "C" fn()
-                                                           ->
-                                                               ::std::os::raw::c_ulong>,
-                             assoc_fn:
-                                 ::std::option::Option<extern "C" fn()
-                                                           -> SCM>,
-                             closure: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_hash_fn_remove_x(table: SCM, obj: SCM,
-                                hash_fn:
-                                    ::std::option::Option<extern "C" fn()
-                                                              ->
-                                                                  ::std::os::raw::c_ulong>,
-                                assoc_fn:
-                                    ::std::option::Option<extern "C" fn()
-                                                              -> SCM>,
-                                closure: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_internal_hash_fold(_fn:
-                                      ::std::option::Option<extern "C" fn()
-                                                                -> SCM>,
-                                  closure: *mut ::std::os::raw::c_void,
-                                  init: SCM, table: SCM) -> SCM;
-    pub fn scm_internal_hash_for_each_handle(_fn:
-                                                 ::std::option::Option<extern "C" fn()
-                                                                           ->
-                                                                               SCM>,
-                                             closure:
-                                                 *mut ::std::os::raw::c_void,
-                                             table: SCM);
-    pub fn scm_hash_clear_x(table: SCM) -> SCM;
-    pub fn scm_hashq_get_handle(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hashq_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
-    pub fn scm_hashq_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
-    pub fn scm_hashq_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
-    pub fn scm_hashq_remove_x(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hashv_get_handle(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hashv_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
-    pub fn scm_hashv_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
-    pub fn scm_hashv_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
-    pub fn scm_hashv_remove_x(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hash_get_handle(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hash_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
-    pub fn scm_hash_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
-    pub fn scm_hash_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
-    pub fn scm_hash_remove_x(table: SCM, obj: SCM) -> SCM;
-    pub fn scm_hashx_get_handle(hash: SCM, assoc: SCM, table: SCM, obj: SCM)
-     -> SCM;
-    pub fn scm_hashx_create_handle_x(hash: SCM, assoc: SCM, table: SCM,
-                                     obj: SCM, init: SCM) -> SCM;
-    pub fn scm_hashx_ref(hash: SCM, assoc: SCM, table: SCM, obj: SCM,
-                         dflt: SCM) -> SCM;
-    pub fn scm_hashx_set_x(hash: SCM, assoc: SCM, table: SCM, obj: SCM,
-                           val: SCM) -> SCM;
-    pub fn scm_hashx_remove_x(hash: SCM, assoc: SCM, table: SCM, obj: SCM)
-     -> SCM;
-    pub fn scm_hash_fold(_proc: SCM, init: SCM, hash: SCM) -> SCM;
-    pub fn scm_hash_for_each(_proc: SCM, hash: SCM) -> SCM;
-    pub fn scm_hash_for_each_handle(_proc: SCM, hash: SCM) -> SCM;
-    pub fn scm_hash_map_to_list(_proc: SCM, hash: SCM) -> SCM;
-    pub fn scm_hashtab_prehistory();
-    pub fn scm_init_hashtab();
-    pub fn scm_init_guile();
-    pub fn scm_boot_guile(argc: ::std::os::raw::c_int,
-                          argv: *mut *mut ::std::os::raw::c_char,
-                          main_func:
-                              ::std::option::Option<unsafe extern "C" fn(closure:
-                                                                             *mut ::std::os::raw::c_void,
-                                                                         argc:
-                                                                             ::std::os::raw::c_int,
-                                                                         argv:
-                                                                             *mut *mut ::std::os::raw::c_char)>,
-                          closure: *mut ::std::os::raw::c_void);
-    pub fn scm_i_init_guile(base: *mut SCM_STACKITEM);
-    pub fn scm_load_startup_files();
-    pub fn scm_ftell(object: SCM) -> SCM;
-    pub fn scm_redirect_port(into_pt: SCM, from_pt: SCM) -> SCM;
-    pub fn scm_dup_to_fdes(fd_or_port: SCM, newfd: SCM) -> SCM;
-    pub fn scm_dup2(oldfd: SCM, newfd: SCM) -> SCM;
-    pub fn scm_fileno(port: SCM) -> SCM;
-    pub fn scm_isatty_p(port: SCM) -> SCM;
-    pub fn scm_fdopen(fdes: SCM, modes: SCM) -> SCM;
-    pub fn scm_primitive_move_to_fdes(port: SCM, fd: SCM) -> SCM;
-    pub fn scm_fdes_to_ports(fd: SCM) -> SCM;
-    pub fn scm_init_ioext();
-    pub fn scm_read_delimited_x(delims: SCM, buf: SCM, gobble: SCM, port: SCM,
-                                offset: SCM, length: SCM) -> SCM;
-    pub fn scm_read_line(port: SCM) -> SCM;
-    pub fn scm_write_line(obj: SCM, port: SCM) -> SCM;
-    pub fn scm_init_rdelim_builtins() -> SCM;
-    pub fn scm_init_rdelim();
-    pub fn scm_read_string_x_partial(str: SCM, port_or_fdes: SCM, start: SCM,
-                                     end: SCM) -> SCM;
-    pub fn scm_write_string_partial(str: SCM, port_or_fdes: SCM, start: SCM,
-                                    end: SCM) -> SCM;
-    pub fn scm_init_rw_builtins() -> SCM;
-    pub fn scm_init_rw();
-    pub fn scm_keyword_p(obj: SCM) -> SCM;
-    pub fn scm_symbol_to_keyword(symbol: SCM) -> SCM;
-    pub fn scm_keyword_to_symbol(keyword: SCM) -> SCM;
-    pub fn scm_is_keyword(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_from_locale_keyword(str: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_from_locale_keywordn(str: *const ::std::os::raw::c_char,
-                                    len: size_t) -> SCM;
-    pub fn scm_init_keywords();
-    pub fn scm_list_1(e1: SCM) -> SCM;
-    pub fn scm_list_2(e1: SCM, e2: SCM) -> SCM;
-    pub fn scm_list_3(e1: SCM, e2: SCM, e3: SCM) -> SCM;
-    pub fn scm_list_4(e1: SCM, e2: SCM, e3: SCM, e4: SCM) -> SCM;
-    pub fn scm_list_5(e1: SCM, e2: SCM, e3: SCM, e4: SCM, e5: SCM) -> SCM;
-    pub fn scm_list_n(elt: SCM, ...) -> SCM;
-    pub fn scm_list(objs: SCM) -> SCM;
-    pub fn scm_list_head(lst: SCM, k: SCM) -> SCM;
-    pub fn scm_make_list(n: SCM, init: SCM) -> SCM;
-    pub fn scm_cons_star(arg: SCM, objs: SCM) -> SCM;
-    pub fn scm_null_p(x: SCM) -> SCM;
-    pub fn scm_list_p(x: SCM) -> SCM;
-    pub fn scm_ilength(sx: SCM) -> ::std::os::raw::c_long;
-    pub fn scm_length(x: SCM) -> SCM;
-    pub fn scm_append(args: SCM) -> SCM;
-    pub fn scm_append_x(args: SCM) -> SCM;
-    pub fn scm_reverse(lst: SCM) -> SCM;
-    pub fn scm_reverse_x(lst: SCM, newtail: SCM) -> SCM;
-    pub fn scm_list_ref(lst: SCM, k: SCM) -> SCM;
-    pub fn scm_list_set_x(lst: SCM, k: SCM, val: SCM) -> SCM;
-    pub fn scm_list_cdr_set_x(lst: SCM, k: SCM, val: SCM) -> SCM;
-    pub fn scm_last_pair(sx: SCM) -> SCM;
-    pub fn scm_list_tail(lst: SCM, k: SCM) -> SCM;
-    pub fn scm_c_memq(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_memq(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_memv(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_member(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_delq_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delv_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delete_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_list_copy(lst: SCM) -> SCM;
-    pub fn scm_delq(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delv(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delete(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delq1_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delv1_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_delete1_x(item: SCM, lst: SCM) -> SCM;
-    pub fn scm_filter(pred: SCM, list: SCM) -> SCM;
-    pub fn scm_filter_x(pred: SCM, list: SCM) -> SCM;
-    pub fn scm_i_finite_list_copy(arg1: SCM) -> SCM;
-    pub fn scm_init_list();
-    pub fn scm_parse_path(path: SCM, tail: SCM) -> SCM;
-    pub fn scm_init_load_path();
-    pub fn scm_primitive_load(filename: SCM) -> SCM;
-    pub fn scm_c_primitive_load(filename: *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn scm_sys_package_data_dir() -> SCM;
-    pub fn scm_sys_library_dir() -> SCM;
-    pub fn scm_sys_site_dir() -> SCM;
-    pub fn scm_search_path(path: SCM, filename: SCM, exts: SCM) -> SCM;
-    pub fn scm_sys_search_load_path(filename: SCM) -> SCM;
-    pub fn scm_primitive_load_path(filename: SCM) -> SCM;
-    pub fn scm_c_primitive_load_path(filename: *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn scm_init_load();
-    pub fn scm_i_makbimacro(code: SCM) -> SCM;
-    pub fn scm_makmmacro(code: SCM) -> SCM;
-    pub fn scm_makacro(code: SCM) -> SCM;
-    pub fn scm_macro_p(obj: SCM) -> SCM;
-    pub fn scm_macro_type(m: SCM) -> SCM;
-    pub fn scm_macro_name(m: SCM) -> SCM;
-    pub fn scm_macro_transformer(m: SCM) -> SCM;
-    pub fn scm_make_synt(name: *const ::std::os::raw::c_char,
-                         macroizer:
-                             ::std::option::Option<extern "C" fn(arg1: SCM)
-                                                       -> SCM>,
-                         fcn: ::std::option::Option<extern "C" fn() -> SCM>)
-     -> SCM;
-    pub fn scm_init_macros();
-    pub fn scm_makmacro(code: SCM) -> SCM;
-    pub fn scm_malloc_obj(n: size_t) -> SCM;
-    pub fn scm_init_mallocs();
-    pub fn scm_current_module() -> SCM;
-    pub fn scm_interaction_environment() -> SCM;
-    pub fn scm_set_current_module(module: SCM) -> SCM;
-    pub fn scm_c_call_with_current_module(module: SCM,
-                                          func:
-                                              ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                             *mut ::std::os::raw::c_void)
-                                                                        ->
-                                                                            SCM>,
-                                          data: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_dynwind_current_module(module: SCM);
-    pub fn scm_c_lookup(name: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_c_define(name: *const ::std::os::raw::c_char, val: SCM) -> SCM;
-    pub fn scm_lookup(symbol: SCM) -> SCM;
-    pub fn scm_define(symbol: SCM, val: SCM) -> SCM;
-    pub fn scm_c_module_lookup(module: SCM,
-                               name: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_c_module_define(module: SCM,
-                               name: *const ::std::os::raw::c_char, val: SCM)
-     -> SCM;
-    pub fn scm_module_lookup(module: SCM, symbol: SCM) -> SCM;
-    pub fn scm_module_define(module: SCM, symbol: SCM, val: SCM) -> SCM;
-    pub fn scm_module_reverse_lookup(module: SCM, variable: SCM) -> SCM;
-    pub fn scm_c_resolve_module(name: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_resolve_module(name: SCM) -> SCM;
-    pub fn scm_c_define_module(name: *const ::std::os::raw::c_char,
-                               init:
-                                   ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                  *mut ::std::os::raw::c_void)>,
-                               data: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn scm_c_use_module(name: *const ::std::os::raw::c_char);
-    pub fn scm_c_export(name: *const ::std::os::raw::c_char, ...);
-    pub fn scm_sym2var(sym: SCM, thunk: SCM, definep: SCM) -> SCM;
-    pub fn scm_module_import_interface(module: SCM, sym: SCM) -> SCM;
-    pub fn scm_module_lookup_closure(module: SCM) -> SCM;
-    pub fn scm_module_transformer(module: SCM) -> SCM;
-    pub fn scm_current_module_lookup_closure() -> SCM;
-    pub fn scm_current_module_transformer() -> SCM;
-    pub fn scm_eval_closure_lookup(eclo: SCM, sym: SCM, definep: SCM) -> SCM;
-    pub fn scm_standard_eval_closure(module: SCM) -> SCM;
-    pub fn scm_standard_interface_eval_closure(module: SCM) -> SCM;
-    pub fn scm_get_pre_modules_obarray() -> SCM;
-    pub fn scm_lookup_closure_module(_proc: SCM) -> SCM;
-    pub fn scm_env_top_level(env: SCM) -> SCM;
-    pub fn scm_env_module(env: SCM) -> SCM;
-    pub fn scm_top_level_env(thunk: SCM) -> SCM;
-    pub fn scm_system_module_env_p(env: SCM) -> SCM;
-    pub fn scm_modules_prehistory();
-    pub fn scm_init_modules();
-    pub fn scm_gethost(host: SCM) -> SCM;
-    pub fn scm_getnet(name: SCM) -> SCM;
-    pub fn scm_getproto(name: SCM) -> SCM;
-    pub fn scm_getserv(name: SCM, proto: SCM) -> SCM;
-    pub fn scm_sethost(arg: SCM) -> SCM;
-    pub fn scm_setnet(arg: SCM) -> SCM;
-    pub fn scm_setproto(arg: SCM) -> SCM;
-    pub fn scm_setserv(arg: SCM) -> SCM;
-    pub fn scm_init_net_db();
-    pub fn scm_exact_p(x: SCM) -> SCM;
-    pub fn scm_odd_p(n: SCM) -> SCM;
-    pub fn scm_even_p(n: SCM) -> SCM;
-    pub fn scm_inf_p(n: SCM) -> SCM;
-    pub fn scm_nan_p(n: SCM) -> SCM;
-    pub fn scm_inf() -> SCM;
-    pub fn scm_nan() -> SCM;
-    pub fn scm_abs(x: SCM) -> SCM;
-    pub fn scm_quotient(x: SCM, y: SCM) -> SCM;
-    pub fn scm_remainder(x: SCM, y: SCM) -> SCM;
-    pub fn scm_modulo(x: SCM, y: SCM) -> SCM;
-    pub fn scm_gcd(x: SCM, y: SCM) -> SCM;
-    pub fn scm_lcm(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_logand(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_logior(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_logxor(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_logtest(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_logbit_p(n1: SCM, n2: SCM) -> SCM;
-    pub fn scm_lognot(n: SCM) -> SCM;
-    pub fn scm_modulo_expt(n: SCM, k: SCM, m: SCM) -> SCM;
-    pub fn scm_integer_expt(z1: SCM, z2: SCM) -> SCM;
-    pub fn scm_ash(n: SCM, cnt: SCM) -> SCM;
-    pub fn scm_bit_extract(n: SCM, start: SCM, end: SCM) -> SCM;
-    pub fn scm_logcount(n: SCM) -> SCM;
-    pub fn scm_integer_length(n: SCM) -> SCM;
-    pub fn scm_iint2str(num: scm_t_intmax, rad: ::std::os::raw::c_int,
-                        p: *mut ::std::os::raw::c_char) -> size_t;
-    pub fn scm_iuint2str(num: scm_t_uintmax, rad: ::std::os::raw::c_int,
-                         p: *mut ::std::os::raw::c_char) -> size_t;
-    pub fn scm_number_to_string(x: SCM, radix: SCM) -> SCM;
-    pub fn scm_print_real(sexp: SCM, port: SCM, pstate: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_print_complex(sexp: SCM, port: SCM,
-                             pstate: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_bigprint(exp: SCM, port: SCM, pstate: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_c_locale_stringn_to_number(mem: *const ::std::os::raw::c_char,
-                                          len: size_t,
-                                          radix: ::std::os::raw::c_uint)
-     -> SCM;
-    pub fn scm_string_to_number(str: SCM, radix: SCM) -> SCM;
-    pub fn scm_bigequal(x: SCM, y: SCM) -> SCM;
-    pub fn scm_real_equalp(x: SCM, y: SCM) -> SCM;
-    pub fn scm_complex_equalp(x: SCM, y: SCM) -> SCM;
-    pub fn scm_number_p(x: SCM) -> SCM;
-    pub fn scm_complex_p(x: SCM) -> SCM;
-    pub fn scm_real_p(x: SCM) -> SCM;
-    pub fn scm_rational_p(z: SCM) -> SCM;
-    pub fn scm_integer_p(x: SCM) -> SCM;
-    pub fn scm_inexact_p(x: SCM) -> SCM;
-    pub fn scm_num_eq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_less_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_gr_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_leq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_geq_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_zero_p(z: SCM) -> SCM;
-    pub fn scm_positive_p(x: SCM) -> SCM;
-    pub fn scm_negative_p(x: SCM) -> SCM;
-    pub fn scm_max(x: SCM, y: SCM) -> SCM;
-    pub fn scm_min(x: SCM, y: SCM) -> SCM;
-    pub fn scm_sum(x: SCM, y: SCM) -> SCM;
-    pub fn scm_oneplus(x: SCM) -> SCM;
-    pub fn scm_difference(x: SCM, y: SCM) -> SCM;
-    pub fn scm_oneminus(x: SCM) -> SCM;
-    pub fn scm_product(x: SCM, y: SCM) -> SCM;
-    pub fn scm_divide(x: SCM, y: SCM) -> SCM;
-    pub fn scm_floor(x: SCM) -> SCM;
-    pub fn scm_ceiling(x: SCM) -> SCM;
-    pub fn scm_asinh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scm_acosh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scm_atanh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scm_c_truncate(x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn scm_c_round(x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn scm_truncate_number(x: SCM) -> SCM;
-    pub fn scm_round_number(x: SCM) -> SCM;
-    pub fn scm_sys_expt(z1: SCM, z2: SCM) -> SCM;
-    pub fn scm_sys_atan2(z1: SCM, z2: SCM) -> SCM;
-    pub fn scm_make_rectangular(z1: SCM, z2: SCM) -> SCM;
-    pub fn scm_make_polar(z1: SCM, z2: SCM) -> SCM;
-    pub fn scm_real_part(z: SCM) -> SCM;
-    pub fn scm_imag_part(z: SCM) -> SCM;
-    pub fn scm_magnitude(z: SCM) -> SCM;
-    pub fn scm_angle(z: SCM) -> SCM;
-    pub fn scm_exact_to_inexact(z: SCM) -> SCM;
-    pub fn scm_inexact_to_exact(z: SCM) -> SCM;
-    pub fn scm_trunc(x: SCM) -> SCM;
-    pub fn scm_log(z: SCM) -> SCM;
-    pub fn scm_log10(z: SCM) -> SCM;
-    pub fn scm_exp(z: SCM) -> SCM;
-    pub fn scm_sqrt(z: SCM) -> SCM;
-    pub fn scm_i_mkbig() -> SCM;
-    pub fn scm_i_normbig(x: SCM) -> SCM;
-    pub fn scm_i_bigcmp(a: SCM, b: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_dbl2big(d: ::std::os::raw::c_double) -> SCM;
-    pub fn scm_i_dbl2num(d: ::std::os::raw::c_double) -> SCM;
-    pub fn scm_i_big2dbl(b: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_i_long2big(n: ::std::os::raw::c_long) -> SCM;
-    pub fn scm_i_ulong2big(n: ::std::os::raw::c_ulong) -> SCM;
-    pub fn scm_i_clonebig(src_big: SCM, same_sign_p: ::std::os::raw::c_int)
-     -> SCM;
-    pub fn scm_rationalize(x: SCM, err: SCM) -> SCM;
-    pub fn scm_numerator(z: SCM) -> SCM;
-    pub fn scm_denominator(z: SCM) -> SCM;
-    pub fn scm_i_fraction2double(z: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_i_fraction_equalp(x: SCM, y: SCM) -> SCM;
-    pub fn scm_i_print_fraction(sexp: SCM, port: SCM,
-                                pstate: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_i_print_double(val: ::std::os::raw::c_double, port: SCM);
-    pub fn scm_i_print_complex(real: ::std::os::raw::c_double,
-                               imag: ::std::os::raw::c_double, port: SCM);
-    pub fn scm_is_integer(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_is_signed_integer(val: SCM, min: scm_t_intmax,
-                                 max: scm_t_intmax) -> ::std::os::raw::c_int;
-    pub fn scm_is_unsigned_integer(val: SCM, min: scm_t_uintmax,
-                                   max: scm_t_uintmax)
-     -> ::std::os::raw::c_int;
-    pub fn scm_from_signed_integer(val: scm_t_intmax) -> SCM;
-    pub fn scm_from_unsigned_integer(val: scm_t_uintmax) -> SCM;
-    pub fn scm_to_signed_integer(val: SCM, min: scm_t_intmax,
-                                 max: scm_t_intmax) -> scm_t_intmax;
-    pub fn scm_to_unsigned_integer(val: SCM, min: scm_t_uintmax,
-                                   max: scm_t_uintmax) -> scm_t_uintmax;
-    pub fn scm_to_int8(x: SCM) -> scm_t_int8;
-    pub fn scm_from_int8(x: scm_t_int8) -> SCM;
-    pub fn scm_to_uint8(x: SCM) -> scm_t_uint8;
-    pub fn scm_from_uint8(x: scm_t_uint8) -> SCM;
-    pub fn scm_to_int16(x: SCM) -> scm_t_int16;
-    pub fn scm_from_int16(x: scm_t_int16) -> SCM;
-    pub fn scm_to_uint16(x: SCM) -> scm_t_uint16;
-    pub fn scm_from_uint16(x: scm_t_uint16) -> SCM;
-    pub fn scm_to_int32(x: SCM) -> scm_t_int32;
-    pub fn scm_from_int32(x: scm_t_int32) -> SCM;
-    pub fn scm_to_uint32(x: SCM) -> scm_t_uint32;
-    pub fn scm_from_uint32(x: scm_t_uint32) -> SCM;
-    pub fn scm_to_int64(x: SCM) -> scm_t_int64;
-    pub fn scm_from_int64(x: scm_t_int64) -> SCM;
-    pub fn scm_to_uint64(x: SCM) -> scm_t_uint64;
-    pub fn scm_from_uint64(x: scm_t_uint64) -> SCM;
-    pub fn scm_to_mpz(x: SCM, rop: mpz_t);
-    pub fn scm_from_mpz(rop: mpz_t) -> SCM;
-    pub fn scm_is_real(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_is_rational(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_to_double(val: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_from_double(val: ::std::os::raw::c_double) -> SCM;
-    pub fn scm_is_complex(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_c_make_rectangular(re: ::std::os::raw::c_double,
-                                  im: ::std::os::raw::c_double) -> SCM;
-    pub fn scm_c_make_polar(mag: ::std::os::raw::c_double,
-                            ang: ::std::os::raw::c_double) -> SCM;
-    pub fn scm_c_real_part(z: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_c_imag_part(z: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_c_magnitude(z: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_c_angle(z: SCM) -> ::std::os::raw::c_double;
-    pub fn scm_is_number(val: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_init_numbers();
-    pub fn scm_make_extended_class(type_name: *const ::std::os::raw::c_char,
-                                   applicablep: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_i_inherit_applicable(c: SCM);
-    pub fn scm_make_port_classes(ptobnum: ::std::os::raw::c_long,
-                                 type_name: *mut ::std::os::raw::c_char);
-    pub fn scm_change_object_class(arg1: SCM, arg2: SCM, arg3: SCM);
-    pub fn scm_memoize_method(x: SCM, args: SCM) -> SCM;
-    pub fn scm_mcache_lookup_cmethod(cache: SCM, args: SCM) -> SCM;
-    pub fn scm_mcache_compute_cmethod(cache: SCM, args: SCM) -> SCM;
-    pub fn scm_call_generic_3(gf: SCM, a1: SCM, a2: SCM, a3: SCM) -> SCM;
-    pub fn scm_entity_p(obj: SCM) -> SCM;
-    pub fn scm_operator_p(obj: SCM) -> SCM;
-    pub fn scm_valid_object_procedure_p(_proc: SCM) -> SCM;
-    pub fn scm_set_object_procedure_x(obj: SCM, _proc: SCM) -> SCM;
-    pub fn scm_make_class_object(metaclass: SCM, layout: SCM) -> SCM;
-    pub fn scm_make_subclass_object(c: SCM, layout: SCM) -> SCM;
-    pub fn scm_i_make_class_object(metaclass: SCM, layout_string: SCM,
-                                   flags: ::std::os::raw::c_ulong) -> SCM;
-    pub fn scm_init_objects();
-    pub fn scm_object_properties(obj: SCM) -> SCM;
-    pub fn scm_set_object_properties_x(obj: SCM, plist: SCM) -> SCM;
-    pub fn scm_object_property(obj: SCM, key: SCM) -> SCM;
-    pub fn scm_set_object_property_x(obj: SCM, key: SCM, val: SCM) -> SCM;
-    pub fn scm_init_objprop();
-    pub fn scm_cons(x: SCM, y: SCM) -> SCM;
-    pub fn scm_cons2(w: SCM, x: SCM, y: SCM) -> SCM;
-    pub fn scm_pair_p(x: SCM) -> SCM;
-    pub fn scm_car(x: SCM) -> SCM;
-    pub fn scm_cdr(x: SCM) -> SCM;
-    pub fn scm_set_car_x(pair: SCM, value: SCM) -> SCM;
-    pub fn scm_set_cdr_x(pair: SCM, value: SCM) -> SCM;
-    pub fn scm_i_chase_pairs(x: SCM, pattern: scm_t_uint32) -> SCM;
-    pub fn scm_init_pairs();
-    pub fn scm_tcsetpgrp(port: SCM, pgid: SCM) -> SCM;
-    pub fn scm_tcgetpgrp(port: SCM) -> SCM;
-    pub fn scm_ctermid() -> SCM;
-    pub fn scm_setsid() -> SCM;
-    pub fn scm_setpgid(pid: SCM, pgid: SCM) -> SCM;
-    pub fn scm_pipe() -> SCM;
-    pub fn scm_getgroups() -> SCM;
-    pub fn scm_setgroups(groups: SCM) -> SCM;
-    pub fn scm_getpgrp() -> SCM;
-    pub fn scm_getpwuid(user: SCM) -> SCM;
-    pub fn scm_setpwent(arg: SCM) -> SCM;
-    pub fn scm_getgrgid(name: SCM) -> SCM;
-    pub fn scm_setgrent(arg: SCM) -> SCM;
-    pub fn scm_kill(pid: SCM, sig: SCM) -> SCM;
-    pub fn scm_waitpid(pid: SCM, options: SCM) -> SCM;
-    pub fn scm_status_exit_val(status: SCM) -> SCM;
-    pub fn scm_status_term_sig(status: SCM) -> SCM;
-    pub fn scm_status_stop_sig(status: SCM) -> SCM;
-    pub fn scm_getppid() -> SCM;
-    pub fn scm_getuid() -> SCM;
-    pub fn scm_getgid() -> SCM;
-    pub fn scm_geteuid() -> SCM;
-    pub fn scm_getegid() -> SCM;
-    pub fn scm_setuid(uid: SCM) -> SCM;
-    pub fn scm_setgid(gid: SCM) -> SCM;
-    pub fn scm_seteuid(euid: SCM) -> SCM;
-    pub fn scm_setegid(egid: SCM) -> SCM;
-    pub fn scm_ttyname(port: SCM) -> SCM;
-    pub fn scm_execl(filename: SCM, args: SCM) -> SCM;
-    pub fn scm_execlp(filename: SCM, args: SCM) -> SCM;
-    pub fn scm_execle(filename: SCM, env: SCM, args: SCM) -> SCM;
-    pub fn scm_fork() -> SCM;
-    pub fn scm_uname() -> SCM;
-    pub fn scm_environ(env: SCM) -> SCM;
-    pub fn scm_tmpnam() -> SCM;
-    pub fn scm_mkstemp(tmpl: SCM) -> SCM;
-    pub fn scm_open_pipe(pipestr: SCM, modes: SCM) -> SCM;
-    pub fn scm_close_pipe(port: SCM) -> SCM;
-    pub fn scm_utime(pathname: SCM, actime: SCM, modtime: SCM) -> SCM;
-    pub fn scm_access(path: SCM, how: SCM) -> SCM;
-    pub fn scm_getpid() -> SCM;
-    pub fn scm_putenv(str: SCM) -> SCM;
-    pub fn scm_setlocale(category: SCM, locale: SCM) -> SCM;
-    pub fn scm_mknod(path: SCM, _type: SCM, perms: SCM, dev: SCM) -> SCM;
-    pub fn scm_nice(incr: SCM) -> SCM;
-    pub fn scm_sync() -> SCM;
-    pub fn scm_crypt(key: SCM, salt: SCM) -> SCM;
-    pub fn scm_chroot(path: SCM) -> SCM;
-    pub fn scm_getlogin() -> SCM;
-    pub fn scm_cuserid() -> SCM;
-    pub fn scm_getpriority(which: SCM, who: SCM) -> SCM;
-    pub fn scm_setpriority(which: SCM, who: SCM, prio: SCM) -> SCM;
-    pub fn scm_getpass(prompt: SCM) -> SCM;
-    pub fn scm_flock(file: SCM, operation: SCM) -> SCM;
-    pub fn scm_sethostname(name: SCM) -> SCM;
-    pub fn scm_gethostname() -> SCM;
-    pub fn scm_init_posix();
-    pub fn scm_i_procedure_arity(_proc: SCM) -> SCM;
-    pub fn scm_procedure_properties(_proc: SCM) -> SCM;
-    pub fn scm_set_procedure_properties_x(_proc: SCM, new_val: SCM) -> SCM;
-    pub fn scm_procedure_property(p: SCM, k: SCM) -> SCM;
-    pub fn scm_set_procedure_property_x(p: SCM, k: SCM, v: SCM) -> SCM;
-    pub fn scm_init_procprop();
-    pub fn scm_primitive_make_property(not_found_proc: SCM) -> SCM;
-    pub fn scm_primitive_property_ref(prop: SCM, obj: SCM) -> SCM;
-    pub fn scm_primitive_property_set_x(prop: SCM, obj: SCM, val: SCM) -> SCM;
-    pub fn scm_primitive_property_del_x(prop: SCM, obj: SCM) -> SCM;
-    pub fn scm_init_properties();
-    pub fn scm_ra_matchp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ramapc(cproc:
-                          ::std::option::Option<extern "C" fn()
-                                                    -> ::std::os::raw::c_int>,
-                      data: SCM, ra0: SCM, lra: SCM,
-                      what: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn scm_array_fill_int(ra: SCM, fill: SCM, ignore: SCM)
-     -> ::std::os::raw::c_int;
-    pub fn scm_array_fill_x(ra: SCM, fill: SCM) -> SCM;
-    pub fn scm_array_copy_x(src: SCM, dst: SCM) -> SCM;
-    pub fn scm_ra_eqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_lessp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_leqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_grp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_greqp(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_sum(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_difference(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_product(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_ra_divide(ra0: SCM, ras: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_array_identity(src: SCM, dst: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_array_map_x(ra0: SCM, _proc: SCM, lra: SCM) -> SCM;
-    pub fn scm_array_for_each(_proc: SCM, ra0: SCM, lra: SCM) -> SCM;
-    pub fn scm_array_index_map_x(ra: SCM, _proc: SCM) -> SCM;
-    pub fn scm_raequal(ra0: SCM, ra1: SCM) -> SCM;
-    pub fn scm_array_equal_p(ra0: SCM, ra1: SCM) -> SCM;
-    pub fn scm_init_ramap();
-    pub fn scm_i_uniform32(arg1: *mut scm_t_i_rstate)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_i_init_rstate(arg1: *mut scm_t_i_rstate,
-                             seed: *const ::std::os::raw::c_char,
-                             n: ::std::os::raw::c_int);
-    pub fn scm_i_copy_rstate(arg1: *mut scm_t_i_rstate)
-     -> *mut scm_t_i_rstate;
-    pub fn scm_c_make_rstate(arg1: *const ::std::os::raw::c_char,
-                             arg2: ::std::os::raw::c_int)
-     -> *mut scm_t_rstate;
-    pub fn scm_c_default_rstate() -> *mut scm_t_rstate;
-    pub fn scm_c_uniform01(arg1: *mut scm_t_rstate)
-     -> ::std::os::raw::c_double;
-    pub fn scm_c_normal01(arg1: *mut scm_t_rstate)
-     -> ::std::os::raw::c_double;
-    pub fn scm_c_exp1(arg1: *mut scm_t_rstate) -> ::std::os::raw::c_double;
-    pub fn scm_c_random(arg1: *mut scm_t_rstate, m: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_ulong;
-    pub fn scm_c_random64(state: *mut scm_t_rstate, m: scm_t_uint64)
-     -> scm_t_uint64;
-    pub fn scm_c_random_bignum(arg1: *mut scm_t_rstate, m: SCM) -> SCM;
-    pub fn scm_random(n: SCM, state: SCM) -> SCM;
-    pub fn scm_copy_random_state(state: SCM) -> SCM;
-    pub fn scm_seed_to_random_state(seed: SCM) -> SCM;
-    pub fn scm_random_uniform(state: SCM) -> SCM;
-    pub fn scm_random_solid_sphere_x(v: SCM, state: SCM) -> SCM;
-    pub fn scm_random_hollow_sphere_x(v: SCM, state: SCM) -> SCM;
-    pub fn scm_random_normal(state: SCM) -> SCM;
-    pub fn scm_random_normal_vector_x(v: SCM, state: SCM) -> SCM;
-    pub fn scm_random_exp(state: SCM) -> SCM;
-    pub fn scm_init_random();
-    pub fn scm_read_options(setting: SCM) -> SCM;
-    pub fn scm_read(port: SCM) -> SCM;
-    pub fn scm_read_token(ic: ::std::os::raw::c_int, tok_buf: *mut SCM,
-                          port: SCM, weird: ::std::os::raw::c_int) -> size_t;
-    pub fn scm_read_hash_extend(chr: SCM, _proc: SCM) -> SCM;
-    pub fn scm_i_input_error(func: *const ::std::os::raw::c_char, port: SCM,
-                             message: *const ::std::os::raw::c_char,
-                             arg: SCM);
-    pub fn scm_init_read();
-    pub fn scm_sigaction(signum: SCM, handler: SCM, flags: SCM) -> SCM;
-    pub fn scm_sigaction_for_thread(signum: SCM, handler: SCM, flags: SCM,
-                                    thread: SCM) -> SCM;
-    pub fn scm_restore_signals() -> SCM;
-    pub fn scm_alarm(i: SCM) -> SCM;
-    pub fn scm_setitimer(which_timer: SCM, interval_seconds: SCM,
-                         interval_microseconds: SCM, value_seconds: SCM,
-                         value_microseconds: SCM) -> SCM;
-    pub fn scm_getitimer(which_timer: SCM) -> SCM;
-    pub fn scm_pause() -> SCM;
-    pub fn scm_sleep(i: SCM) -> SCM;
-    pub fn scm_usleep(i: SCM) -> SCM;
-    pub fn scm_raise(sig: SCM) -> SCM;
-    pub fn scm_init_scmsigs();
-    pub fn scm_find_executable(name: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_find_impl_file(exec_path: *mut ::std::os::raw::c_char,
-                              generic_name: *const ::std::os::raw::c_char,
-                              initname: *const ::std::os::raw::c_char,
-                              sep: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_get_meta_args(argc: ::std::os::raw::c_int,
-                             argv: *mut *mut ::std::os::raw::c_char)
-     -> *mut *mut ::std::os::raw::c_char;
-    pub fn scm_count_argv(argv: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn scm_shell_usage(fatal: ::std::os::raw::c_int,
-                           message: *mut ::std::os::raw::c_char);
-    pub fn scm_compile_shell_switches(argc: ::std::os::raw::c_int,
-                                      argv: *mut *mut ::std::os::raw::c_char)
-     -> SCM;
-    pub fn scm_shell(argc: ::std::os::raw::c_int,
-                     argv: *mut *mut ::std::os::raw::c_char);
-    pub fn scm_init_script();
-    pub fn scm_system(cmd: SCM) -> SCM;
-    pub fn scm_system_star(cmds: SCM) -> SCM;
-    pub fn scm_getenv(nam: SCM) -> SCM;
-    pub fn scm_primitive_exit(status: SCM) -> SCM;
-    pub fn scm_primitive__exit(status: SCM) -> SCM;
-    pub fn scm_init_simpos();
-    pub fn scm_i_set_smob_flags(x: SCM, data: scm_t_bits);
-    pub fn scm_mark0(ptr: SCM) -> SCM;
-    pub fn scm_markcdr(ptr: SCM) -> SCM;
-    pub fn scm_free0(ptr: SCM) -> size_t;
-    pub fn scm_smob_free(obj: SCM) -> size_t;
-    pub fn scm_smob_print(exp: SCM, port: SCM, pstate: *mut scm_print_state)
-     -> ::std::os::raw::c_int;
-    pub fn scm_make_smob_type(name: *const ::std::os::raw::c_char,
-                              size: size_t) -> scm_t_bits;
-    pub fn scm_set_smob_mark(tc: scm_t_bits,
-                             mark:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> SCM>);
-    pub fn scm_set_smob_free(tc: scm_t_bits,
-                             free:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> size_t>);
-    pub fn scm_set_smob_print(tc: scm_t_bits,
-                              print:
-                                  ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                 SCM,
-                                                                             arg2:
-                                                                                 SCM,
-                                                                             arg3:
-                                                                                 *mut scm_print_state)
-                                                            ->
-                                                                ::std::os::raw::c_int>);
-    pub fn scm_set_smob_equalp(tc: scm_t_bits,
-                               equalp:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM)
-                                                             -> SCM>);
-    pub fn scm_set_smob_apply(tc: scm_t_bits,
-                              apply:
-                                  ::std::option::Option<extern "C" fn()
-                                                            -> SCM>,
-                              req: ::std::os::raw::c_uint,
-                              opt: ::std::os::raw::c_uint,
-                              rst: ::std::os::raw::c_uint);
-    pub fn scm_assert_smob_type(tag: scm_t_bits, val: SCM);
-    pub fn scm_make_smob(tc: scm_t_bits) -> SCM;
-    pub fn scm_smob_prehistory();
-    pub fn scm_htons(_in: SCM) -> SCM;
-    pub fn scm_ntohs(_in: SCM) -> SCM;
-    pub fn scm_htonl(_in: SCM) -> SCM;
-    pub fn scm_ntohl(_in: SCM) -> SCM;
-    pub fn scm_inet_aton(address: SCM) -> SCM;
-    pub fn scm_inet_ntoa(inetid: SCM) -> SCM;
-    pub fn scm_inet_netof(address: SCM) -> SCM;
-    pub fn scm_lnaof(address: SCM) -> SCM;
-    pub fn scm_inet_makeaddr(net: SCM, lna: SCM) -> SCM;
-    pub fn scm_inet_pton(family: SCM, address: SCM) -> SCM;
-    pub fn scm_inet_ntop(family: SCM, address: SCM) -> SCM;
-    pub fn scm_socket(family: SCM, style: SCM, proto: SCM) -> SCM;
-    pub fn scm_socketpair(family: SCM, style: SCM, proto: SCM) -> SCM;
-    pub fn scm_getsockopt(sfd: SCM, level: SCM, optname: SCM) -> SCM;
-    pub fn scm_setsockopt(sfd: SCM, level: SCM, optname: SCM, value: SCM)
-     -> SCM;
-    pub fn scm_shutdown(sfd: SCM, how: SCM) -> SCM;
-    pub fn scm_connect(sockfd: SCM, fam: SCM, address: SCM, args: SCM) -> SCM;
-    pub fn scm_bind(sockfd: SCM, fam: SCM, address: SCM, args: SCM) -> SCM;
-    pub fn scm_listen(sfd: SCM, backlog: SCM) -> SCM;
-    pub fn scm_accept(sockfd: SCM) -> SCM;
-    pub fn scm_getsockname(sockfd: SCM) -> SCM;
-    pub fn scm_getpeername(sockfd: SCM) -> SCM;
-    pub fn scm_recv(sockfd: SCM, buff_or_size: SCM, flags: SCM) -> SCM;
-    pub fn scm_send(sockfd: SCM, message: SCM, flags: SCM) -> SCM;
-    pub fn scm_recvfrom(sockfd: SCM, buff_or_size: SCM, flags: SCM,
-                        offset: SCM, length: SCM) -> SCM;
-    pub fn scm_sendto(sockfd: SCM, message: SCM, fam: SCM, address: SCM,
-                      args_and_flags: SCM) -> SCM;
-    pub fn scm_init_socket();
-    pub fn scm_from_sockaddr(address: *const Struct_sockaddr,
-                             addr_size: ::std::os::raw::c_uint) -> SCM;
-    pub fn scm_to_sockaddr(address: SCM, adress_size: *mut size_t)
-     -> *mut Struct_sockaddr;
-    pub fn scm_c_make_socket_address(family: SCM, address: SCM, args: SCM,
-                                     address_size: *mut size_t)
-     -> *mut Struct_sockaddr;
-    pub fn scm_make_socket_address(family: SCM, address: SCM, args: SCM)
-     -> SCM;
-    pub fn scm_restricted_vector_sort_x(vec: SCM, less: SCM, startpos: SCM,
-                                        endpos: SCM) -> SCM;
-    pub fn scm_sorted_p(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_merge(ls1: SCM, ls2: SCM, less: SCM) -> SCM;
-    pub fn scm_merge_x(ls1: SCM, ls2: SCM, less: SCM) -> SCM;
-    pub fn scm_sort(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_sort_x(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_stable_sort(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_stable_sort_x(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_sort_list(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_sort_list_x(ls: SCM, less: SCM) -> SCM;
-    pub fn scm_init_sort();
-    pub fn scm_c_source_property_breakpoint_p(form: SCM)
-     -> ::std::os::raw::c_int;
-    pub fn scm_srcprops_to_plist(obj: SCM) -> SCM;
-    pub fn scm_make_srcprops(line: ::std::os::raw::c_long,
-                             col: ::std::os::raw::c_int, fname: SCM,
-                             copy: SCM, plist: SCM) -> SCM;
-    pub fn scm_source_property(obj: SCM, key: SCM) -> SCM;
-    pub fn scm_set_source_property_x(obj: SCM, key: SCM, datum: SCM) -> SCM;
-    pub fn scm_source_properties(obj: SCM) -> SCM;
-    pub fn scm_set_source_properties_x(obj: SCM, props: SCM) -> SCM;
-    pub fn scm_finish_srcprop();
-    pub fn scm_init_srcprop();
-    pub fn scm_report_stack_overflow();
-    pub fn scm_stack_size(start: *mut SCM_STACKITEM)
-     -> ::std::os::raw::c_long;
-    pub fn scm_stack_report();
-    pub fn scm_sys_get_stack_size() -> SCM;
-    pub fn scm_init_stackchk();
+    pub fn scm_pointer_to_procedure(return_type: SCM, func_ptr: SCM,
+                                    arg_types: SCM) -> SCM;
+    pub fn scm_procedure_to_pointer(return_type: SCM, func_ptr: SCM,
+                                    arg_types: SCM) -> SCM;
+    pub fn scm_i_foreign_call(foreign: SCM, argv: *const SCM) -> SCM;
+    pub fn scm_register_foreign();
     pub fn access(__name: *const ::std::os::raw::c_char,
                   __type: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn faccessat(__fd: ::std::os::raw::c_int,
@@ -5858,6 +6129,1291 @@ extern "C" {
                  __len: __off_t) -> ::std::os::raw::c_int;
     pub fn fdatasync(__fildes: ::std::os::raw::c_int)
      -> ::std::os::raw::c_int;
+    pub fn scm_string_p(x: SCM) -> SCM;
+    pub fn scm_string(chrs: SCM) -> SCM;
+    pub fn scm_make_string(k: SCM, chr: SCM) -> SCM;
+    pub fn scm_string_length(str: SCM) -> SCM;
+    pub fn scm_string_bytes_per_char(str: SCM) -> SCM;
+    pub fn scm_string_ref(str: SCM, k: SCM) -> SCM;
+    pub fn scm_string_set_x(str: SCM, k: SCM, chr: SCM) -> SCM;
+    pub fn scm_substring(str: SCM, start: SCM, end: SCM) -> SCM;
+    pub fn scm_substring_read_only(str: SCM, start: SCM, end: SCM) -> SCM;
+    pub fn scm_substring_shared(str: SCM, start: SCM, end: SCM) -> SCM;
+    pub fn scm_substring_copy(str: SCM, start: SCM, end: SCM) -> SCM;
+    pub fn scm_string_append(args: SCM) -> SCM;
+    pub fn scm_from_stringn(str: *const ::std::os::raw::c_char, len: size_t,
+                            encoding: *const ::std::os::raw::c_char,
+                            handler: scm_t_string_failed_conversion_handler)
+     -> SCM;
+    pub fn scm_c_make_string(len: size_t, chr: SCM) -> SCM;
+    pub fn scm_c_string_length(str: SCM) -> size_t;
+    pub fn scm_c_symbol_length(sym: SCM) -> size_t;
+    pub fn scm_c_string_ref(str: SCM, pos: size_t) -> SCM;
+    pub fn scm_c_string_set_x(str: SCM, pos: size_t, chr: SCM);
+    pub fn scm_c_substring(str: SCM, start: size_t, end: size_t) -> SCM;
+    pub fn scm_c_substring_read_only(str: SCM, start: size_t, end: size_t)
+     -> SCM;
+    pub fn scm_c_substring_shared(str: SCM, start: size_t, end: size_t)
+     -> SCM;
+    pub fn scm_c_substring_copy(str: SCM, start: size_t, end: size_t) -> SCM;
+    pub fn scm_from_locale_string(str: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_from_locale_stringn(str: *const ::std::os::raw::c_char,
+                                   len: size_t) -> SCM;
+    pub fn scm_take_locale_string(str: *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_take_locale_stringn(str: *mut ::std::os::raw::c_char,
+                                   len: size_t) -> SCM;
+    pub fn scm_to_locale_string(str: SCM) -> *mut ::std::os::raw::c_char;
+    pub fn scm_to_locale_stringn(str: SCM, lenp: *mut size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_from_latin1_string(str: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_from_latin1_stringn(str: *const ::std::os::raw::c_char,
+                                   len: size_t) -> SCM;
+    pub fn scm_to_latin1_string(str: SCM) -> *mut ::std::os::raw::c_char;
+    pub fn scm_to_latin1_stringn(str: SCM, lenp: *mut size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_to_utf8_string(str: SCM) -> *mut ::std::os::raw::c_char;
+    pub fn scm_to_utf8_stringn(str: SCM, lenp: *mut size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_from_utf8_string(str: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_from_utf8_stringn(str: *const ::std::os::raw::c_char,
+                                 len: size_t) -> SCM;
+    pub fn scm_to_utf32_string(str: SCM) -> *mut scm_t_wchar;
+    pub fn scm_to_utf32_stringn(str: SCM, lenp: *mut size_t)
+     -> *mut scm_t_wchar;
+    pub fn scm_from_utf32_string(str: *const scm_t_wchar) -> SCM;
+    pub fn scm_from_utf32_stringn(str: *const scm_t_wchar, len: size_t)
+     -> SCM;
+    pub fn scm_to_stringn(str: SCM, lenp: *mut size_t,
+                          encoding: *const ::std::os::raw::c_char,
+                          handler: scm_t_string_failed_conversion_handler)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_to_locale_stringbuf(str: SCM, buf: *mut ::std::os::raw::c_char,
+                                   max_len: size_t) -> size_t;
+    pub fn scm_string_normalize_nfd(str: SCM) -> SCM;
+    pub fn scm_string_normalize_nfkd(str: SCM) -> SCM;
+    pub fn scm_string_normalize_nfc(str: SCM) -> SCM;
+    pub fn scm_string_normalize_nfkc(str: SCM) -> SCM;
+    pub fn scm_makfromstrs(argc: ::std::os::raw::c_int,
+                           argv: *mut *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_i_make_string(len: size_t,
+                             datap: *mut *mut ::std::os::raw::c_char,
+                             read_only_p: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_i_make_wide_string(len: size_t, datap: *mut *mut scm_t_wchar,
+                                  read_only_p: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_i_set_string_read_only_x(str: SCM) -> SCM;
+    pub fn scm_i_substring(str: SCM, start: size_t, end: size_t) -> SCM;
+    pub fn scm_i_substring_read_only(str: SCM, start: size_t, end: size_t)
+     -> SCM;
+    pub fn scm_i_substring_shared(str: SCM, start: size_t, end: size_t)
+     -> SCM;
+    pub fn scm_i_substring_copy(str: SCM, start: size_t, end: size_t) -> SCM;
+    pub fn scm_i_string_length(str: SCM) -> size_t;
+    pub fn scm_i_string_chars(str: SCM) -> *const ::std::os::raw::c_char;
+    pub fn scm_i_string_writable_chars(str: SCM)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_i_string_wide_chars(str: SCM) -> *const scm_t_wchar;
+    pub fn scm_i_string_data(str: SCM) -> *const ::std::os::raw::c_void;
+    pub fn scm_i_string_start_writing(str: SCM) -> SCM;
+    pub fn scm_i_string_stop_writing();
+    pub fn scm_i_is_narrow_string(str: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_string_ref(str: SCM, x: size_t) -> scm_t_wchar;
+    pub fn scm_i_string_contains_char(str: SCM, c: ::std::os::raw::c_char)
+     -> ::std::os::raw::c_int;
+    pub fn scm_i_string_strcmp(sstr: SCM, start_x: size_t,
+                               cstr: *const ::std::os::raw::c_char)
+     -> ::std::os::raw::c_int;
+    pub fn scm_i_string_set_x(str: SCM, p: size_t, chr: scm_t_wchar);
+    pub fn scm_i_make_symbol(name: SCM, flags: scm_t_bits,
+                             hash: ::std::os::raw::c_ulong, props: SCM)
+     -> SCM;
+    pub fn scm_i_c_make_symbol(name: *const ::std::os::raw::c_char,
+                               len: size_t, flags: scm_t_bits,
+                               hash: ::std::os::raw::c_ulong, props: SCM)
+     -> SCM;
+    pub fn scm_i_symbol_chars(sym: SCM) -> *const ::std::os::raw::c_char;
+    pub fn scm_i_symbol_wide_chars(sym: SCM) -> *const scm_t_wchar;
+    pub fn scm_i_symbol_length(sym: SCM) -> size_t;
+    pub fn scm_i_is_narrow_symbol(str: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_try_narrow_string(str: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_symbol_substring(sym: SCM, start: size_t, end: size_t)
+     -> SCM;
+    pub fn scm_i_symbol_ref(sym: SCM, x: size_t) -> scm_t_wchar;
+    pub fn scm_encoding_error(subr: *const ::std::os::raw::c_char,
+                              err: ::std::os::raw::c_int,
+                              message: *const ::std::os::raw::c_char,
+                              port: SCM, chr: SCM);
+    pub fn scm_decoding_error(subr: *const ::std::os::raw::c_char,
+                              err: ::std::os::raw::c_int,
+                              message: *const ::std::os::raw::c_char,
+                              port: SCM);
+    pub fn scm_i_allocate_string_pointers(list: SCM)
+     -> *mut *mut ::std::os::raw::c_char;
+    pub fn scm_i_get_substring_spec(len: size_t, start: SCM,
+                                    cstart: *mut size_t, end: SCM,
+                                    cend: *mut size_t);
+    pub fn scm_sys_string_dump(arg1: SCM) -> SCM;
+    pub fn scm_sys_symbol_dump(arg1: SCM) -> SCM;
+    pub fn scm_i_deprecated_stringp(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_deprecated_string_chars(str: SCM)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_i_deprecated_string_length(str: SCM) -> size_t;
+    pub fn scm_init_strings();
+    pub fn scm_markstream(ptr: SCM) -> SCM;
+    pub fn scm_make_port_type(name: *mut ::std::os::raw::c_char,
+                              fill_input:
+                                  ::std::option::Option<extern "C" fn(port:
+                                                                          SCM)
+                                                            ->
+                                                                ::std::os::raw::c_int>,
+                              write:
+                                  ::std::option::Option<unsafe extern "C" fn(port:
+                                                                                 SCM,
+                                                                             data:
+                                                                                 *const ::std::os::raw::c_void,
+                                                                             size:
+                                                                                 size_t)>)
+     -> scm_t_bits;
+    pub fn scm_set_port_mark(tc: scm_t_bits,
+                             mark:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> SCM>);
+    pub fn scm_set_port_free(tc: scm_t_bits,
+                             free:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> size_t>);
+    pub fn scm_set_port_print(tc: scm_t_bits,
+                              print:
+                                  ::std::option::Option<unsafe extern "C" fn(exp:
+                                                                                 SCM,
+                                                                             port:
+                                                                                 SCM,
+                                                                             pstate:
+                                                                                 *mut scm_print_state)
+                                                            ->
+                                                                ::std::os::raw::c_int>);
+    pub fn scm_set_port_equalp(tc: scm_t_bits,
+                               equalp:
+                                   ::std::option::Option<extern "C" fn(arg1:
+                                                                           SCM,
+                                                                       arg2:
+                                                                           SCM)
+                                                             -> SCM>);
+    pub fn scm_set_port_close(tc: scm_t_bits,
+                              close:
+                                  ::std::option::Option<extern "C" fn(arg1:
+                                                                          SCM)
+                                                            ->
+                                                                ::std::os::raw::c_int>);
+    pub fn scm_set_port_flush(tc: scm_t_bits,
+                              flush:
+                                  ::std::option::Option<extern "C" fn(port:
+                                                                          SCM)>);
+    pub fn scm_set_port_end_input(tc: scm_t_bits,
+                                  end_input:
+                                      ::std::option::Option<extern "C" fn(port:
+                                                                              SCM,
+                                                                          offset:
+                                                                              ::std::os::raw::c_int)>);
+    pub fn scm_set_port_seek(tc: scm_t_bits,
+                             seek:
+                                 ::std::option::Option<extern "C" fn(port:
+                                                                         SCM,
+                                                                     OFFSET:
+                                                                         scm_t_off,
+                                                                     WHENCE:
+                                                                         ::std::os::raw::c_int)
+                                                           -> scm_t_off>);
+    pub fn scm_set_port_truncate(tc: scm_t_bits,
+                                 truncate:
+                                     ::std::option::Option<extern "C" fn(port:
+                                                                             SCM,
+                                                                         length:
+                                                                             scm_t_off)>);
+    pub fn scm_set_port_input_waiting(tc: scm_t_bits,
+                                      input_waiting:
+                                          ::std::option::Option<extern "C" fn(arg1:
+                                                                                  SCM)
+                                                                    ->
+                                                                        ::std::os::raw::c_int>);
+    pub fn scm_char_ready_p(port: SCM) -> SCM;
+    pub fn scm_take_from_input_buffers(port: SCM,
+                                       dest: *mut ::std::os::raw::c_char,
+                                       read_len: size_t) -> size_t;
+    pub fn scm_drain_input(port: SCM) -> SCM;
+    pub fn scm_current_input_port() -> SCM;
+    pub fn scm_current_output_port() -> SCM;
+    pub fn scm_current_error_port() -> SCM;
+    pub fn scm_current_warning_port() -> SCM;
+    pub fn scm_current_load_port() -> SCM;
+    pub fn scm_set_current_input_port(port: SCM) -> SCM;
+    pub fn scm_set_current_output_port(port: SCM) -> SCM;
+    pub fn scm_set_current_error_port(port: SCM) -> SCM;
+    pub fn scm_set_current_warning_port(port: SCM) -> SCM;
+    pub fn scm_dynwind_current_input_port(port: SCM);
+    pub fn scm_dynwind_current_output_port(port: SCM);
+    pub fn scm_dynwind_current_error_port(port: SCM);
+    pub fn scm_new_port_table_entry(tag: scm_t_bits) -> SCM;
+    pub fn scm_grow_port_cbuf(port: SCM, requested: size_t);
+    pub fn scm_pt_size() -> SCM;
+    pub fn scm_pt_member(member: SCM) -> SCM;
+    pub fn scm_port_non_buffer(pt: *mut scm_t_port);
+    pub fn scm_revealed_count(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_port_revealed(port: SCM) -> SCM;
+    pub fn scm_set_port_revealed_x(port: SCM, rcount: SCM) -> SCM;
+    pub fn scm_mode_bits(modes: *mut ::std::os::raw::c_char)
+     -> ::std::os::raw::c_long;
+    pub fn scm_port_mode(port: SCM) -> SCM;
+    pub fn scm_close_input_port(port: SCM) -> SCM;
+    pub fn scm_close_output_port(port: SCM) -> SCM;
+    pub fn scm_close_port(port: SCM) -> SCM;
+    pub fn scm_port_for_each(_proc: SCM) -> SCM;
+    pub fn scm_c_port_for_each(_proc:
+                                   ::std::option::Option<unsafe extern "C" fn(data:
+                                                                                  *mut ::std::os::raw::c_void,
+                                                                              p:
+                                                                                  SCM)>,
+                               data: *mut ::std::os::raw::c_void);
+    pub fn scm_input_port_p(x: SCM) -> SCM;
+    pub fn scm_output_port_p(x: SCM) -> SCM;
+    pub fn scm_port_p(x: SCM) -> SCM;
+    pub fn scm_port_closed_p(port: SCM) -> SCM;
+    pub fn scm_eof_object_p(x: SCM) -> SCM;
+    pub fn scm_force_output(port: SCM) -> SCM;
+    pub fn scm_flush_all_ports() -> SCM;
+    pub fn scm_read_char(port: SCM) -> SCM;
+    pub fn scm_getc(port: SCM) -> scm_t_wchar;
+    pub fn scm_c_read(port: SCM, buffer: *mut ::std::os::raw::c_void,
+                      size: size_t) -> size_t;
+    pub fn scm_c_write(port: SCM, buffer: *const ::std::os::raw::c_void,
+                       size: size_t);
+    pub fn scm_lfwrite(ptr: *const ::std::os::raw::c_char, size: size_t,
+                       port: SCM);
+    pub fn scm_lfwrite_substr(str: SCM, start: size_t, end: size_t,
+                              port: SCM);
+    pub fn scm_flush(port: SCM);
+    pub fn scm_end_input(port: SCM);
+    pub fn scm_fill_input(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_unget_bytes(buf: *const ::std::os::raw::c_uchar, len: size_t,
+                           port: SCM);
+    pub fn scm_unget_byte(c: ::std::os::raw::c_int, port: SCM);
+    pub fn scm_ungetc(c: scm_t_wchar, port: SCM);
+    pub fn scm_ungets(s: *const ::std::os::raw::c_char,
+                      n: ::std::os::raw::c_int, port: SCM);
+    pub fn scm_peek_char(port: SCM) -> SCM;
+    pub fn scm_unread_char(cobj: SCM, port: SCM) -> SCM;
+    pub fn scm_unread_string(str: SCM, port: SCM) -> SCM;
+    pub fn scm_seek(object: SCM, offset: SCM, whence: SCM) -> SCM;
+    pub fn scm_truncate_file(object: SCM, length: SCM) -> SCM;
+    pub fn scm_port_line(port: SCM) -> SCM;
+    pub fn scm_set_port_line_x(port: SCM, line: SCM) -> SCM;
+    pub fn scm_port_column(port: SCM) -> SCM;
+    pub fn scm_set_port_column_x(port: SCM, line: SCM) -> SCM;
+    pub fn scm_port_filename(port: SCM) -> SCM;
+    pub fn scm_set_port_filename_x(port: SCM, filename: SCM) -> SCM;
+    pub fn scm_i_port_property(port: SCM, key: SCM) -> SCM;
+    pub fn scm_i_set_port_property_x(port: SCM, key: SCM, value: SCM) -> SCM;
+    pub fn scm_i_default_port_encoding() -> *const ::std::os::raw::c_char;
+    pub fn scm_i_set_default_port_encoding(arg1:
+                                               *const ::std::os::raw::c_char);
+    pub fn scm_i_set_port_encoding_x(port: SCM,
+                                     str: *const ::std::os::raw::c_char);
+    pub fn scm_port_encoding(port: SCM) -> SCM;
+    pub fn scm_set_port_encoding_x(port: SCM, encoding: SCM) -> SCM;
+    pub fn scm_i_default_port_conversion_handler()
+     -> scm_t_string_failed_conversion_handler;
+    pub fn scm_i_set_default_port_conversion_handler(arg1:
+                                                         scm_t_string_failed_conversion_handler);
+    pub fn scm_slow_get_byte_or_eof(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_slow_peek_byte_or_eof(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_port_conversion_strategy(port: SCM) -> SCM;
+    pub fn scm_set_port_conversion_strategy_x(port: SCM, behavior: SCM)
+     -> SCM;
+    pub fn scm_port_print(exp: SCM, port: SCM, arg1: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_print_port_mode(exp: SCM, port: SCM);
+    pub fn scm_void_port(mode_str: *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_sys_make_void_port(mode: SCM) -> SCM;
+    pub fn scm_init_ports();
+    pub fn scm_add_to_port_table(port: SCM) -> *mut scm_t_port;
+    pub fn scm_i_mode_bits(modes: SCM) -> ::std::os::raw::c_long;
+    pub fn scm_i_dynwind_current_load_port(port: SCM);
+    pub fn scm_setbuf0(port: SCM) -> SCM;
+    pub fn scm_setvbuf(port: SCM, mode: SCM, size: SCM) -> SCM;
+    pub fn scm_evict_ports(fd: ::std::os::raw::c_int);
+    pub fn scm_open_file_with_encoding(filename: SCM, modes: SCM,
+                                       guess_encoding: SCM, encoding: SCM)
+     -> SCM;
+    pub fn scm_open_file(filename: SCM, modes: SCM) -> SCM;
+    pub fn scm_fdes_to_port(fdes: ::std::os::raw::c_int,
+                            mode: *mut ::std::os::raw::c_char, name: SCM)
+     -> SCM;
+    pub fn scm_file_port_p(obj: SCM) -> SCM;
+    pub fn scm_init_fports_keywords();
+    pub fn scm_init_fports();
+    pub fn scm_i_fdes_to_port(fdes: ::std::os::raw::c_int,
+                              mode_bits: ::std::os::raw::c_long, name: SCM)
+     -> SCM;
+    pub fn scm_c_hook_init(hook: *mut scm_t_c_hook,
+                           hook_data: *mut ::std::os::raw::c_void,
+                           _type: scm_t_c_hook_type);
+    pub fn scm_c_hook_add(hook: *mut scm_t_c_hook,
+                          func: scm_t_c_hook_function,
+                          fn_data: *mut ::std::os::raw::c_void,
+                          appendp: ::std::os::raw::c_int);
+    pub fn scm_c_hook_remove(hook: *mut scm_t_c_hook,
+                             func: scm_t_c_hook_function,
+                             fn_data: *mut ::std::os::raw::c_void);
+    pub fn scm_c_hook_run(hook: *mut scm_t_c_hook,
+                          data: *mut ::std::os::raw::c_void)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_make_hook(n_args: SCM) -> SCM;
+    pub fn scm_hook_p(x: SCM) -> SCM;
+    pub fn scm_hook_empty_p(hook: SCM) -> SCM;
+    pub fn scm_add_hook_x(hook: SCM, thunk: SCM, appendp: SCM) -> SCM;
+    pub fn scm_remove_hook_x(hook: SCM, thunk: SCM) -> SCM;
+    pub fn scm_reset_hook_x(hook: SCM) -> SCM;
+    pub fn scm_run_hook(hook: SCM, args: SCM) -> SCM;
+    pub fn scm_c_run_hook(hook: SCM, args: SCM);
+    pub fn scm_c_run_hookn(hook: SCM, argv: *mut SCM, nargs: size_t);
+    pub fn scm_hook_to_list(hook: SCM) -> SCM;
+    pub fn scm_init_hooks();
+    pub fn scm_set_debug_cell_accesses_x(flag: SCM) -> SCM;
+    pub fn scm_object_address(obj: SCM) -> SCM;
+    pub fn scm_gc_enable() -> SCM;
+    pub fn scm_gc_disable() -> SCM;
+    pub fn scm_gc_dump() -> SCM;
+    pub fn scm_gc_stats() -> SCM;
+    pub fn scm_gc() -> SCM;
+    pub fn scm_i_gc(what: *const ::std::os::raw::c_char);
+    pub fn scm_gc_mark(p: SCM);
+    pub fn scm_gc_sweep();
+    pub fn scm_gc_register_allocation(size: size_t);
+    pub fn scm_malloc(size: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn scm_calloc(size: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn scm_realloc(mem: *mut ::std::os::raw::c_void, size: size_t)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_strdup(str: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_strndup(str: *const ::std::os::raw::c_char, n: size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_gc_register_collectable_memory(mem:
+                                                  *mut ::std::os::raw::c_void,
+                                              size: size_t,
+                                              what:
+                                                  *const ::std::os::raw::c_char);
+    pub fn scm_gc_unregister_collectable_memory(mem:
+                                                    *mut ::std::os::raw::c_void,
+                                                size: size_t,
+                                                what:
+                                                    *const ::std::os::raw::c_char);
+    pub fn scm_gc_malloc_pointerless(size: size_t,
+                                     what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_gc_calloc(size: size_t, what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_gc_malloc(size: size_t, what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_gc_realloc(mem: *mut ::std::os::raw::c_void, old_size: size_t,
+                          new_size: size_t,
+                          what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_gc_free(mem: *mut ::std::os::raw::c_void, size: size_t,
+                       what: *const ::std::os::raw::c_char);
+    pub fn scm_gc_strdup(str: *const ::std::os::raw::c_char,
+                         what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_gc_strndup(str: *const ::std::os::raw::c_char, n: size_t,
+                          what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_cell(car: scm_t_bits, cdr: scm_t_bits) -> SCM;
+    pub fn scm_double_cell(car: scm_t_bits, cbr: scm_t_bits, ccr: scm_t_bits,
+                           cdr: scm_t_bits) -> SCM;
+    pub fn scm_words(car: scm_t_bits, n_words: scm_t_uint16) -> SCM;
+    pub fn scm_remember_upto_here_1(obj: SCM);
+    pub fn scm_remember_upto_here_2(obj1: SCM, obj2: SCM);
+    pub fn scm_remember_upto_here(obj1: SCM, ...);
+    pub fn scm_return_first(elt: SCM, ...) -> SCM;
+    pub fn scm_return_first_int(x: ::std::os::raw::c_int, ...)
+     -> ::std::os::raw::c_int;
+    pub fn scm_permanent_object(obj: SCM) -> SCM;
+    pub fn scm_gc_protect_object(obj: SCM) -> SCM;
+    pub fn scm_gc_unprotect_object(obj: SCM) -> SCM;
+    pub fn scm_gc_register_root(p: *mut SCM);
+    pub fn scm_gc_unregister_root(p: *mut SCM);
+    pub fn scm_gc_register_roots(b: *mut SCM, n: ::std::os::raw::c_ulong);
+    pub fn scm_gc_unregister_roots(b: *mut SCM, n: ::std::os::raw::c_ulong);
+    pub fn scm_storage_prehistory();
+    pub fn scm_init_gc_protect_object();
+    pub fn scm_init_gc();
+    pub fn scm_deprecated_newcell() -> SCM;
+    pub fn scm_deprecated_newcell2() -> SCM;
+    pub fn scm_must_malloc(len: size_t, what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_must_realloc(_where: *mut ::std::os::raw::c_void, olen: size_t,
+                            len: size_t, what: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_void;
+    pub fn scm_must_strdup(str: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_must_strndup(str: *const ::std::os::raw::c_char, n: size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_done_malloc(size: ::std::os::raw::c_long);
+    pub fn scm_done_free(size: ::std::os::raw::c_long);
+    pub fn scm_must_free(obj: *mut ::std::os::raw::c_void);
+    pub fn scm_init_gdbint();
+    pub fn scm_is_array(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_array_p(v: SCM, unused: SCM) -> SCM;
+    pub fn scm_array_p_2(arg1: SCM) -> SCM;
+    pub fn scm_is_typed_array(obj: SCM, _type: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_typed_array_p(v: SCM, _type: SCM) -> SCM;
+    pub fn scm_c_array_rank(ra: SCM) -> size_t;
+    pub fn scm_array_rank(ra: SCM) -> SCM;
+    pub fn scm_c_array_length(ra: SCM) -> size_t;
+    pub fn scm_array_length(ra: SCM) -> SCM;
+    pub fn scm_array_dimensions(ra: SCM) -> SCM;
+    pub fn scm_array_type(ra: SCM) -> SCM;
+    pub fn scm_array_in_bounds_p(v: SCM, args: SCM) -> SCM;
+    pub fn scm_c_array_ref_1(v: SCM, idx0: ssize_t) -> SCM;
+    pub fn scm_c_array_ref_2(v: SCM, idx0: ssize_t, idx1: ssize_t) -> SCM;
+    pub fn scm_c_array_set_1_x(v: SCM, obj: SCM, idx0: ssize_t);
+    pub fn scm_c_array_set_2_x(v: SCM, obj: SCM, idx0: ssize_t,
+                               idx1: ssize_t);
+    pub fn scm_array_ref(v: SCM, args: SCM) -> SCM;
+    pub fn scm_array_set_x(v: SCM, obj: SCM, args: SCM) -> SCM;
+    pub fn scm_array_to_list(v: SCM) -> SCM;
+    pub fn scm_init_generalized_arrays();
+    pub fn scm_is_generalized_vector(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_c_generalized_vector_length(v: SCM) -> size_t;
+    pub fn scm_c_generalized_vector_ref(v: SCM, idx: size_t) -> SCM;
+    pub fn scm_c_generalized_vector_set_x(v: SCM, idx: size_t, val: SCM);
+    pub fn scm_generalized_vector_get_handle(vec: SCM,
+                                             h: *mut scm_t_array_handle);
+    pub fn scm_make_generalized_vector(_type: SCM, len: SCM, fill: SCM)
+     -> SCM;
+    pub fn scm_i_register_vector_constructor(_type: SCM,
+                                             ctor:
+                                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                                         SCM,
+                                                                                     arg2:
+                                                                                         SCM)
+                                                                           ->
+                                                                               SCM>);
+    pub fn scm_init_generalized_vectors();
+    pub fn scm_goops_version() -> SCM;
+    pub fn scm_oldfmt(arg1: SCM) -> SCM;
+    pub fn scm_c_oldfmt0(arg1: *mut ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_c_oldfmt(arg1: *mut ::std::os::raw::c_char,
+                        n: ::std::os::raw::c_int)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_load_goops();
+    pub fn scm_make_extended_class(type_name: *const ::std::os::raw::c_char,
+                                   applicablep: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_make_port_classes(ptobnum: ::std::os::raw::c_long,
+                                 type_name: *mut ::std::os::raw::c_char);
+    pub fn scm_ensure_accessor(name: SCM) -> SCM;
+    pub fn scm_class_of(obj: SCM) -> SCM;
+    pub fn scm_make_next_method(methods: SCM, args: SCM, gf: SCM) -> SCM;
+    pub fn scm_basic_basic_make_class(c: SCM, name: SCM, dsupers: SCM,
+                                      dslots: SCM) -> SCM;
+    pub fn scm_basic_make_class(c: SCM, name: SCM, dsupers: SCM, dslots: SCM)
+     -> SCM;
+    pub fn scm_sys_allocate_instance(c: SCM, initargs: SCM) -> SCM;
+    pub fn scm_sys_set_object_setter_x(obj: SCM, setter: SCM) -> SCM;
+    pub fn scm_slot_ref(obj: SCM, slot_name: SCM) -> SCM;
+    pub fn scm_slot_set_x(obj: SCM, slot_name: SCM, value: SCM) -> SCM;
+    pub fn scm_compute_applicable_methods(gf: SCM, args: SCM,
+                                          len: ::std::os::raw::c_long,
+                                          scm_find_method:
+                                              ::std::os::raw::c_int) -> SCM;
+    pub fn scm_sys_compute_applicable_methods(gf: SCM, args: SCM) -> SCM;
+    pub fn scm_sys_compute_slots(c: SCM) -> SCM;
+    pub fn scm_i_inherit_applicable(c: SCM);
+    pub fn scm_i_get_keyword(key: SCM, l: SCM, len: ::std::os::raw::c_long,
+                             default_value: SCM,
+                             subr: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_get_keyword(key: SCM, l: SCM, default_value: SCM) -> SCM;
+    pub fn scm_sys_initialize_object(obj: SCM, initargs: SCM) -> SCM;
+    pub fn scm_sys_prep_layout_x(c: SCM) -> SCM;
+    pub fn scm_sys_inherit_magic_x(c: SCM, dsupers: SCM) -> SCM;
+    pub fn scm_instance_p(obj: SCM) -> SCM;
+    pub fn scm_class_name(obj: SCM) -> SCM;
+    pub fn scm_class_direct_supers(obj: SCM) -> SCM;
+    pub fn scm_class_direct_slots(obj: SCM) -> SCM;
+    pub fn scm_class_direct_subclasses(obj: SCM) -> SCM;
+    pub fn scm_class_direct_methods(obj: SCM) -> SCM;
+    pub fn scm_class_precedence_list(obj: SCM) -> SCM;
+    pub fn scm_class_slots(obj: SCM) -> SCM;
+    pub fn scm_generic_function_name(obj: SCM) -> SCM;
+    pub fn scm_generic_function_methods(obj: SCM) -> SCM;
+    pub fn scm_method_generic_function(obj: SCM) -> SCM;
+    pub fn scm_method_specializers(obj: SCM) -> SCM;
+    pub fn scm_method_procedure(obj: SCM) -> SCM;
+    pub fn scm_sys_fast_slot_ref(obj: SCM, index: SCM) -> SCM;
+    pub fn scm_sys_fast_slot_set_x(obj: SCM, index: SCM, value: SCM) -> SCM;
+    pub fn scm_slot_ref_using_class(cls: SCM, obj: SCM, slot_name: SCM)
+     -> SCM;
+    pub fn scm_slot_set_using_class_x(cls: SCM, obj: SCM, slot_name: SCM,
+                                      value: SCM) -> SCM;
+    pub fn scm_slot_bound_using_class_p(cls: SCM, obj: SCM, slot_name: SCM)
+     -> SCM;
+    pub fn scm_slot_exists_using_class_p(cls: SCM, obj: SCM, slot_name: SCM)
+     -> SCM;
+    pub fn scm_slot_bound_p(obj: SCM, slot_name: SCM) -> SCM;
+    pub fn scm_slot_exists_p(obj: SCM, slot_name: SCM) -> SCM;
+    pub fn scm_sys_modify_instance(old: SCM, newinst: SCM) -> SCM;
+    pub fn scm_sys_modify_class(old: SCM, newcls: SCM) -> SCM;
+    pub fn scm_sys_invalidate_class(cls: SCM) -> SCM;
+    pub fn scm_sys_invalidate_method_cache_x(gf: SCM) -> SCM;
+    pub fn scm_generic_capability_p(_proc: SCM) -> SCM;
+    pub fn scm_enable_primitive_generic_x(subrs: SCM) -> SCM;
+    pub fn scm_set_primitive_generic_x(subr: SCM, generic: SCM) -> SCM;
+    pub fn scm_primitive_generic_generic(subr: SCM) -> SCM;
+    pub fn scm_c_extend_primitive_generic(subr: SCM, extension: SCM);
+    pub fn stklos_version() -> SCM;
+    pub fn scm_make(args: SCM) -> SCM;
+    pub fn scm_find_method(args: SCM) -> SCM;
+    pub fn scm_sys_method_more_specific_p(m1: SCM, m2: SCM, targs: SCM)
+     -> SCM;
+    pub fn scm_change_object_class(arg1: SCM, arg2: SCM, arg3: SCM);
+    pub fn scm_call_generic_3(gf: SCM, a1: SCM, a2: SCM, a3: SCM) -> SCM;
+    pub fn scm_i_define_class_for_vtable(vtable: SCM) -> SCM;
+    pub fn scm_init_goops_builtins() -> SCM;
+    pub fn scm_init_goops();
+    pub fn scm_subr_objcode_trampoline(nreq: ::std::os::raw::c_uint,
+                                       nopt: ::std::os::raw::c_uint,
+                                       rest: ::std::os::raw::c_uint) -> SCM;
+    pub fn scm_c_make_gsubr(name: *const ::std::os::raw::c_char,
+                            req: ::std::os::raw::c_int,
+                            opt: ::std::os::raw::c_int,
+                            rst: ::std::os::raw::c_int, fcn: scm_t_subr)
+     -> SCM;
+    pub fn scm_c_make_gsubr_with_generic(name: *const ::std::os::raw::c_char,
+                                         req: ::std::os::raw::c_int,
+                                         opt: ::std::os::raw::c_int,
+                                         rst: ::std::os::raw::c_int,
+                                         fcn: scm_t_subr, gf: *mut SCM)
+     -> SCM;
+    pub fn scm_c_define_gsubr(name: *const ::std::os::raw::c_char,
+                              req: ::std::os::raw::c_int,
+                              opt: ::std::os::raw::c_int,
+                              rst: ::std::os::raw::c_int, fcn: scm_t_subr)
+     -> SCM;
+    pub fn scm_c_define_gsubr_with_generic(name:
+                                               *const ::std::os::raw::c_char,
+                                           req: ::std::os::raw::c_int,
+                                           opt: ::std::os::raw::c_int,
+                                           rst: ::std::os::raw::c_int,
+                                           fcn: scm_t_subr, gf: *mut SCM)
+     -> SCM;
+    pub fn scm_init_gsubr();
+    pub fn scm_make_guardian() -> SCM;
+    pub fn scm_i_init_guardians_for_gc();
+    pub fn scm_i_identify_inaccessible_guardeds();
+    pub fn scm_i_mark_inaccessible_guardeds() -> ::std::os::raw::c_int;
+    pub fn scm_init_guardians();
+    pub fn scm_string_hash(str: *const ::std::os::raw::c_uchar, len: size_t)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_i_locale_string_hash(str: *const ::std::os::raw::c_char,
+                                    len: size_t) -> ::std::os::raw::c_ulong;
+    pub fn scm_i_latin1_string_hash(str: *const ::std::os::raw::c_char,
+                                    len: size_t) -> ::std::os::raw::c_ulong;
+    pub fn scm_i_utf8_string_hash(str: *const ::std::os::raw::c_char,
+                                  len: size_t) -> ::std::os::raw::c_ulong;
+    pub fn scm_i_string_hash(str: SCM) -> ::std::os::raw::c_ulong;
+    pub fn scm_hasher(obj: SCM, n: ::std::os::raw::c_ulong, d: size_t)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_ihashq(obj: SCM, n: ::std::os::raw::c_ulong)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_hashq(obj: SCM, n: SCM) -> SCM;
+    pub fn scm_ihashv(obj: SCM, n: ::std::os::raw::c_ulong)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_hashv(obj: SCM, n: SCM) -> SCM;
+    pub fn scm_ihash(obj: SCM, n: ::std::os::raw::c_ulong)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_hash(obj: SCM, n: SCM) -> SCM;
+    pub fn scm_init_hash();
+    pub fn scm_weak_car_pair(car: SCM, cdr: SCM) -> SCM;
+    pub fn scm_weak_cdr_pair(car: SCM, cdr: SCM) -> SCM;
+    pub fn scm_doubly_weak_pair(car: SCM, cdr: SCM) -> SCM;
+    pub fn scm_make_weak_vector(k: SCM, fill: SCM) -> SCM;
+    pub fn scm_weak_vector(l: SCM) -> SCM;
+    pub fn scm_weak_vector_p(x: SCM) -> SCM;
+    pub fn scm_weak_vector_length(v: SCM) -> SCM;
+    pub fn scm_weak_vector_ref(v: SCM, k: SCM) -> SCM;
+    pub fn scm_weak_vector_set_x(v: SCM, k: SCM, x: SCM) -> SCM;
+    pub fn scm_c_make_weak_vector(k: size_t, fill: SCM) -> SCM;
+    pub fn scm_is_weak_vector(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_c_weak_vector_length(vec: SCM) -> size_t;
+    pub fn scm_c_weak_vector_ref(v: SCM, k: size_t) -> SCM;
+    pub fn scm_c_weak_vector_set_x(v: SCM, k: size_t, x: SCM);
+    pub fn scm_make_weak_key_alist_vector(k: SCM) -> SCM;
+    pub fn scm_make_weak_value_alist_vector(k: SCM) -> SCM;
+    pub fn scm_make_doubly_weak_alist_vector(k: SCM) -> SCM;
+    pub fn scm_weak_key_alist_vector_p(x: SCM) -> SCM;
+    pub fn scm_weak_value_alist_vector_p(x: SCM) -> SCM;
+    pub fn scm_doubly_weak_alist_vector_p(x: SCM) -> SCM;
+    pub fn scm_init_weaks_builtins() -> SCM;
+    pub fn scm_weaks_prehistory();
+    pub fn scm_init_weaks();
+    pub fn scm_i_init_weak_vectors_for_gc();
+    pub fn scm_i_mark_weak_vector(w: SCM);
+    pub fn scm_i_mark_weak_vectors_non_weaks() -> ::std::os::raw::c_int;
+    pub fn scm_i_remove_weaks_from_weak_vectors();
+    pub fn scm_vector_to_hash_table(vector: SCM) -> SCM;
+    pub fn scm_c_make_hash_table(k: ::std::os::raw::c_ulong) -> SCM;
+    pub fn scm_make_hash_table(n: SCM) -> SCM;
+    pub fn scm_make_weak_key_hash_table(k: SCM) -> SCM;
+    pub fn scm_make_weak_value_hash_table(k: SCM) -> SCM;
+    pub fn scm_make_doubly_weak_hash_table(k: SCM) -> SCM;
+    pub fn scm_hash_table_p(h: SCM) -> SCM;
+    pub fn scm_weak_key_hash_table_p(h: SCM) -> SCM;
+    pub fn scm_weak_value_hash_table_p(h: SCM) -> SCM;
+    pub fn scm_doubly_weak_hash_table_p(h: SCM) -> SCM;
+    pub fn scm_i_rehash(table: SCM, hash_fn: scm_t_hash_fn,
+                        closure: *mut ::std::os::raw::c_void,
+                        func_name: *const ::std::os::raw::c_char);
+    pub fn scm_hash_fn_get_handle(table: SCM, obj: SCM,
+                                  hash_fn: scm_t_hash_fn,
+                                  assoc_fn: scm_t_assoc_fn,
+                                  closure: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_hash_fn_get_handle_by_hash(table: SCM,
+                                          raw_hash: ::std::os::raw::c_ulong,
+                                          predicate_fn:
+                                              scm_t_hash_predicate_fn,
+                                          closure:
+                                              *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_hash_fn_create_handle_x(table: SCM, obj: SCM, init: SCM,
+                                       hash_fn: scm_t_hash_fn,
+                                       assoc_fn: scm_t_assoc_fn,
+                                       closure: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_hash_fn_ref(table: SCM, obj: SCM, dflt: SCM,
+                           hash_fn: scm_t_hash_fn, assoc_fn: scm_t_assoc_fn,
+                           closure: *mut ::std::os::raw::c_void) -> SCM;
+    pub fn scm_hash_fn_set_x(table: SCM, obj: SCM, val: SCM,
+                             hash_fn: scm_t_hash_fn, assoc_fn: scm_t_assoc_fn,
+                             closure: *mut ::std::os::raw::c_void) -> SCM;
+    pub fn scm_hash_fn_remove_x(table: SCM, obj: SCM, hash_fn: scm_t_hash_fn,
+                                assoc_fn: scm_t_assoc_fn,
+                                closure: *mut ::std::os::raw::c_void) -> SCM;
+    pub fn scm_internal_hash_fold(_fn: scm_t_hash_fold_fn,
+                                  closure: *mut ::std::os::raw::c_void,
+                                  init: SCM, table: SCM) -> SCM;
+    pub fn scm_internal_hash_for_each_handle(_fn: scm_t_hash_handle_fn,
+                                             closure:
+                                                 *mut ::std::os::raw::c_void,
+                                             table: SCM);
+    pub fn scm_hash_clear_x(table: SCM) -> SCM;
+    pub fn scm_hashq_get_handle(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hashq_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
+    pub fn scm_hashq_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
+    pub fn scm_hashq_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
+    pub fn scm_hashq_remove_x(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hashv_get_handle(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hashv_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
+    pub fn scm_hashv_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
+    pub fn scm_hashv_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
+    pub fn scm_hashv_remove_x(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hash_get_handle(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hash_create_handle_x(table: SCM, obj: SCM, init: SCM) -> SCM;
+    pub fn scm_hash_ref(table: SCM, obj: SCM, dflt: SCM) -> SCM;
+    pub fn scm_hash_set_x(table: SCM, obj: SCM, val: SCM) -> SCM;
+    pub fn scm_hash_remove_x(table: SCM, obj: SCM) -> SCM;
+    pub fn scm_hashx_get_handle(hash: SCM, assoc: SCM, table: SCM, obj: SCM)
+     -> SCM;
+    pub fn scm_hashx_create_handle_x(hash: SCM, assoc: SCM, table: SCM,
+                                     obj: SCM, init: SCM) -> SCM;
+    pub fn scm_hashx_ref(hash: SCM, assoc: SCM, table: SCM, obj: SCM,
+                         dflt: SCM) -> SCM;
+    pub fn scm_hashx_set_x(hash: SCM, assoc: SCM, table: SCM, obj: SCM,
+                           val: SCM) -> SCM;
+    pub fn scm_hashx_remove_x(hash: SCM, assoc: SCM, table: SCM, obj: SCM)
+     -> SCM;
+    pub fn scm_hash_fold(_proc: SCM, init: SCM, hash: SCM) -> SCM;
+    pub fn scm_hash_for_each(_proc: SCM, hash: SCM) -> SCM;
+    pub fn scm_hash_for_each_handle(_proc: SCM, hash: SCM) -> SCM;
+    pub fn scm_hash_map_to_list(_proc: SCM, hash: SCM) -> SCM;
+    pub fn scm_hash_count(hash: SCM, pred: SCM) -> SCM;
+    pub fn scm_i_hashtable_print(exp: SCM, port: SCM,
+                                 pstate: *mut scm_print_state);
+    pub fn scm_init_hashtab();
+    pub fn scm_make_locale(category_mask: SCM, locale_name: SCM,
+                           base_locale: SCM) -> SCM;
+    pub fn scm_locale_p(obj: SCM) -> SCM;
+    pub fn scm_string_locale_lt(s1: SCM, s2: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_gt(s1: SCM, s2: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_ci_lt(s1: SCM, s2: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_ci_gt(s1: SCM, s2: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_ci_eq(s1: SCM, s2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_lt(c1: SCM, c2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_gt(c1: SCM, c2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_ci_lt(c1: SCM, c2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_ci_gt(c1: SCM, c2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_ci_eq(c1: SCM, c2: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_upcase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_downcase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_char_locale_titlecase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_upcase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_downcase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_string_locale_titlecase(chr: SCM, locale: SCM) -> SCM;
+    pub fn scm_locale_string_to_integer(str: SCM, base: SCM, locale: SCM)
+     -> SCM;
+    pub fn scm_locale_string_to_inexact(str: SCM, locale: SCM) -> SCM;
+    pub fn scm_nl_langinfo(item: SCM, locale: SCM) -> SCM;
+    pub fn scm_init_i18n();
+    pub fn scm_bootstrap_i18n();
+    pub fn scm_init_guile();
+    pub fn scm_boot_guile(argc: ::std::os::raw::c_int,
+                          argv: *mut *mut ::std::os::raw::c_char,
+                          main_func:
+                              ::std::option::Option<unsafe extern "C" fn(closure:
+                                                                             *mut ::std::os::raw::c_void,
+                                                                         argc:
+                                                                             ::std::os::raw::c_int,
+                                                                         argv:
+                                                                             *mut *mut ::std::os::raw::c_char)>,
+                          closure: *mut ::std::os::raw::c_void);
+    pub fn scm_i_init_guile(base: *mut ::std::os::raw::c_void);
+    pub fn scm_load_startup_files();
+    pub fn scm_ftell(object: SCM) -> SCM;
+    pub fn scm_redirect_port(into_pt: SCM, from_pt: SCM) -> SCM;
+    pub fn scm_dup_to_fdes(fd_or_port: SCM, newfd: SCM) -> SCM;
+    pub fn scm_dup2(oldfd: SCM, newfd: SCM) -> SCM;
+    pub fn scm_fileno(port: SCM) -> SCM;
+    pub fn scm_isatty_p(port: SCM) -> SCM;
+    pub fn scm_fdopen(fdes: SCM, modes: SCM) -> SCM;
+    pub fn scm_primitive_move_to_fdes(port: SCM, fd: SCM) -> SCM;
+    pub fn scm_fdes_to_ports(fd: SCM) -> SCM;
+    pub fn scm_init_ioext();
+    pub fn scm_read_delimited_x(delims: SCM, buf: SCM, gobble: SCM, port: SCM,
+                                offset: SCM, length: SCM) -> SCM;
+    pub fn scm_read_line(port: SCM) -> SCM;
+    pub fn scm_write_line(obj: SCM, port: SCM) -> SCM;
+    pub fn scm_init_rdelim_builtins() -> SCM;
+    pub fn scm_init_rdelim();
+    pub fn scm_read_string_x_partial(str: SCM, port_or_fdes: SCM, start: SCM,
+                                     end: SCM) -> SCM;
+    pub fn scm_write_string_partial(str: SCM, port_or_fdes: SCM, start: SCM,
+                                    end: SCM) -> SCM;
+    pub fn scm_init_rw_builtins() -> SCM;
+    pub fn scm_init_rw();
+    pub fn scm_keyword_p(obj: SCM) -> SCM;
+    pub fn scm_symbol_to_keyword(symbol: SCM) -> SCM;
+    pub fn scm_keyword_to_symbol(keyword: SCM) -> SCM;
+    pub fn scm_is_keyword(val: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_from_locale_keyword(name: *const ::std::os::raw::c_char)
+     -> SCM;
+    pub fn scm_from_locale_keywordn(name: *const ::std::os::raw::c_char,
+                                    len: size_t) -> SCM;
+    pub fn scm_from_latin1_keyword(name: *const ::std::os::raw::c_char)
+     -> SCM;
+    pub fn scm_from_utf8_keyword(name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_bind_keyword_arguments(subr: *const ::std::os::raw::c_char,
+                                        rest: SCM,
+                                        flags:
+                                            scm_t_keyword_arguments_flags, ...);
+    pub fn scm_init_keywords();
+    pub fn scm_list_1(e1: SCM) -> SCM;
+    pub fn scm_list_2(e1: SCM, e2: SCM) -> SCM;
+    pub fn scm_list_3(e1: SCM, e2: SCM, e3: SCM) -> SCM;
+    pub fn scm_list_4(e1: SCM, e2: SCM, e3: SCM, e4: SCM) -> SCM;
+    pub fn scm_list_5(e1: SCM, e2: SCM, e3: SCM, e4: SCM, e5: SCM) -> SCM;
+    pub fn scm_list_n(elt: SCM, ...) -> SCM;
+    pub fn scm_list(objs: SCM) -> SCM;
+    pub fn scm_list_head(lst: SCM, k: SCM) -> SCM;
+    pub fn scm_make_list(n: SCM, init: SCM) -> SCM;
+    pub fn scm_cons_star(arg: SCM, objs: SCM) -> SCM;
+    pub fn scm_null_p(x: SCM) -> SCM;
+    pub fn scm_list_p(x: SCM) -> SCM;
+    pub fn scm_ilength(sx: SCM) -> ::std::os::raw::c_long;
+    pub fn scm_length(x: SCM) -> SCM;
+    pub fn scm_append(args: SCM) -> SCM;
+    pub fn scm_append_x(args: SCM) -> SCM;
+    pub fn scm_reverse(lst: SCM) -> SCM;
+    pub fn scm_reverse_x(lst: SCM, newtail: SCM) -> SCM;
+    pub fn scm_list_ref(lst: SCM, k: SCM) -> SCM;
+    pub fn scm_list_set_x(lst: SCM, k: SCM, val: SCM) -> SCM;
+    pub fn scm_list_cdr_set_x(lst: SCM, k: SCM, val: SCM) -> SCM;
+    pub fn scm_last_pair(sx: SCM) -> SCM;
+    pub fn scm_list_tail(lst: SCM, k: SCM) -> SCM;
+    pub fn scm_c_memq(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_memq(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_memv(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_member(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_delq_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delv_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delete_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_list_copy(lst: SCM) -> SCM;
+    pub fn scm_delq(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delv(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delete(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delq1_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delv1_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_delete1_x(item: SCM, lst: SCM) -> SCM;
+    pub fn scm_filter(pred: SCM, list: SCM) -> SCM;
+    pub fn scm_filter_x(pred: SCM, list: SCM) -> SCM;
+    pub fn scm_copy_tree(obj: SCM) -> SCM;
+    pub fn scm_i_finite_list_copy(arg1: SCM) -> SCM;
+    pub fn scm_init_list();
+    pub fn scm_parse_path(path: SCM, tail: SCM) -> SCM;
+    pub fn scm_parse_path_with_ellipsis(path: SCM, base: SCM) -> SCM;
+    pub fn scm_primitive_load(filename: SCM) -> SCM;
+    pub fn scm_c_primitive_load(filename: *const ::std::os::raw::c_char)
+     -> SCM;
+    pub fn scm_sys_package_data_dir() -> SCM;
+    pub fn scm_sys_library_dir() -> SCM;
+    pub fn scm_sys_site_dir() -> SCM;
+    pub fn scm_sys_global_site_dir() -> SCM;
+    pub fn scm_sys_site_ccache_dir() -> SCM;
+    pub fn scm_search_path(path: SCM, filename: SCM, rest: SCM) -> SCM;
+    pub fn scm_sys_search_load_path(filename: SCM) -> SCM;
+    pub fn scm_primitive_load_path(filename_and_exception_on_not_found: SCM)
+     -> SCM;
+    pub fn scm_c_primitive_load_path(filename: *const ::std::os::raw::c_char)
+     -> SCM;
+    pub fn scm_sys_warn_auto_compilation_enabled() -> SCM;
+    pub fn scm_init_load_path();
+    pub fn scm_init_load();
+    pub fn scm_init_load_should_auto_compile();
+    pub fn scm_init_eval_in_scheme();
+    pub fn scm_make_syntax_transformer(name_or_existing_definition: SCM,
+                                       _type: SCM, binding: SCM) -> SCM;
+    pub fn scm_macro_p(obj: SCM) -> SCM;
+    pub fn scm_macro_type(m: SCM) -> SCM;
+    pub fn scm_macro_name(m: SCM) -> SCM;
+    pub fn scm_macro_binding(m: SCM) -> SCM;
+    pub fn scm_macro_transformer(m: SCM) -> SCM;
+    pub fn scm_i_make_primitive_macro(name: *const ::std::os::raw::c_char,
+                                      _fn: scm_t_macro_primitive) -> SCM;
+    pub fn scm_i_macro_primitive(m: SCM) -> scm_t_macro_primitive;
+    pub fn scm_init_macros();
+    pub fn scm_malloc_obj(n: size_t) -> SCM;
+    pub fn scm_init_mallocs();
+    pub fn scm_current_module() -> SCM;
+    pub fn scm_the_root_module() -> SCM;
+    pub fn scm_interaction_environment() -> SCM;
+    pub fn scm_set_current_module(module: SCM) -> SCM;
+    pub fn scm_c_call_with_current_module(module: SCM,
+                                          func:
+                                              ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                             *mut ::std::os::raw::c_void)
+                                                                        ->
+                                                                            SCM>,
+                                          data: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_dynwind_current_module(module: SCM);
+    pub fn scm_module_variable(module: SCM, sym: SCM) -> SCM;
+    pub fn scm_module_local_variable(module: SCM, sym: SCM) -> SCM;
+    pub fn scm_module_ensure_local_variable(module: SCM, sym: SCM) -> SCM;
+    pub fn scm_c_lookup(name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_define(name: *const ::std::os::raw::c_char, val: SCM) -> SCM;
+    pub fn scm_lookup(symbol: SCM) -> SCM;
+    pub fn scm_define(symbol: SCM, val: SCM) -> SCM;
+    pub fn scm_c_module_lookup(module: SCM,
+                               name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_module_define(module: SCM,
+                               name: *const ::std::os::raw::c_char, val: SCM)
+     -> SCM;
+    pub fn scm_module_lookup(module: SCM, symbol: SCM) -> SCM;
+    pub fn scm_module_define(module: SCM, symbol: SCM, val: SCM) -> SCM;
+    pub fn scm_module_export(module: SCM, symbol_list: SCM) -> SCM;
+    pub fn scm_module_reverse_lookup(module: SCM, variable: SCM) -> SCM;
+    pub fn scm_public_variable(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_private_variable(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_c_public_variable(module_name: *const ::std::os::raw::c_char,
+                                 name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_private_variable(module_name: *const ::std::os::raw::c_char,
+                                  name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_public_lookup(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_private_lookup(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_c_public_lookup(module_name: *const ::std::os::raw::c_char,
+                               name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_private_lookup(module_name: *const ::std::os::raw::c_char,
+                                name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_public_ref(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_private_ref(module_name: SCM, name: SCM) -> SCM;
+    pub fn scm_c_public_ref(module_name: *const ::std::os::raw::c_char,
+                            name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_private_ref(module_name: *const ::std::os::raw::c_char,
+                             name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_c_resolve_module(name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_resolve_module(name: SCM) -> SCM;
+    pub fn scm_c_define_module(name: *const ::std::os::raw::c_char,
+                               init:
+                                   ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                  *mut ::std::os::raw::c_void)>,
+                               data: *mut ::std::os::raw::c_void) -> SCM;
+    pub fn scm_c_use_module(name: *const ::std::os::raw::c_char);
+    pub fn scm_c_export(name: *const ::std::os::raw::c_char, ...);
+    pub fn scm_module_public_interface(module: SCM) -> SCM;
+    pub fn scm_module_import_interface(module: SCM, sym: SCM) -> SCM;
+    pub fn scm_module_transformer(module: SCM) -> SCM;
+    pub fn scm_current_module_transformer() -> SCM;
+    pub fn scm_get_pre_modules_obarray() -> SCM;
+    pub fn scm_modules_prehistory();
+    pub fn scm_init_modules();
+    pub fn scm_gethost(host: SCM) -> SCM;
+    pub fn scm_getnet(name: SCM) -> SCM;
+    pub fn scm_getproto(name: SCM) -> SCM;
+    pub fn scm_getserv(name: SCM, proto: SCM) -> SCM;
+    pub fn scm_sethost(arg: SCM) -> SCM;
+    pub fn scm_setnet(arg: SCM) -> SCM;
+    pub fn scm_setproto(arg: SCM) -> SCM;
+    pub fn scm_setserv(arg: SCM) -> SCM;
+    pub fn scm_getaddrinfo(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM,
+                           arg5: SCM, arg6: SCM) -> SCM;
+    pub fn scm_gai_strerror(arg1: SCM) -> SCM;
+    pub fn scm_init_net_db();
+    pub fn scm_object_properties(obj: SCM) -> SCM;
+    pub fn scm_set_object_properties_x(obj: SCM, plist: SCM) -> SCM;
+    pub fn scm_object_property(obj: SCM, key: SCM) -> SCM;
+    pub fn scm_set_object_property_x(obj: SCM, key: SCM, val: SCM) -> SCM;
+    pub fn scm_init_objprop();
+    pub fn scm_cons(x: SCM, y: SCM) -> SCM;
+    pub fn scm_cons2(w: SCM, x: SCM, y: SCM) -> SCM;
+    pub fn scm_pair_p(x: SCM) -> SCM;
+    pub fn scm_car(x: SCM) -> SCM;
+    pub fn scm_cdr(x: SCM) -> SCM;
+    pub fn scm_set_car_x(pair: SCM, value: SCM) -> SCM;
+    pub fn scm_set_cdr_x(pair: SCM, value: SCM) -> SCM;
+    pub fn scm_cddr(x: SCM) -> SCM;
+    pub fn scm_cdar(x: SCM) -> SCM;
+    pub fn scm_cadr(x: SCM) -> SCM;
+    pub fn scm_caar(x: SCM) -> SCM;
+    pub fn scm_cdddr(x: SCM) -> SCM;
+    pub fn scm_cddar(x: SCM) -> SCM;
+    pub fn scm_cdadr(x: SCM) -> SCM;
+    pub fn scm_cdaar(x: SCM) -> SCM;
+    pub fn scm_caddr(x: SCM) -> SCM;
+    pub fn scm_cadar(x: SCM) -> SCM;
+    pub fn scm_caadr(x: SCM) -> SCM;
+    pub fn scm_caaar(x: SCM) -> SCM;
+    pub fn scm_cddddr(x: SCM) -> SCM;
+    pub fn scm_cdddar(x: SCM) -> SCM;
+    pub fn scm_cddadr(x: SCM) -> SCM;
+    pub fn scm_cddaar(x: SCM) -> SCM;
+    pub fn scm_cdaddr(x: SCM) -> SCM;
+    pub fn scm_cdadar(x: SCM) -> SCM;
+    pub fn scm_cdaadr(x: SCM) -> SCM;
+    pub fn scm_cdaaar(x: SCM) -> SCM;
+    pub fn scm_cadddr(x: SCM) -> SCM;
+    pub fn scm_caddar(x: SCM) -> SCM;
+    pub fn scm_cadadr(x: SCM) -> SCM;
+    pub fn scm_cadaar(x: SCM) -> SCM;
+    pub fn scm_caaddr(x: SCM) -> SCM;
+    pub fn scm_caadar(x: SCM) -> SCM;
+    pub fn scm_caaadr(x: SCM) -> SCM;
+    pub fn scm_caaaar(x: SCM) -> SCM;
+    pub fn scm_init_pairs();
+    pub fn scm_tcsetpgrp(port: SCM, pgid: SCM) -> SCM;
+    pub fn scm_tcgetpgrp(port: SCM) -> SCM;
+    pub fn scm_ctermid() -> SCM;
+    pub fn scm_setsid() -> SCM;
+    pub fn scm_getsid(pid: SCM) -> SCM;
+    pub fn scm_setpgid(pid: SCM, pgid: SCM) -> SCM;
+    pub fn scm_pipe() -> SCM;
+    pub fn scm_getgroups() -> SCM;
+    pub fn scm_setgroups(groups: SCM) -> SCM;
+    pub fn scm_getpgrp() -> SCM;
+    pub fn scm_getpwuid(user: SCM) -> SCM;
+    pub fn scm_setpwent(arg: SCM) -> SCM;
+    pub fn scm_getgrgid(name: SCM) -> SCM;
+    pub fn scm_setgrent(arg: SCM) -> SCM;
+    pub fn scm_getrlimit(resource: SCM) -> SCM;
+    pub fn scm_setrlimit(resource: SCM, soft: SCM, hard: SCM) -> SCM;
+    pub fn scm_kill(pid: SCM, sig: SCM) -> SCM;
+    pub fn scm_waitpid(pid: SCM, options: SCM) -> SCM;
+    pub fn scm_status_exit_val(status: SCM) -> SCM;
+    pub fn scm_status_term_sig(status: SCM) -> SCM;
+    pub fn scm_status_stop_sig(status: SCM) -> SCM;
+    pub fn scm_getppid() -> SCM;
+    pub fn scm_getuid() -> SCM;
+    pub fn scm_getgid() -> SCM;
+    pub fn scm_geteuid() -> SCM;
+    pub fn scm_getegid() -> SCM;
+    pub fn scm_setuid(uid: SCM) -> SCM;
+    pub fn scm_setgid(gid: SCM) -> SCM;
+    pub fn scm_seteuid(euid: SCM) -> SCM;
+    pub fn scm_setegid(egid: SCM) -> SCM;
+    pub fn scm_ttyname(port: SCM) -> SCM;
+    pub fn scm_execl(filename: SCM, args: SCM) -> SCM;
+    pub fn scm_execlp(filename: SCM, args: SCM) -> SCM;
+    pub fn scm_execle(filename: SCM, env: SCM, args: SCM) -> SCM;
+    pub fn scm_fork() -> SCM;
+    pub fn scm_uname() -> SCM;
+    pub fn scm_environ(env: SCM) -> SCM;
+    pub fn scm_tmpnam() -> SCM;
+    pub fn scm_mkstemp(tmpl: SCM) -> SCM;
+    pub fn scm_tmpfile() -> SCM;
+    pub fn scm_open_pipe(pipestr: SCM, modes: SCM) -> SCM;
+    pub fn scm_close_pipe(port: SCM) -> SCM;
+    pub fn scm_utime(pathname: SCM, actime: SCM, modtime: SCM, actimens: SCM,
+                     modtimens: SCM, flags: SCM) -> SCM;
+    pub fn scm_access(path: SCM, how: SCM) -> SCM;
+    pub fn scm_getpid() -> SCM;
+    pub fn scm_putenv(str: SCM) -> SCM;
+    pub fn scm_setlocale(category: SCM, locale: SCM) -> SCM;
+    pub fn scm_mknod(path: SCM, _type: SCM, perms: SCM, dev: SCM) -> SCM;
+    pub fn scm_nice(incr: SCM) -> SCM;
+    pub fn scm_sync() -> SCM;
+    pub fn scm_crypt(key: SCM, salt: SCM) -> SCM;
+    pub fn scm_chroot(path: SCM) -> SCM;
+    pub fn scm_getlogin() -> SCM;
+    pub fn scm_getpriority(which: SCM, who: SCM) -> SCM;
+    pub fn scm_setpriority(which: SCM, who: SCM, prio: SCM) -> SCM;
+    pub fn scm_getpass(prompt: SCM) -> SCM;
+    pub fn scm_flock(file: SCM, operation: SCM) -> SCM;
+    pub fn scm_sethostname(name: SCM) -> SCM;
+    pub fn scm_gethostname() -> SCM;
+    pub fn scm_getaffinity(pid: SCM) -> SCM;
+    pub fn scm_setaffinity(pid: SCM, cpu_set: SCM) -> SCM;
+    pub fn scm_init_posix();
+    pub fn scm_i_procedure_arity(_proc: SCM, req: *mut ::std::os::raw::c_int,
+                                 opt: *mut ::std::os::raw::c_int,
+                                 rest: *mut ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn scm_set_procedure_minimum_arity_x(_proc: SCM, req: SCM, opt: SCM,
+                                             rest: SCM) -> SCM;
+    pub fn scm_procedure_minimum_arity(_proc: SCM) -> SCM;
+    pub fn scm_procedure_properties(_proc: SCM) -> SCM;
+    pub fn scm_set_procedure_properties_x(_proc: SCM, alist: SCM) -> SCM;
+    pub fn scm_procedure_property(_proc: SCM, key: SCM) -> SCM;
+    pub fn scm_set_procedure_property_x(_proc: SCM, key: SCM, val: SCM)
+     -> SCM;
+    pub fn scm_init_procprop();
+    pub fn scm_make_promise(thunk: SCM) -> SCM;
+    pub fn scm_force(x: SCM) -> SCM;
+    pub fn scm_promise_p(x: SCM) -> SCM;
+    pub fn scm_init_promises();
+    pub fn scm_eof_object() -> SCM;
+    pub fn scm_open_bytevector_input_port(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_make_custom_binary_input_port(arg1: SCM, arg2: SCM, arg3: SCM,
+                                             arg4: SCM, arg5: SCM) -> SCM;
+    pub fn scm_get_u8(arg1: SCM) -> SCM;
+    pub fn scm_lookahead_u8(arg1: SCM) -> SCM;
+    pub fn scm_get_bytevector_n(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_get_bytevector_n_x(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_get_bytevector_some(arg1: SCM) -> SCM;
+    pub fn scm_get_bytevector_all(arg1: SCM) -> SCM;
+    pub fn scm_put_u8(arg1: SCM, arg2: SCM) -> SCM;
+    pub fn scm_put_bytevector(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_open_bytevector_output_port(arg1: SCM) -> SCM;
+    pub fn scm_make_custom_binary_output_port(arg1: SCM, arg2: SCM, arg3: SCM,
+                                              arg4: SCM, arg5: SCM) -> SCM;
+    pub fn scm_get_string_n_x(arg1: SCM, arg2: SCM, arg3: SCM, arg4: SCM)
+     -> SCM;
+    pub fn scm_init_r6rs_ports();
+    pub fn scm_register_r6rs_ports();
+    pub fn scm_c_make_rstate(arg1: *const ::std::os::raw::c_char,
+                             arg2: ::std::os::raw::c_int)
+     -> *mut scm_t_rstate;
+    pub fn scm_c_rstate_from_datum(datum: SCM) -> *mut scm_t_rstate;
+    pub fn scm_c_default_rstate() -> *mut scm_t_rstate;
+    pub fn scm_c_uniform01(arg1: *mut scm_t_rstate)
+     -> ::std::os::raw::c_double;
+    pub fn scm_c_normal01(arg1: *mut scm_t_rstate)
+     -> ::std::os::raw::c_double;
+    pub fn scm_c_exp1(arg1: *mut scm_t_rstate) -> ::std::os::raw::c_double;
+    pub fn scm_c_random(arg1: *mut scm_t_rstate, m: scm_t_uint32)
+     -> scm_t_uint32;
+    pub fn scm_c_random64(state: *mut scm_t_rstate, m: scm_t_uint64)
+     -> scm_t_uint64;
+    pub fn scm_c_random_bignum(arg1: *mut scm_t_rstate, m: SCM) -> SCM;
+    pub fn scm_random(n: SCM, state: SCM) -> SCM;
+    pub fn scm_copy_random_state(state: SCM) -> SCM;
+    pub fn scm_seed_to_random_state(seed: SCM) -> SCM;
+    pub fn scm_datum_to_random_state(datum: SCM) -> SCM;
+    pub fn scm_random_state_to_datum(state: SCM) -> SCM;
+    pub fn scm_random_state_from_platform() -> SCM;
+    pub fn scm_random_uniform(state: SCM) -> SCM;
+    pub fn scm_random_solid_sphere_x(v: SCM, state: SCM) -> SCM;
+    pub fn scm_random_hollow_sphere_x(v: SCM, state: SCM) -> SCM;
+    pub fn scm_random_normal(state: SCM) -> SCM;
+    pub fn scm_random_normal_vector_x(v: SCM, state: SCM) -> SCM;
+    pub fn scm_random_exp(state: SCM) -> SCM;
+    pub fn scm_init_random();
+    pub fn scm_i_random_bytes_from_platform(buf: *mut ::std::os::raw::c_uchar,
+                                            len: size_t);
+    pub fn scm_read_options(setting: SCM) -> SCM;
+    pub fn scm_read(port: SCM) -> SCM;
+    pub fn scm_read_hash_extend(chr: SCM, _proc: SCM) -> SCM;
+    pub fn scm_i_scan_for_encoding(port: SCM) -> *mut ::std::os::raw::c_char;
+    pub fn scm_file_encoding(port: SCM) -> SCM;
+    pub fn scm_i_input_error(func: *const ::std::os::raw::c_char, port: SCM,
+                             message: *const ::std::os::raw::c_char,
+                             arg: SCM);
+    pub fn scm_init_read();
+    pub fn scm_sigaction(signum: SCM, handler: SCM, flags: SCM) -> SCM;
+    pub fn scm_sigaction_for_thread(signum: SCM, handler: SCM, flags: SCM,
+                                    thread: SCM) -> SCM;
+    pub fn scm_restore_signals() -> SCM;
+    pub fn scm_alarm(i: SCM) -> SCM;
+    pub fn scm_setitimer(which_timer: SCM, interval_seconds: SCM,
+                         interval_microseconds: SCM, value_seconds: SCM,
+                         value_microseconds: SCM) -> SCM;
+    pub fn scm_getitimer(which_timer: SCM) -> SCM;
+    pub fn scm_pause() -> SCM;
+    pub fn scm_sleep(i: SCM) -> SCM;
+    pub fn scm_usleep(i: SCM) -> SCM;
+    pub fn scm_raise(sig: SCM) -> SCM;
+    pub fn scm_init_scmsigs();
+    pub fn scm_i_close_signal_pipe();
+    pub fn scm_i_ensure_signal_delivery_thread();
+    pub fn scm_find_executable(name: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_find_impl_file(exec_path: *mut ::std::os::raw::c_char,
+                              generic_name: *const ::std::os::raw::c_char,
+                              initname: *const ::std::os::raw::c_char,
+                              sep: *const ::std::os::raw::c_char)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_get_meta_args(argc: ::std::os::raw::c_int,
+                             argv: *mut *mut ::std::os::raw::c_char)
+     -> *mut *mut ::std::os::raw::c_char;
+    pub fn scm_count_argv(argv: *mut *mut ::std::os::raw::c_char)
+     -> ::std::os::raw::c_int;
+    pub fn scm_shell_usage(fatal: ::std::os::raw::c_int,
+                           message: *mut ::std::os::raw::c_char);
+    pub fn scm_compile_shell_switches(argc: ::std::os::raw::c_int,
+                                      argv: *mut *mut ::std::os::raw::c_char)
+     -> SCM;
+    pub fn scm_shell(argc: ::std::os::raw::c_int,
+                     argv: *mut *mut ::std::os::raw::c_char);
+    pub fn scm_i_set_boot_program_arguments(argc: ::std::os::raw::c_int,
+                                            argv:
+                                                *mut *mut ::std::os::raw::c_char);
+    pub fn scm_init_script();
+    pub fn scm_system(cmd: SCM) -> SCM;
+    pub fn scm_system_star(cmds: SCM) -> SCM;
+    pub fn scm_getenv(nam: SCM) -> SCM;
+    pub fn scm_primitive_exit(status: SCM) -> SCM;
+    pub fn scm_primitive__exit(status: SCM) -> SCM;
+    pub fn scm_init_simpos();
+    pub fn scm_i_new_smob(tc: scm_t_bits, arg1: scm_t_bits) -> SCM;
+    pub fn scm_i_new_double_smob(tc: scm_t_bits, arg1: scm_t_bits,
+                                 arg2: scm_t_bits, arg3: scm_t_bits) -> SCM;
+    pub fn scm_new_smob(tc: scm_t_bits, data: scm_t_bits) -> SCM;
+    pub fn scm_new_double_smob(tc: scm_t_bits, data1: scm_t_bits,
+                               data2: scm_t_bits, data3: scm_t_bits) -> SCM;
+    pub fn scm_i_finalize_smob(ptr: *mut ::std::os::raw::c_void,
+                               data: *mut ::std::os::raw::c_void);
+    pub fn scm_i_new_smob_with_mark_proc(tc: scm_t_bits, arg1: scm_t_bits,
+                                         arg2: scm_t_bits, arg3: scm_t_bits)
+     -> SCM;
+    pub fn scm_mark0(ptr: SCM) -> SCM;
+    pub fn scm_markcdr(ptr: SCM) -> SCM;
+    pub fn scm_free0(ptr: SCM) -> size_t;
+    pub fn scm_smob_print(exp: SCM, port: SCM, pstate: *mut scm_print_state)
+     -> ::std::os::raw::c_int;
+    pub fn scm_make_smob_type(name: *const ::std::os::raw::c_char,
+                              size: size_t) -> scm_t_bits;
+    pub fn scm_set_smob_mark(tc: scm_t_bits,
+                             mark:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> SCM>);
+    pub fn scm_set_smob_free(tc: scm_t_bits,
+                             free:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> size_t>);
+    pub fn scm_set_smob_print(tc: scm_t_bits,
+                              print:
+                                  ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                 SCM,
+                                                                             arg2:
+                                                                                 SCM,
+                                                                             arg3:
+                                                                                 *mut scm_print_state)
+                                                            ->
+                                                                ::std::os::raw::c_int>);
+    pub fn scm_set_smob_equalp(tc: scm_t_bits,
+                               equalp:
+                                   ::std::option::Option<extern "C" fn(arg1:
+                                                                           SCM,
+                                                                       arg2:
+                                                                           SCM)
+                                                             -> SCM>);
+    pub fn scm_set_smob_apply(tc: scm_t_bits, apply: scm_t_subr,
+                              req: ::std::os::raw::c_uint,
+                              opt: ::std::os::raw::c_uint,
+                              rst: ::std::os::raw::c_uint);
+    pub fn scm_assert_smob_type(tag: scm_t_bits, val: SCM);
+    pub fn scm_make_smob(tc: scm_t_bits) -> SCM;
+    pub fn scm_smob_prehistory();
+    pub fn scm_inet_aton(address: SCM) -> SCM;
+    pub fn scm_inet_ntoa(inetid: SCM) -> SCM;
+    pub fn scm_inet_netof(address: SCM) -> SCM;
+    pub fn scm_lnaof(address: SCM) -> SCM;
+    pub fn scm_inet_makeaddr(net: SCM, lna: SCM) -> SCM;
+    pub fn scm_inet_pton(family: SCM, address: SCM) -> SCM;
+    pub fn scm_inet_ntop(family: SCM, address: SCM) -> SCM;
+    pub fn scm_socket(family: SCM, style: SCM, proto: SCM) -> SCM;
+    pub fn scm_socketpair(family: SCM, style: SCM, proto: SCM) -> SCM;
+    pub fn scm_getsockopt(sfd: SCM, level: SCM, optname: SCM) -> SCM;
+    pub fn scm_setsockopt(sfd: SCM, level: SCM, optname: SCM, value: SCM)
+     -> SCM;
+    pub fn scm_shutdown(sfd: SCM, how: SCM) -> SCM;
+    pub fn scm_connect(sockfd: SCM, fam: SCM, address: SCM, args: SCM) -> SCM;
+    pub fn scm_bind(sockfd: SCM, fam: SCM, address: SCM, args: SCM) -> SCM;
+    pub fn scm_listen(sfd: SCM, backlog: SCM) -> SCM;
+    pub fn scm_accept(sockfd: SCM) -> SCM;
+    pub fn scm_getsockname(sockfd: SCM) -> SCM;
+    pub fn scm_getpeername(sockfd: SCM) -> SCM;
+    pub fn scm_recv(sockfd: SCM, buff_or_size: SCM, flags: SCM) -> SCM;
+    pub fn scm_send(sockfd: SCM, message: SCM, flags: SCM) -> SCM;
+    pub fn scm_recvfrom(sockfd: SCM, buff_or_size: SCM, flags: SCM,
+                        offset: SCM, length: SCM) -> SCM;
+    pub fn scm_sendto(sockfd: SCM, message: SCM, fam: SCM, address: SCM,
+                      args_and_flags: SCM) -> SCM;
+    pub fn scm_init_socket();
+    pub fn scm_from_sockaddr(address: *const Struct_sockaddr,
+                             addr_size: ::std::os::raw::c_uint) -> SCM;
+    pub fn scm_to_sockaddr(address: SCM, adress_size: *mut size_t)
+     -> *mut Struct_sockaddr;
+    pub fn scm_c_make_socket_address(family: SCM, address: SCM, args: SCM,
+                                     address_size: *mut size_t)
+     -> *mut Struct_sockaddr;
+    pub fn scm_make_socket_address(family: SCM, address: SCM, args: SCM)
+     -> SCM;
+    pub fn scm_restricted_vector_sort_x(vec: SCM, less: SCM, startpos: SCM,
+                                        endpos: SCM) -> SCM;
+    pub fn scm_sorted_p(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_merge(ls1: SCM, ls2: SCM, less: SCM) -> SCM;
+    pub fn scm_merge_x(ls1: SCM, ls2: SCM, less: SCM) -> SCM;
+    pub fn scm_sort(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_sort_x(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_stable_sort(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_stable_sort_x(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_sort_list(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_sort_list_x(ls: SCM, less: SCM) -> SCM;
+    pub fn scm_init_sort();
+    pub fn scm_supports_source_properties_p(obj: SCM) -> SCM;
+    pub fn scm_make_srcprops(line: ::std::os::raw::c_long,
+                             col: ::std::os::raw::c_int, fname: SCM,
+                             copy: SCM, plist: SCM) -> SCM;
+    pub fn scm_source_property(obj: SCM, key: SCM) -> SCM;
+    pub fn scm_set_source_property_x(obj: SCM, key: SCM, datum: SCM) -> SCM;
+    pub fn scm_source_properties(obj: SCM) -> SCM;
+    pub fn scm_set_source_properties_x(obj: SCM, props: SCM) -> SCM;
+    pub fn scm_i_has_source_properties(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_set_source_properties_x(obj: SCM,
+                                         line: ::std::os::raw::c_long,
+                                         col: ::std::os::raw::c_int,
+                                         fname: SCM);
+    pub fn scm_cons_source(xorig: SCM, x: SCM, y: SCM) -> SCM;
+    pub fn scm_init_srcprop();
+    pub fn scm_report_stack_overflow();
+    pub fn scm_stack_size(start: *mut SCM_STACKITEM)
+     -> ::std::os::raw::c_long;
+    pub fn scm_stack_report();
+    pub fn scm_sys_get_stack_size() -> SCM;
+    pub fn scm_init_stackchk();
     pub fn scm_c_get_internal_run_time() -> ::std::os::raw::c_long;
     pub fn scm_get_internal_real_time() -> SCM;
     pub fn scm_get_internal_run_time() -> SCM;
@@ -5871,90 +7427,6 @@ extern "C" {
     pub fn scm_strftime(format: SCM, stime: SCM) -> SCM;
     pub fn scm_strptime(format: SCM, string: SCM) -> SCM;
     pub fn scm_init_stime();
-    pub fn scm_string_p(x: SCM) -> SCM;
-    pub fn scm_string(chrs: SCM) -> SCM;
-    pub fn scm_make_string(k: SCM, chr: SCM) -> SCM;
-    pub fn scm_string_length(str: SCM) -> SCM;
-    pub fn scm_string_ref(str: SCM, k: SCM) -> SCM;
-    pub fn scm_string_set_x(str: SCM, k: SCM, chr: SCM) -> SCM;
-    pub fn scm_substring(str: SCM, start: SCM, end: SCM) -> SCM;
-    pub fn scm_substring_read_only(str: SCM, start: SCM, end: SCM) -> SCM;
-    pub fn scm_substring_shared(str: SCM, start: SCM, end: SCM) -> SCM;
-    pub fn scm_substring_copy(str: SCM, start: SCM, end: SCM) -> SCM;
-    pub fn scm_string_append(args: SCM) -> SCM;
-    pub fn scm_c_make_string(len: size_t, chr: SCM) -> SCM;
-    pub fn scm_c_string_length(str: SCM) -> size_t;
-    pub fn scm_c_symbol_length(sym: SCM) -> size_t;
-    pub fn scm_c_string_ref(str: SCM, pos: size_t) -> SCM;
-    pub fn scm_c_string_set_x(str: SCM, pos: size_t, chr: SCM);
-    pub fn scm_c_substring(str: SCM, start: size_t, end: size_t) -> SCM;
-    pub fn scm_c_substring_read_only(str: SCM, start: size_t, end: size_t)
-     -> SCM;
-    pub fn scm_c_substring_shared(str: SCM, start: size_t, end: size_t)
-     -> SCM;
-    pub fn scm_c_substring_copy(str: SCM, start: size_t, end: size_t) -> SCM;
-    pub fn scm_is_string(x: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_from_locale_string(str: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_from_locale_stringn(str: *const ::std::os::raw::c_char,
-                                   len: size_t) -> SCM;
-    pub fn scm_take_locale_string(str: *mut ::std::os::raw::c_char) -> SCM;
-    pub fn scm_take_locale_stringn(str: *mut ::std::os::raw::c_char,
-                                   len: size_t) -> SCM;
-    pub fn scm_to_locale_string(str: SCM) -> *mut ::std::os::raw::c_char;
-    pub fn scm_to_locale_stringn(str: SCM, lenp: *mut size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_to_locale_stringbuf(str: SCM, buf: *mut ::std::os::raw::c_char,
-                                   max_len: size_t) -> size_t;
-    pub fn scm_makfromstrs(argc: ::std::os::raw::c_int,
-                           argv: *mut *mut ::std::os::raw::c_char) -> SCM;
-    pub fn scm_i_make_string(len: size_t,
-                             datap: *mut *mut ::std::os::raw::c_char) -> SCM;
-    pub fn scm_i_substring(str: SCM, start: size_t, end: size_t) -> SCM;
-    pub fn scm_i_substring_read_only(str: SCM, start: size_t, end: size_t)
-     -> SCM;
-    pub fn scm_i_substring_shared(str: SCM, start: size_t, end: size_t)
-     -> SCM;
-    pub fn scm_i_substring_copy(str: SCM, start: size_t, end: size_t) -> SCM;
-    pub fn scm_i_string_length(str: SCM) -> size_t;
-    pub fn scm_i_string_chars(str: SCM) -> *const ::std::os::raw::c_char;
-    pub fn scm_i_string_writable_chars(str: SCM)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_i_string_stop_writing();
-    pub fn scm_i_make_symbol(name: SCM, flags: scm_t_bits,
-                             hash: ::std::os::raw::c_ulong, props: SCM)
-     -> SCM;
-    pub fn scm_i_c_make_symbol(name: *const ::std::os::raw::c_char,
-                               len: size_t, flags: scm_t_bits,
-                               hash: ::std::os::raw::c_ulong, props: SCM)
-     -> SCM;
-    pub fn scm_i_c_take_symbol(name: *mut ::std::os::raw::c_char, len: size_t,
-                               flags: scm_t_bits,
-                               hash: ::std::os::raw::c_ulong, props: SCM)
-     -> SCM;
-    pub fn scm_i_symbol_chars(sym: SCM) -> *const ::std::os::raw::c_char;
-    pub fn scm_i_symbol_length(sym: SCM) -> size_t;
-    pub fn scm_i_symbol_substring(sym: SCM, start: size_t, end: size_t)
-     -> SCM;
-    pub fn scm_i_string_mark(str: SCM) -> SCM;
-    pub fn scm_i_stringbuf_mark(buf: SCM) -> SCM;
-    pub fn scm_i_symbol_mark(buf: SCM) -> SCM;
-    pub fn scm_i_string_free(str: SCM);
-    pub fn scm_i_stringbuf_free(buf: SCM);
-    pub fn scm_i_symbol_free(sym: SCM);
-    pub fn scm_i_allocate_string_pointers(list: SCM)
-     -> *mut *mut ::std::os::raw::c_char;
-    pub fn scm_i_free_string_pointers(pointers:
-                                          *mut *mut ::std::os::raw::c_char);
-    pub fn scm_i_get_substring_spec(len: size_t, start: SCM,
-                                    cstart: *mut size_t, end: SCM,
-                                    cend: *mut size_t);
-    pub fn scm_i_take_stringbufn(str: *mut ::std::os::raw::c_char,
-                                 len: size_t) -> SCM;
-    pub fn scm_i_deprecated_stringp(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_deprecated_string_chars(str: SCM)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_i_deprecated_string_length(str: SCM) -> size_t;
-    pub fn scm_init_strings();
     pub fn scm_string_null_p(s: SCM) -> SCM;
     pub fn scm_string_any(pred: SCM, s: SCM, start: SCM, end: SCM) -> SCM;
     pub fn scm_string_every(pred: SCM, s: SCM, start: SCM, end: SCM) -> SCM;
@@ -6096,13 +7568,17 @@ extern "C" {
                               start2: SCM, end2: SCM) -> SCM;
     pub fn scm_string_tokenize(s: SCM, token_char: SCM, start: SCM, end: SCM)
      -> SCM;
-    pub fn scm_string_split(s: SCM, chr: SCM) -> SCM;
-    pub fn scm_string_filter(s: SCM, char_pred: SCM, start: SCM, end: SCM)
+    pub fn scm_string_split(s: SCM, char_pred: SCM) -> SCM;
+    pub fn scm_string_filter(char_pred: SCM, s: SCM, start: SCM, end: SCM)
      -> SCM;
-    pub fn scm_string_delete(s: SCM, char_pred: SCM, start: SCM, end: SCM)
+    pub fn scm_string_delete(char_pred: SCM, s: SCM, start: SCM, end: SCM)
      -> SCM;
     pub fn scm_init_srfi_13();
     pub fn scm_init_srfi_13_14();
+    pub fn scm_i_charset_get(cs: *mut scm_t_char_set, n: scm_t_wchar)
+     -> ::std::os::raw::c_int;
+    pub fn scm_i_charset_set(cs: *mut scm_t_char_set, n: scm_t_wchar);
+    pub fn scm_i_charset_unset(cs: *mut scm_t_char_set, n: scm_t_wchar);
     pub fn scm_char_set_p(obj: SCM) -> SCM;
     pub fn scm_char_set_eq(char_sets: SCM) -> SCM;
     pub fn scm_char_set_leq(char_sets: SCM) -> SCM;
@@ -6155,7 +7631,7 @@ extern "C" {
     pub fn scm_char_set_xor_x(cs1: SCM, rest: SCM) -> SCM;
     pub fn scm_char_set_diff_plus_intersection_x(cs1: SCM, cs2: SCM,
                                                  rest: SCM) -> SCM;
-    pub fn scm_srfi_14_compute_char_sets();
+    pub fn scm_sys_char_set_dump(charset: SCM) -> SCM;
     pub fn scm_init_srfi_14();
     pub fn scm_string_equal_p(s1: SCM, s2: SCM) -> SCM;
     pub fn scm_string_ci_equal_p(s1: SCM, s2: SCM) -> SCM;
@@ -6202,24 +7678,38 @@ extern "C" {
     pub fn scm_take_locale_symbol(sym: *mut ::std::os::raw::c_char) -> SCM;
     pub fn scm_take_locale_symboln(sym: *mut ::std::os::raw::c_char,
                                    len: size_t) -> SCM;
+    pub fn scm_from_latin1_symbol(str: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_from_latin1_symboln(str: *const ::std::os::raw::c_char,
+                                   len: size_t) -> SCM;
+    pub fn scm_take_latin1_symbol(sym: *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_take_latin1_symboln(sym: *mut ::std::os::raw::c_char,
+                                   len: size_t) -> SCM;
+    pub fn scm_from_utf8_symbol(str: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_from_utf8_symboln(str: *const ::std::os::raw::c_char,
+                                 len: size_t) -> SCM;
+    pub fn scm_take_utf8_symbol(sym: *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_take_utf8_symboln(sym: *mut ::std::os::raw::c_char,
+                                 len: size_t) -> SCM;
     pub fn scm_i_hash_symbol(obj: SCM, n: ::std::os::raw::c_ulong,
                              closure: *mut ::std::os::raw::c_void)
      -> ::std::os::raw::c_ulong;
     pub fn scm_symbols_prehistory();
     pub fn scm_init_symbols();
-    pub fn scm_values(args: SCM) -> SCM;
-    pub fn scm_init_values();
-    pub fn scm_make_variable(init: SCM) -> SCM;
-    pub fn scm_make_undefined_variable() -> SCM;
-    pub fn scm_variable_p(obj: SCM) -> SCM;
-    pub fn scm_variable_ref(var: SCM) -> SCM;
-    pub fn scm_variable_set_x(var: SCM, val: SCM) -> SCM;
-    pub fn scm_variable_bound_p(var: SCM) -> SCM;
-    pub fn scm_i_variable_print(var: SCM, port: SCM,
-                                pstate: *mut scm_print_state);
-    pub fn scm_init_variable();
+    pub fn scm_init_trees();
+    pub fn scm_array_handle_uniform_element_size(h: *mut scm_t_array_handle)
+     -> size_t;
+    pub fn scm_array_handle_uniform_element_bit_size(h:
+                                                         *mut scm_t_array_handle)
+     -> size_t;
+    pub fn scm_array_handle_uniform_elements(h: *mut scm_t_array_handle)
+     -> *const ::std::os::raw::c_void;
+    pub fn scm_array_handle_uniform_writable_elements(h:
+                                                          *mut scm_t_array_handle)
+     -> *mut ::std::os::raw::c_void;
     pub fn scm_uniform_vector_p(v: SCM) -> SCM;
     pub fn scm_uniform_vector_length(v: SCM) -> SCM;
+    pub fn scm_uniform_vector_element_type(v: SCM) -> SCM;
+    pub fn scm_uniform_vector_element_size(v: SCM) -> SCM;
     pub fn scm_uniform_vector_ref(v: SCM, idx: SCM) -> SCM;
     pub fn scm_uniform_vector_set_x(v: SCM, idx: SCM, val: SCM) -> SCM;
     pub fn scm_uniform_vector_to_list(v: SCM) -> SCM;
@@ -6231,13 +7721,6 @@ extern "C" {
     pub fn scm_c_uniform_vector_length(v: SCM) -> size_t;
     pub fn scm_c_uniform_vector_ref(v: SCM, idx: size_t) -> SCM;
     pub fn scm_c_uniform_vector_set_x(v: SCM, idx: size_t, val: SCM);
-    pub fn scm_array_handle_uniform_element_size(h: *mut scm_t_array_handle)
-     -> size_t;
-    pub fn scm_array_handle_uniform_elements(h: *mut scm_t_array_handle)
-     -> *const ::std::os::raw::c_void;
-    pub fn scm_array_handle_uniform_writable_elements(h:
-                                                          *mut scm_t_array_handle)
-     -> *mut ::std::os::raw::c_void;
     pub fn scm_uniform_vector_elements(uvec: SCM, h: *mut scm_t_array_handle,
                                        lenp: *mut size_t, incp: *mut ssize_t)
      -> *const ::std::os::raw::c_void;
@@ -6246,6 +7729,24 @@ extern "C" {
                                                 lenp: *mut size_t,
                                                 incp: *mut ssize_t)
      -> *mut ::std::os::raw::c_void;
+    pub fn scm_init_uniform();
+    pub fn scm_i_extract_values_2(obj: SCM, p1: *mut SCM, p2: *mut SCM);
+    pub fn scm_values(args: SCM) -> SCM;
+    pub fn scm_c_values(base: *mut SCM, n: size_t) -> SCM;
+    pub fn scm_c_nvalues(obj: SCM) -> size_t;
+    pub fn scm_c_value_ref(obj: SCM, idx: size_t) -> SCM;
+    pub fn scm_init_values();
+    pub fn scm_make_variable(init: SCM) -> SCM;
+    pub fn scm_make_undefined_variable() -> SCM;
+    pub fn scm_variable_p(obj: SCM) -> SCM;
+    pub fn scm_variable_ref(var: SCM) -> SCM;
+    pub fn scm_variable_set_x(var: SCM, val: SCM) -> SCM;
+    pub fn scm_variable_unset_x(var: SCM) -> SCM;
+    pub fn scm_variable_bound_p(var: SCM) -> SCM;
+    pub fn scm_i_variable_print(var: SCM, port: SCM,
+                                pstate: *mut scm_print_state);
+    pub fn scm_init_variable();
+    pub fn scm_make_srfi_4_vector(_type: SCM, len: SCM, fill: SCM) -> SCM;
     pub fn scm_u8vector_p(obj: SCM) -> SCM;
     pub fn scm_make_u8vector(n: SCM, fill: SCM) -> SCM;
     pub fn scm_take_u8vector(data: *mut scm_t_uint8, n: size_t) -> SCM;
@@ -6529,10 +8030,12 @@ extern "C" {
     pub fn scm_init_version();
     pub fn scm_make_soft_port(pv: SCM, modes: SCM) -> SCM;
     pub fn scm_init_vports();
+    pub fn scm_print_exception(port: SCM, frame: SCM, key: SCM, args: SCM)
+     -> SCM;
     pub fn scm_display_error_message(message: SCM, args: SCM, port: SCM);
-    pub fn scm_i_display_error(stack: SCM, port: SCM, subr: SCM, message: SCM,
+    pub fn scm_i_display_error(frame: SCM, port: SCM, subr: SCM, message: SCM,
                                args: SCM, rest: SCM);
-    pub fn scm_display_error(stack: SCM, port: SCM, subr: SCM, message: SCM,
+    pub fn scm_display_error(frame: SCM, port: SCM, subr: SCM, message: SCM,
                              args: SCM, rest: SCM) -> SCM;
     pub fn scm_display_application(frame: SCM, port: SCM, indent: SCM) -> SCM;
     pub fn scm_display_backtrace(stack: SCM, port: SCM, first: SCM,
@@ -6543,23 +8046,69 @@ extern "C" {
     pub fn scm_backtrace() -> SCM;
     pub fn scm_backtrace_with_highlights(highlights: SCM) -> SCM;
     pub fn scm_init_backtrace();
+    pub fn scm_c_make_objcode_slice(parent: SCM, ptr: *const scm_t_uint8)
+     -> SCM;
+    pub fn scm_load_objcode(file: SCM) -> SCM;
+    pub fn scm_objcode_p(obj: SCM) -> SCM;
+    pub fn scm_objcode_meta(objcode: SCM) -> SCM;
+    pub fn scm_bytecode_to_objcode(bytecode: SCM) -> SCM;
+    pub fn scm_bytecode_to_native_objcode(bytecode: SCM) -> SCM;
+    pub fn scm_objcode_to_bytecode(objcode: SCM) -> SCM;
+    pub fn scm_write_objcode(objcode: SCM, port: SCM) -> SCM;
+    pub fn scm_i_objcode_print(objcode: SCM, port: SCM,
+                               pstate: *mut scm_print_state);
+    pub fn scm_bootstrap_objcodes();
+    pub fn scm_init_objcodes();
+    pub fn scm_make_program(objcode: SCM, objtable: SCM, free_variables: SCM)
+     -> SCM;
+    pub fn scm_program_p(obj: SCM) -> SCM;
+    pub fn scm_program_base(program: SCM) -> SCM;
+    pub fn scm_program_meta(program: SCM) -> SCM;
+    pub fn scm_program_bindings(program: SCM) -> SCM;
+    pub fn scm_program_sources(program: SCM) -> SCM;
+    pub fn scm_program_source(program: SCM, ip: SCM, sources: SCM) -> SCM;
+    pub fn scm_program_arities(program: SCM) -> SCM;
+    pub fn scm_program_objects(program: SCM) -> SCM;
+    pub fn scm_program_module(program: SCM) -> SCM;
+    pub fn scm_program_num_free_variables(program: SCM) -> SCM;
+    pub fn scm_program_free_variable_ref(program: SCM, i: SCM) -> SCM;
+    pub fn scm_program_free_variable_set_x(program: SCM, i: SCM, x: SCM)
+     -> SCM;
+    pub fn scm_program_objcode(program: SCM) -> SCM;
+    pub fn scm_i_program_properties(program: SCM) -> SCM;
+    pub fn scm_i_program_arity(program: SCM, req: *mut ::std::os::raw::c_int,
+                               opt: *mut ::std::os::raw::c_int,
+                               rest: *mut ::std::os::raw::c_int)
+     -> ::std::os::raw::c_int;
+    pub fn scm_i_program_print(program: SCM, port: SCM,
+                               pstate: *mut scm_print_state);
+    pub fn scm_bootstrap_programs();
+    pub fn scm_init_programs();
+    pub fn scm_c_make_frame(stack_holder: SCM, fp: *mut SCM, sp: *mut SCM,
+                            ip: *mut scm_t_uint8, offset: scm_t_ptrdiff)
+     -> SCM;
+    pub fn scm_frame_p(obj: SCM) -> SCM;
+    pub fn scm_frame_procedure(frame: SCM) -> SCM;
+    pub fn scm_frame_arguments(frame: SCM) -> SCM;
+    pub fn scm_frame_source(frame: SCM) -> SCM;
+    pub fn scm_frame_num_locals(frame: SCM) -> SCM;
+    pub fn scm_frame_local_ref(frame: SCM, index: SCM) -> SCM;
+    pub fn scm_frame_local_set_x(frame: SCM, index: SCM, val: SCM) -> SCM;
+    pub fn scm_frame_address(frame: SCM) -> SCM;
+    pub fn scm_frame_stack_pointer(frame: SCM) -> SCM;
+    pub fn scm_frame_instruction_pointer(frame: SCM) -> SCM;
+    pub fn scm_frame_return_address(frame: SCM) -> SCM;
+    pub fn scm_frame_mv_return_address(frame: SCM) -> SCM;
+    pub fn scm_frame_dynamic_link(frame: SCM) -> SCM;
+    pub fn scm_frame_previous(frame: SCM) -> SCM;
+    pub fn scm_i_frame_print(frame: SCM, port: SCM,
+                             pstate: *mut scm_print_state);
+    pub fn scm_init_frames();
     pub fn scm_stack_p(obj: SCM) -> SCM;
     pub fn scm_make_stack(obj: SCM, args: SCM) -> SCM;
     pub fn scm_stack_id(stack: SCM) -> SCM;
     pub fn scm_stack_ref(stack: SCM, i: SCM) -> SCM;
     pub fn scm_stack_length(stack: SCM) -> SCM;
-    pub fn scm_frame_p(obj: SCM) -> SCM;
-    pub fn scm_last_stack_frame(obj: SCM) -> SCM;
-    pub fn scm_frame_number(frame: SCM) -> SCM;
-    pub fn scm_frame_source(frame: SCM) -> SCM;
-    pub fn scm_frame_procedure(frame: SCM) -> SCM;
-    pub fn scm_frame_arguments(frame: SCM) -> SCM;
-    pub fn scm_frame_previous(frame: SCM) -> SCM;
-    pub fn scm_frame_next(frame: SCM) -> SCM;
-    pub fn scm_frame_real_p(frame: SCM) -> SCM;
-    pub fn scm_frame_procedure_p(frame: SCM) -> SCM;
-    pub fn scm_frame_evaluating_args_p(frame: SCM) -> SCM;
-    pub fn scm_frame_overflow_p(frame: SCM) -> SCM;
     pub fn scm_init_stacks();
     pub fn __underflow(arg1: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn __uflow(arg1: *mut _IO_FILE) -> ::std::os::raw::c_int;
@@ -6867,17 +8416,206 @@ extern "C" {
     pub fn stpncpy(__dest: *mut ::std::os::raw::c_char,
                    __src: *const ::std::os::raw::c_char, __n: size_t)
      -> *mut ::std::os::raw::c_char;
-    pub fn scm_cell(car: scm_t_bits, cdr: scm_t_bits) -> SCM;
-    pub fn scm_double_cell(car: scm_t_bits, cbr: scm_t_bits, ccr: scm_t_bits,
-                           cdr: scm_t_bits) -> SCM;
-    pub fn scm_array_handle_ref(h: *mut scm_t_array_handle, p: ssize_t)
-     -> SCM;
-    pub fn scm_array_handle_set(h: *mut scm_t_array_handle, p: ssize_t,
-                                v: SCM);
     pub fn scm_is_pair(x: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_getc(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_is_string(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_get_byte_or_eof(port: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_peek_byte_or_eof(port: SCM) -> ::std::os::raw::c_int;
     pub fn scm_putc(c: ::std::os::raw::c_char, port: SCM);
     pub fn scm_puts(s: *const ::std::os::raw::c_char, port: SCM);
+    pub fn scm_wta(arg: SCM, pos: *const ::std::os::raw::c_char,
+                   s_subr: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_register_module_xxx(module_name: *mut ::std::os::raw::c_char,
+                                   init_func: *mut ::std::os::raw::c_void);
+    pub fn scm_registered_modules() -> SCM;
+    pub fn scm_clear_registered_modules() -> SCM;
+    pub fn scm_protect_object(obj: SCM) -> SCM;
+    pub fn scm_unprotect_object(obj: SCM) -> SCM;
+    pub fn scm_remember(ptr: *mut SCM);
+    pub fn scm_make_module(name: SCM) -> SCM;
+    pub fn scm_ensure_user_module(name: SCM) -> SCM;
+    pub fn scm_load_scheme_module(name: SCM) -> SCM;
+    pub fn scm_close_all_ports_except(ports: SCM) -> SCM;
+    pub fn scm_makstr(len: size_t, arg1: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_makfromstr(src: *const ::std::os::raw::c_char, len: size_t,
+                          arg1: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_variable_set_name_hint(var: SCM, hint: SCM) -> SCM;
+    pub fn scm_builtin_variable(name: SCM) -> SCM;
+    pub fn scm_internal_with_fluids(fluids: SCM, vals: SCM,
+                                    cproc:
+                                        ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                       *mut ::std::os::raw::c_void)
+                                                                  -> SCM>,
+                                    cdata: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_make_gsubr(name: *const ::std::os::raw::c_char,
+                          req: ::std::os::raw::c_int,
+                          opt: ::std::os::raw::c_int,
+                          rst: ::std::os::raw::c_int, fcn: scm_t_subr) -> SCM;
+    pub fn scm_make_gsubr_with_generic(name: *const ::std::os::raw::c_char,
+                                       req: ::std::os::raw::c_int,
+                                       opt: ::std::os::raw::c_int,
+                                       rst: ::std::os::raw::c_int,
+                                       fcn: scm_t_subr, gf: *mut SCM) -> SCM;
+    pub fn scm_create_hook(name: *const ::std::os::raw::c_char,
+                           n_args: ::std::os::raw::c_int) -> SCM;
+    pub fn scm_internal_dynamic_wind(before: scm_t_guard, inner: scm_t_inner,
+                                     after: scm_t_guard,
+                                     inner_data: *mut ::std::os::raw::c_void,
+                                     guard_data: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_sloppy_memq(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_sloppy_memv(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_sloppy_member(x: SCM, lst: SCM) -> SCM;
+    pub fn scm_read_and_eval_x(port: SCM) -> SCM;
+    pub fn scm_call_catching_errors(thunk: scm_t_subr, err_filter: scm_t_subr,
+                                    closure: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_make_smob_type_mfpe(name: *mut ::std::os::raw::c_char,
+                                   size: size_t,
+                                   mark:
+                                       ::std::option::Option<extern "C" fn(arg1:
+                                                                               SCM)
+                                                                 -> SCM>,
+                                   free:
+                                       ::std::option::Option<extern "C" fn(arg1:
+                                                                               SCM)
+                                                                 -> size_t>,
+                                   print:
+                                       ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                      SCM,
+                                                                                  arg2:
+                                                                                      SCM,
+                                                                                  arg3:
+                                                                                      *mut scm_print_state)
+                                                                 ->
+                                                                     ::std::os::raw::c_int>,
+                                   equalp:
+                                       ::std::option::Option<extern "C" fn(arg1:
+                                                                               SCM,
+                                                                           arg2:
+                                                                               SCM)
+                                                                 -> SCM>)
+     -> ::std::os::raw::c_long;
+    pub fn scm_set_smob_mfpe(tc: ::std::os::raw::c_long,
+                             mark:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> SCM>,
+                             free:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM)
+                                                           -> size_t>,
+                             print:
+                                 ::std::option::Option<unsafe extern "C" fn(arg1:
+                                                                                SCM,
+                                                                            arg2:
+                                                                                SCM,
+                                                                            arg3:
+                                                                                *mut scm_print_state)
+                                                           ->
+                                                               ::std::os::raw::c_int>,
+                             equalp:
+                                 ::std::option::Option<extern "C" fn(arg1:
+                                                                         SCM,
+                                                                     arg2:
+                                                                         SCM)
+                                                           -> SCM>);
+    pub fn scm_smob_free(obj: SCM) -> size_t;
+    pub fn scm_strprint_obj(obj: SCM) -> SCM;
+    pub fn scm_read_0str(expr: *mut ::std::os::raw::c_char) -> SCM;
+    pub fn scm_eval_0str(expr: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_i_object_chars(arg1: SCM) -> *mut ::std::os::raw::c_char;
+    pub fn scm_i_object_length(arg1: SCM) -> ::std::os::raw::c_long;
+    pub fn scm_sym2ovcell_soft(sym: SCM, obarray: SCM) -> SCM;
+    pub fn scm_sym2ovcell(sym: SCM, obarray: SCM) -> SCM;
+    pub fn scm_intern_obarray_soft(name: *const ::std::os::raw::c_char,
+                                   len: size_t, obarray: SCM,
+                                   softness: ::std::os::raw::c_uint) -> SCM;
+    pub fn scm_intern_obarray(name: *const ::std::os::raw::c_char,
+                              len: size_t, obarray: SCM) -> SCM;
+    pub fn scm_symbol_value0(name: *const ::std::os::raw::c_char) -> SCM;
+    pub fn scm_string_to_obarray_symbol(o: SCM, s: SCM, softp: SCM) -> SCM;
+    pub fn scm_intern_symbol(o: SCM, s: SCM) -> SCM;
+    pub fn scm_unintern_symbol(o: SCM, s: SCM) -> SCM;
+    pub fn scm_symbol_binding(o: SCM, s: SCM) -> SCM;
+    pub fn scm_symbol_bound_p(o: SCM, s: SCM) -> SCM;
+    pub fn scm_symbol_set_x(o: SCM, s: SCM, v: SCM) -> SCM;
+    pub fn scm_gentemp(prefix: SCM, obarray: SCM) -> SCM;
+    pub fn scm_i_makinum(val: scm_t_signed_bits) -> SCM;
+    pub fn scm_i_inump(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_inum(obj: SCM) -> scm_t_signed_bits;
+    pub fn scm_c_string2str(obj: SCM, str: *mut ::std::os::raw::c_char,
+                            lenp: *mut size_t) -> *mut ::std::os::raw::c_char;
+    pub fn scm_c_substring2str(obj: SCM, str: *mut ::std::os::raw::c_char,
+                               start: size_t, len: size_t)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_c_symbol2str(obj: SCM, str: *mut ::std::os::raw::c_char,
+                            lenp: *mut size_t) -> *mut ::std::os::raw::c_char;
+    pub fn scm_truncate(x: ::std::os::raw::c_double)
+     -> ::std::os::raw::c_double;
+    pub fn scm_round(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn scm_sys_expt(x: SCM, y: SCM) -> SCM;
+    pub fn scm_asinh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn scm_acosh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn scm_atanh(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn scm_sys_atan2(z1: SCM, z2: SCM) -> SCM;
+    pub fn scm_i_deprecated_symbol_chars(sym: SCM)
+     -> *mut ::std::os::raw::c_char;
+    pub fn scm_i_deprecated_symbol_length(sym: SCM) -> size_t;
+    pub fn scm_i_keywordp(obj: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_keywordsym(keyword: SCM) -> SCM;
+    pub fn scm_i_vectorp(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_vector_length(x: SCM) -> ::std::os::raw::c_ulong;
+    pub fn scm_i_velts(x: SCM) -> *const SCM;
+    pub fn scm_i_writable_velts(x: SCM) -> *mut SCM;
+    pub fn scm_i_vector_ref(x: SCM, idx: size_t) -> SCM;
+    pub fn scm_i_vector_set(x: SCM, idx: size_t, val: SCM);
+    pub fn scm_vector_equal_p(x: SCM, y: SCM) -> SCM;
+    pub fn scm_i_arrayp(a: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_array_ndim(a: SCM) -> size_t;
+    pub fn scm_i_array_contp(a: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_array_mem(a: SCM) -> *mut scm_t_array;
+    pub fn scm_i_array_v(a: SCM) -> SCM;
+    pub fn scm_i_array_base(a: SCM) -> size_t;
+    pub fn scm_i_array_dims(a: SCM) -> *mut scm_t_array_dim;
+    pub fn scm_uniform_array_read_x(ra: SCM, port_or_fd: SCM, start: SCM,
+                                    end: SCM) -> SCM;
+    pub fn scm_uniform_array_write(v: SCM, port_or_fd: SCM, start: SCM,
+                                   end: SCM) -> SCM;
+    pub fn scm_i_cur_inp() -> SCM;
+    pub fn scm_i_cur_outp() -> SCM;
+    pub fn scm_i_cur_errp() -> SCM;
+    pub fn scm_i_cur_loadp() -> SCM;
+    pub fn scm_i_progargs() -> SCM;
+    pub fn scm_i_deprecated_dynwinds() -> SCM;
+    pub fn scm_i_stack_base() -> *mut SCM_STACKITEM;
+    pub fn scm_i_fluidp(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_i_defer_ints_etc();
+    pub fn scm_i_mask_ints() -> ::std::os::raw::c_int;
+    pub fn scm_guard(guardian: SCM, obj: SCM, throw_p: ::std::os::raw::c_int)
+     -> SCM;
+    pub fn scm_get_one_zombie(guardian: SCM) -> SCM;
+    pub fn scm_destroy_guardian_x(guardian: SCM) -> SCM;
+    pub fn scm_guardian_greedy_p(guardian: SCM) -> SCM;
+    pub fn scm_guardian_destroyed_p(guardian: SCM) -> SCM;
+    pub fn scm_trampoline_0(_proc: SCM) -> scm_t_trampoline_0;
+    pub fn scm_trampoline_1(_proc: SCM) -> scm_t_trampoline_1;
+    pub fn scm_trampoline_2(_proc: SCM) -> scm_t_trampoline_2;
+    pub fn scm_i_subr_p(x: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_lazy_catch(tag: SCM, thunk: SCM, handler: SCM) -> SCM;
+    pub fn scm_internal_lazy_catch(tag: SCM, body: scm_t_catch_body,
+                                   body_data: *mut ::std::os::raw::c_void,
+                                   handler: scm_t_catch_handler,
+                                   handler_data: *mut ::std::os::raw::c_void)
+     -> SCM;
+    pub fn scm_raequal(ra0: SCM, ra1: SCM) -> SCM;
+    pub fn scm_dynamic_args_call(symb: SCM, dobj: SCM, args: SCM) -> SCM;
+    pub fn scm_badargsp(formals: SCM, args: SCM) -> ::std::os::raw::c_int;
+    pub fn scm_internal_stack_catch(tag: SCM, body: scm_t_catch_body,
+                                    body_data: *mut ::std::os::raw::c_void,
+                                    handler: scm_t_catch_handler,
+                                    handler_data: *mut ::std::os::raw::c_void)
+     -> SCM;
     pub fn scm_short2num(n: ::std::os::raw::c_short) -> SCM;
     pub fn scm_ushort2num(n: ::std::os::raw::c_ushort) -> SCM;
     pub fn scm_int2num(n: ::std::os::raw::c_int) -> SCM;
@@ -6946,432 +8684,50 @@ extern "C" {
     pub fn scm_make_keyword_from_dash_symbol(symbol: SCM) -> SCM;
     pub fn scm_keyword_dash_symbol(keyword: SCM) -> SCM;
     pub fn scm_c_make_keyword(s: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_i_init_discouraged();
-    pub fn scm_wta(arg: SCM, pos: *const ::std::os::raw::c_char,
-                   s_subr: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_register_module_xxx(module_name: *mut ::std::os::raw::c_char,
-                                   init_func: *mut ::std::os::raw::c_void);
-    pub fn scm_registered_modules() -> SCM;
-    pub fn scm_clear_registered_modules() -> SCM;
-    pub fn scm_protect_object(obj: SCM) -> SCM;
-    pub fn scm_unprotect_object(obj: SCM) -> SCM;
-    pub fn scm_remember(ptr: *mut SCM);
-    pub fn scm_the_root_module() -> SCM;
-    pub fn scm_make_module(name: SCM) -> SCM;
-    pub fn scm_ensure_user_module(name: SCM) -> SCM;
-    pub fn scm_load_scheme_module(name: SCM) -> SCM;
-    pub fn scm_close_all_ports_except(ports: SCM) -> SCM;
-    pub fn scm_makstr(len: size_t, arg1: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_makfromstr(src: *const ::std::os::raw::c_char, len: size_t,
-                          arg1: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_variable_set_name_hint(var: SCM, hint: SCM) -> SCM;
-    pub fn scm_builtin_variable(name: SCM) -> SCM;
-    pub fn scm_internal_with_fluids(fluids: SCM, vals: SCM,
-                                    cproc:
-                                        ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                       *mut ::std::os::raw::c_void)
-                                                                  -> SCM>,
-                                    cdata: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_make_gsubr(name: *const ::std::os::raw::c_char,
-                          req: ::std::os::raw::c_int,
-                          opt: ::std::os::raw::c_int,
-                          rst: ::std::os::raw::c_int,
-                          fcn: ::std::option::Option<extern "C" fn() -> SCM>)
-     -> SCM;
-    pub fn scm_make_gsubr_with_generic(name: *const ::std::os::raw::c_char,
-                                       req: ::std::os::raw::c_int,
-                                       opt: ::std::os::raw::c_int,
-                                       rst: ::std::os::raw::c_int,
-                                       fcn:
-                                           ::std::option::Option<extern "C" fn()
-                                                                     -> SCM>,
-                                       gf: *mut SCM) -> SCM;
-    pub fn scm_create_hook(name: *const ::std::os::raw::c_char,
-                           n_args: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_sloppy_memq(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_sloppy_memv(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_sloppy_member(x: SCM, lst: SCM) -> SCM;
-    pub fn scm_read_and_eval_x(port: SCM) -> SCM;
-    pub fn scm_make_subr(name: *const ::std::os::raw::c_char,
-                         _type: ::std::os::raw::c_int,
-                         fcn: ::std::option::Option<extern "C" fn() -> SCM>)
-     -> SCM;
-    pub fn scm_make_subr_with_generic(name: *const ::std::os::raw::c_char,
-                                      _type: ::std::os::raw::c_int,
-                                      fcn:
-                                          ::std::option::Option<extern "C" fn()
-                                                                    -> SCM>,
-                                      gf: *mut SCM) -> SCM;
-    pub fn scm_make_subr_opt(name: *const ::std::os::raw::c_char,
-                             _type: ::std::os::raw::c_int,
-                             fcn:
-                                 ::std::option::Option<extern "C" fn()
-                                                           -> SCM>,
-                             set: ::std::os::raw::c_int) -> SCM;
-    pub fn scm_call_catching_errors(thunk:
-                                        ::std::option::Option<extern "C" fn()
-                                                                  -> SCM>,
-                                    err_filter:
-                                        ::std::option::Option<extern "C" fn()
-                                                                  -> SCM>,
-                                    closure: *mut ::std::os::raw::c_void)
-     -> SCM;
-    pub fn scm_make_smob_type_mfpe(name: *mut ::std::os::raw::c_char,
-                                   size: size_t,
-                                   mark:
-                                       ::std::option::Option<extern "C" fn(arg1:
-                                                                               SCM)
-                                                                 -> SCM>,
-                                   free:
-                                       ::std::option::Option<extern "C" fn(arg1:
-                                                                               SCM)
-                                                                 -> size_t>,
-                                   print:
-                                       ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                      SCM,
-                                                                                  arg2:
-                                                                                      SCM,
-                                                                                  arg3:
-                                                                                      *mut scm_print_state)
-                                                                 ->
-                                                                     ::std::os::raw::c_int>,
-                                   equalp:
-                                       ::std::option::Option<extern "C" fn(arg1:
-                                                                               SCM,
-                                                                           arg2:
-                                                                               SCM)
-                                                                 -> SCM>)
-     -> ::std::os::raw::c_long;
-    pub fn scm_set_smob_mfpe(tc: ::std::os::raw::c_long,
-                             mark:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> SCM>,
-                             free:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM)
-                                                           -> size_t>,
-                             print:
-                                 ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                SCM,
-                                                                            arg2:
-                                                                                SCM,
-                                                                            arg3:
-                                                                                *mut scm_print_state)
-                                                           ->
-                                                               ::std::os::raw::c_int>,
-                             equalp:
-                                 ::std::option::Option<extern "C" fn(arg1:
-                                                                         SCM,
-                                                                     arg2:
-                                                                         SCM)
-                                                           -> SCM>);
-    pub fn scm_strprint_obj(obj: SCM) -> SCM;
-    pub fn scm_read_0str(expr: *mut ::std::os::raw::c_char) -> SCM;
-    pub fn scm_eval_0str(expr: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_i_object_chars(arg1: SCM) -> *mut ::std::os::raw::c_char;
-    pub fn scm_i_object_length(arg1: SCM) -> ::std::os::raw::c_long;
-    pub fn scm_sym2ovcell_soft(sym: SCM, obarray: SCM) -> SCM;
-    pub fn scm_sym2ovcell(sym: SCM, obarray: SCM) -> SCM;
-    pub fn scm_intern_obarray_soft(name: *const ::std::os::raw::c_char,
-                                   len: size_t, obarray: SCM,
-                                   softness: ::std::os::raw::c_uint) -> SCM;
-    pub fn scm_intern_obarray(name: *const ::std::os::raw::c_char,
-                              len: size_t, obarray: SCM) -> SCM;
-    pub fn scm_symbol_value0(name: *const ::std::os::raw::c_char) -> SCM;
-    pub fn scm_string_to_obarray_symbol(o: SCM, s: SCM, softp: SCM) -> SCM;
-    pub fn scm_intern_symbol(o: SCM, s: SCM) -> SCM;
-    pub fn scm_unintern_symbol(o: SCM, s: SCM) -> SCM;
-    pub fn scm_symbol_binding(o: SCM, s: SCM) -> SCM;
-    pub fn scm_symbol_bound_p(o: SCM, s: SCM) -> SCM;
-    pub fn scm_symbol_set_x(o: SCM, s: SCM, v: SCM) -> SCM;
-    pub fn scm_gentemp(prefix: SCM, obarray: SCM) -> SCM;
-    pub fn scm_i_makinum(val: scm_t_signed_bits) -> SCM;
-    pub fn scm_i_inump(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_inum(obj: SCM) -> scm_t_signed_bits;
-    pub fn scm_c_string2str(obj: SCM, str: *mut ::std::os::raw::c_char,
-                            lenp: *mut size_t) -> *mut ::std::os::raw::c_char;
-    pub fn scm_c_substring2str(obj: SCM, str: *mut ::std::os::raw::c_char,
-                               start: size_t, len: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_c_symbol2str(obj: SCM, str: *mut ::std::os::raw::c_char,
-                            lenp: *mut size_t) -> *mut ::std::os::raw::c_char;
-    pub fn scm_truncate(x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn scm_round(x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scm_i_deprecated_symbol_chars(sym: SCM)
-     -> *mut ::std::os::raw::c_char;
-    pub fn scm_i_deprecated_symbol_length(sym: SCM) -> size_t;
-    pub fn scm_i_keywordp(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_keywordsym(keyword: SCM) -> SCM;
-    pub fn scm_i_vectorp(x: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_vector_length(x: SCM) -> ::std::os::raw::c_ulong;
-    pub fn scm_i_velts(x: SCM) -> *const SCM;
-    pub fn scm_i_writable_velts(x: SCM) -> *mut SCM;
-    pub fn scm_i_vector_ref(x: SCM, idx: size_t) -> SCM;
-    pub fn scm_i_vector_set(x: SCM, idx: size_t, val: SCM);
-    pub fn scm_vector_equal_p(x: SCM, y: SCM) -> SCM;
-    pub fn scm_i_arrayp(a: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_array_ndim(a: SCM) -> size_t;
-    pub fn scm_i_array_contp(a: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_array_mem(a: SCM) -> *mut scm_t_array;
-    pub fn scm_i_array_v(a: SCM) -> SCM;
-    pub fn scm_i_array_base(a: SCM) -> size_t;
-    pub fn scm_i_array_dims(a: SCM) -> *mut scm_t_array_dim;
-    pub fn scm_i_cur_inp() -> SCM;
-    pub fn scm_i_cur_outp() -> SCM;
-    pub fn scm_i_cur_errp() -> SCM;
-    pub fn scm_i_cur_loadp() -> SCM;
-    pub fn scm_i_progargs() -> SCM;
-    pub fn scm_i_deprecated_dynwinds() -> SCM;
-    pub fn scm_i_deprecated_last_debug_frame() -> *mut scm_t_debug_frame;
-    pub fn scm_i_stack_base() -> *mut SCM_STACKITEM;
-    pub fn scm_i_fluidp(x: SCM) -> ::std::os::raw::c_int;
-    pub fn scm_i_defer_ints_etc();
-    pub fn scm_guard(guardian: SCM, obj: SCM, throw_p: ::std::os::raw::c_int)
-     -> SCM;
-    pub fn scm_get_one_zombie(guardian: SCM) -> SCM;
-    pub fn scm_destroy_guardian_x(guardian: SCM) -> SCM;
-    pub fn scm_guardian_greedy_p(guardian: SCM) -> SCM;
-    pub fn scm_guardian_destroyed_p(guardian: SCM) -> SCM;
+    pub fn scm_thread_sleep(arg1: ::std::os::raw::c_uint)
+     -> ::std::os::raw::c_uint;
+    pub fn scm_thread_usleep(arg1: ::std::os::raw::c_ulong)
+     -> ::std::os::raw::c_ulong;
+    pub fn scm_internal_select(fds: ::std::os::raw::c_int, rfds: *mut fd_set,
+                               wfds: *mut fd_set, efds: *mut fd_set,
+                               timeout: *mut Struct_timeval)
+     -> ::std::os::raw::c_int;
+    pub fn scm_cuserid() -> SCM;
+    pub fn scm_primitive_make_property(not_found_proc: SCM) -> SCM;
+    pub fn scm_primitive_property_ref(prop: SCM, obj: SCM) -> SCM;
+    pub fn scm_primitive_property_set_x(prop: SCM, obj: SCM, val: SCM) -> SCM;
+    pub fn scm_primitive_property_del_x(prop: SCM, obj: SCM) -> SCM;
+    pub fn scm_whash_get_handle(whash: SCM, key: SCM) -> SCM;
+    pub fn SCM_WHASHFOUNDP(h: SCM) -> ::std::os::raw::c_int;
+    pub fn SCM_WHASHREF(whash: SCM, handle: SCM) -> SCM;
+    pub fn SCM_WHASHSET(whash: SCM, handle: SCM, obj: SCM);
+    pub fn scm_whash_create_handle(whash: SCM, key: SCM) -> SCM;
+    pub fn scm_whash_lookup(whash: SCM, obj: SCM) -> SCM;
+    pub fn scm_whash_insert(whash: SCM, key: SCM, obj: SCM);
+    pub fn scm_struct_create_handle(obj: SCM) -> SCM;
+    pub fn scm_immutable_cell(car: scm_t_bits, cdr: scm_t_bits) -> SCM;
+    pub fn scm_immutable_double_cell(car: scm_t_bits, cbr: scm_t_bits,
+                                     ccr: scm_t_bits, cdr: scm_t_bits) -> SCM;
+    pub fn scm_i_deprecated_asrtgo(condition: scm_t_bits) -> scm_t_bits;
+    pub fn scm_sym2var(sym: SCM, thunk: SCM, definep: SCM) -> SCM;
+    pub fn scm_lookup_closure_module(_proc: SCM) -> SCM;
+    pub fn scm_module_lookup_closure(module: SCM) -> SCM;
+    pub fn scm_current_module_lookup_closure() -> SCM;
+    pub fn scm_eval_closure_lookup(eclo: SCM, sym: SCM, definep: SCM) -> SCM;
+    pub fn scm_standard_eval_closure(module: SCM) -> SCM;
+    pub fn scm_standard_interface_eval_closure(module: SCM) -> SCM;
+    pub fn scm_eval_closure_module(eval_closure: SCM) -> SCM;
+    pub fn scm_struct_vtable_tag(handle: SCM) -> SCM;
+    pub fn scm_generalized_vector_p(v: SCM) -> SCM;
+    pub fn scm_generalized_vector_length(v: SCM) -> SCM;
+    pub fn scm_generalized_vector_ref(v: SCM, idx: SCM) -> SCM;
+    pub fn scm_generalized_vector_set_x(v: SCM, idx: SCM, val: SCM) -> SCM;
+    pub fn scm_generalized_vector_to_list(v: SCM) -> SCM;
+    pub fn scm_c_program_source(program: SCM, ip: size_t) -> SCM;
+    pub fn scm_gc_live_object_stats() -> SCM;
+    pub fn scm_htons(_in: SCM) -> SCM;
+    pub fn scm_ntohs(_in: SCM) -> SCM;
+    pub fn scm_htonl(_in: SCM) -> SCM;
+    pub fn scm_ntohl(_in: SCM) -> SCM;
     pub fn scm_i_init_deprecated();
-    pub fn gh_enter(argc: ::std::os::raw::c_int,
-                    argv: *mut *mut ::std::os::raw::c_char,
-                    c_main_prog:
-                        ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                       ::std::os::raw::c_int,
-                                                                   arg2:
-                                                                       *mut *mut ::std::os::raw::c_char)>);
-    pub fn gh_repl(argc: ::std::os::raw::c_int,
-                   argv: *mut *mut ::std::os::raw::c_char);
-    pub fn gh_catch(tag: SCM, body: scm_t_catch_body,
-                    body_data: *mut ::std::os::raw::c_void,
-                    handler: scm_t_catch_handler,
-                    handler_data: *mut ::std::os::raw::c_void) -> SCM;
-    pub fn gh_standard_handler(data: *mut ::std::os::raw::c_void, tag: SCM,
-                               throw_args: SCM) -> SCM;
-    pub fn gh_eval_str(scheme_code: *const ::std::os::raw::c_char) -> SCM;
-    pub fn gh_eval_str_with_catch(scheme_code: *const ::std::os::raw::c_char,
-                                  handler: scm_t_catch_handler) -> SCM;
-    pub fn gh_eval_str_with_standard_handler(scheme_code:
-                                                 *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn gh_eval_str_with_stack_saving_handler(scheme_code:
-                                                     *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn gh_eval_file(fname: *const ::std::os::raw::c_char) -> SCM;
-    pub fn gh_eval_file_with_catch(scheme_code: *const ::std::os::raw::c_char,
-                                   handler: scm_t_catch_handler) -> SCM;
-    pub fn gh_eval_file_with_standard_handler(scheme_code:
-                                                  *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn gh_new_procedure(proc_name: *const ::std::os::raw::c_char,
-                            _fn:
-                                ::std::option::Option<extern "C" fn() -> SCM>,
-                            n_required_args: ::std::os::raw::c_int,
-                            n_optional_args: ::std::os::raw::c_int,
-                            varp: ::std::os::raw::c_int) -> SCM;
-    pub fn gh_new_procedure0_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn()
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure0_1(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure0_2(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure1_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure1_1(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure1_2(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure2_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure2_1(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure2_2(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM,
-                                                                       arg4:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure3_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure4_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM,
-                                                                       arg4:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_new_procedure5_0(proc_name: *const ::std::os::raw::c_char,
-                               _fn:
-                                   ::std::option::Option<extern "C" fn(arg1:
-                                                                           SCM,
-                                                                       arg2:
-                                                                           SCM,
-                                                                       arg3:
-                                                                           SCM,
-                                                                       arg4:
-                                                                           SCM,
-                                                                       arg5:
-                                                                           SCM)
-                                                             -> SCM>) -> SCM;
-    pub fn gh_bool2scm(x: ::std::os::raw::c_int) -> SCM;
-    pub fn gh_int2scm(x: ::std::os::raw::c_int) -> SCM;
-    pub fn gh_ulong2scm(x: ::std::os::raw::c_ulong) -> SCM;
-    pub fn gh_long2scm(x: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_double2scm(x: ::std::os::raw::c_double) -> SCM;
-    pub fn gh_char2scm(c: ::std::os::raw::c_char) -> SCM;
-    pub fn gh_str2scm(s: *const ::std::os::raw::c_char, len: size_t) -> SCM;
-    pub fn gh_str02scm(s: *const ::std::os::raw::c_char) -> SCM;
-    pub fn gh_set_substr(src: *const ::std::os::raw::c_char, dst: SCM,
-                         start: ::std::os::raw::c_long, len: size_t);
-    pub fn gh_symbol2scm(symbol_str: *const ::std::os::raw::c_char) -> SCM;
-    pub fn gh_ints2scm(d: *const ::std::os::raw::c_int,
-                       n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_chars2byvect(d: *const ::std::os::raw::c_char,
-                           n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_shorts2svect(d: *const ::std::os::raw::c_short,
-                           n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_longs2ivect(d: *const ::std::os::raw::c_long,
-                          n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_ulongs2uvect(d: *const ::std::os::raw::c_ulong,
-                           n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_floats2fvect(d: *const ::std::os::raw::c_float,
-                           n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_doubles2dvect(d: *const ::std::os::raw::c_double,
-                            n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_doubles2scm(d: *const ::std::os::raw::c_double,
-                          n: ::std::os::raw::c_long) -> SCM;
-    pub fn gh_scm2bool(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_scm2int(obj: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_scm2ulong(obj: SCM) -> ::std::os::raw::c_ulong;
-    pub fn gh_scm2long(obj: SCM) -> ::std::os::raw::c_long;
-    pub fn gh_scm2char(obj: SCM) -> ::std::os::raw::c_char;
-    pub fn gh_scm2double(obj: SCM) -> ::std::os::raw::c_double;
-    pub fn gh_scm2newstr(str: SCM, lenp: *mut size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gh_get_substr(src: SCM, dst: *mut ::std::os::raw::c_char,
-                         start: ::std::os::raw::c_long, len: size_t);
-    pub fn gh_symbol2newstr(sym: SCM, lenp: *mut size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gh_scm2chars(vector: SCM, result: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gh_scm2shorts(vector: SCM, result: *mut ::std::os::raw::c_short)
-     -> *mut ::std::os::raw::c_short;
-    pub fn gh_scm2longs(vector: SCM, result: *mut ::std::os::raw::c_long)
-     -> *mut ::std::os::raw::c_long;
-    pub fn gh_scm2floats(vector: SCM, result: *mut ::std::os::raw::c_float)
-     -> *mut ::std::os::raw::c_float;
-    pub fn gh_scm2doubles(vector: SCM, result: *mut ::std::os::raw::c_double)
-     -> *mut ::std::os::raw::c_double;
-    pub fn gh_boolean_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_symbol_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_char_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_vector_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_pair_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_number_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_string_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_procedure_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_list_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_inexact_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_exact_p(val: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_eq_p(x: SCM, y: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_eqv_p(x: SCM, y: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_equal_p(x: SCM, y: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_string_equal_p(s1: SCM, s2: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_null_p(l: SCM) -> ::std::os::raw::c_int;
-    pub fn gh_define(name: *const ::std::os::raw::c_char, val: SCM) -> SCM;
-    pub fn gh_make_vector(length: SCM, val: SCM) -> SCM;
-    pub fn gh_vector_set_x(vec: SCM, pos: SCM, val: SCM) -> SCM;
-    pub fn gh_vector_ref(vec: SCM, pos: SCM) -> SCM;
-    pub fn gh_vector_length(v: SCM) -> ::std::os::raw::c_ulong;
-    pub fn gh_uniform_vector_length(v: SCM) -> ::std::os::raw::c_ulong;
-    pub fn gh_uniform_vector_ref(v: SCM, ilist: SCM) -> SCM;
-    pub fn gh_lookup(sname: *const ::std::os::raw::c_char) -> SCM;
-    pub fn gh_module_lookup(module: SCM, sname: *const ::std::os::raw::c_char)
-     -> SCM;
-    pub fn gh_cons(x: SCM, y: SCM) -> SCM;
-    pub fn gh_length(l: SCM) -> ::std::os::raw::c_ulong;
-    pub fn gh_append(args: SCM) -> SCM;
-    pub fn gh_append2(l1: SCM, l2: SCM) -> SCM;
-    pub fn gh_append3(l1: SCM, l2: SCM, l3: SCM) -> SCM;
-    pub fn gh_append4(l1: SCM, l2: SCM, l3: SCM, l4: SCM) -> SCM;
-    pub fn gh_car(x: SCM) -> SCM;
-    pub fn gh_cdr(x: SCM) -> SCM;
-    pub fn gh_caar(x: SCM) -> SCM;
-    pub fn gh_cadr(x: SCM) -> SCM;
-    pub fn gh_cdar(x: SCM) -> SCM;
-    pub fn gh_cddr(x: SCM) -> SCM;
-    pub fn gh_caaar(x: SCM) -> SCM;
-    pub fn gh_caadr(x: SCM) -> SCM;
-    pub fn gh_cadar(x: SCM) -> SCM;
-    pub fn gh_caddr(x: SCM) -> SCM;
-    pub fn gh_cdaar(x: SCM) -> SCM;
-    pub fn gh_cdadr(x: SCM) -> SCM;
-    pub fn gh_cddar(x: SCM) -> SCM;
-    pub fn gh_cdddr(x: SCM) -> SCM;
-    pub fn gh_set_car_x(pair: SCM, value: SCM) -> SCM;
-    pub fn gh_set_cdr_x(pair: SCM, value: SCM) -> SCM;
-    pub fn gh_apply(_proc: SCM, ls: SCM) -> SCM;
-    pub fn gh_call0(_proc: SCM) -> SCM;
-    pub fn gh_call1(_proc: SCM, arg: SCM) -> SCM;
-    pub fn gh_call2(_proc: SCM, arg1: SCM, arg2: SCM) -> SCM;
-    pub fn gh_call3(_proc: SCM, arg1: SCM, arg2: SCM, arg3: SCM) -> SCM;
-    pub fn gh_display(x: SCM);
-    pub fn gh_write(x: SCM);
-    pub fn gh_newline();
 }
