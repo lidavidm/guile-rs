@@ -1,0 +1,8 @@
+[clog]
+repository = "https://github.com/lidavidm/guile-rs"
+
+link-style = "github"
+
+changelog = "CHANGELOG.md"
+
+from-latest-tag = true
