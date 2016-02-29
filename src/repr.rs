@@ -21,9 +21,11 @@ pub trait Encodable {
 }
 
 impl Decodable for i32 {
+    // TODO: actually check, so that Guile doesn't take over and
+    // automatically error
     fn decode(scm: &Scm) -> Result<i32, DecodeError> {
         unsafe {
-            Ok(guile_sys::scm_to_int32(scm.0))
+            Ok(guile_sys::scm_to_int32(scm.to_raw()))
         }
     }
 }

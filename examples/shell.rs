@@ -11,7 +11,9 @@ fn main() {
     guile::init(|vm| {
         let mut args = Vec::new();
         args.push("Test".to_string());
-        vm.define_primitive_subroutine("add_two", test);
+        vm.define_subr1("add_two", test);
+        vm.define("two", (&2).encode().unwrap());
+
         vm.shell(args);
     });
 }
