@@ -37,3 +37,28 @@ impl Encodable for i32 {
         }
     }
 }
+
+impl Decodable for bool {
+    fn decode(scm: &Scm) -> Result<bool, DecodeError> {
+        unsafe {
+            Ok(match guile_sys::scm_to_bool(scm.to_raw()) {
+                0 => false,
+                1 => true,
+                v => panic!("scm_to_bool returned invalid value: {}", v),
+            })
+        }
+    }
+}
+
+// impl Encodable for bool {
+//     fn encode(&self) -> Result<Scm, EncodeError> {
+//         unsafe {
+//             if *self {
+//                 Ok(Scm::from_raw(guile_sys::scm_from_bool(1)))
+//             }
+//             else {
+//                 Ok(Scm::from_raw(guile_sys::scm_from_bool(0)))
+//             }
+//         }
+//     }
+// }
