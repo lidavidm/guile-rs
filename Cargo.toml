@@ -1,0 +1,14 @@
+[package]
+name = "guile"
+version = "0.1.0"
+authors = ["David Li <li.davidm96@gmail.com>"]
+
+[dependencies]
+
+[dependencies.guile-sys]
+path = "guile-sys"
+version = "*"
+
+[[bin]]
+name = "shell"
+path = "examples/shell.rs"
