@@ -8,6 +8,8 @@ use scm::Scm;
 #[derive(Debug)]
 pub enum DecodeError {
     Utf8Error(str::Utf8Error),
+    TypeError,
+    RangeError,
 }
 
 #[derive(Debug)]
@@ -30,9 +32,14 @@ pub trait Encodable {
 }
 
 impl Decodable for i32 {
-    // TODO: actually check, so that Guile doesn't take over and
-    // automatically error
     fn decode(scm: &Scm) -> Result<i32, DecodeError> {
+        if !scm.is_exact_integer() {
+            return Err(DecodeError::TypeError);
+        }
+        if !scm.is_signed_integer(i32::min_value() as i64,
+                                  i32::max_value() as i64) {
+            return Err(DecodeError::RangeError);
+        }
         unsafe {
             Ok(guile_sys::scm_to_int32(scm.to_raw()))
         }

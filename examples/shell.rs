@@ -4,7 +4,7 @@ use guile::repr::*;
 use guile::Scm;
 
 fn test(x: Scm) -> Scm {
-    (i32::decode(&x).unwrap() + 2).encode().unwrap()
+    x.sum(&(&2).encode().unwrap()).unwrap()
 }
 
 fn main() {
