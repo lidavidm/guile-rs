@@ -3,7 +3,7 @@ use guile_sys;
 use std::ffi;
 use std::str;
 
-use scm::{Scm, TypedScm};
+use scm::{self, Scm, TypedScm};
 
 #[derive(Debug)]
 pub enum DecodeError {
@@ -17,6 +17,8 @@ pub enum EncodeError {
 
 }
 
+pub type DecodeResult<T> = Result<T, DecodeError>;
+
 impl From<str::Utf8Error> for DecodeError {
     fn from(err: str::Utf8Error) -> DecodeError {
         DecodeError::Utf8Error(err)
@@ -24,16 +26,30 @@ impl From<str::Utf8Error> for DecodeError {
 }
 
 pub trait Decodable: Sized {
-    fn decode(scm: &Scm) -> Result<Self, DecodeError>;
-    fn cast(scm: &Scm) -> Result<TypedScm<Self>, DecodeError>;
+    fn check_type(scm: &Scm) -> Option<DecodeError>;
+    fn cast(scm: Scm) -> DecodeResult<TypedScm<Self>>;
+    unsafe fn decode(scm: &Scm) -> Self;
 }
 
 pub trait Encodable {
     fn encode(&self) -> Result<Scm, EncodeError>;
 }
 
+impl<T: Sized + Decodable> TypedScm<T> {
+    pub fn convert_value(&self) -> DecodeResult<T>  {
+        if let Some(err) = T::check_type(self.to_raw()) {
+            Err(err)
+        }
+        else {
+            unsafe {
+                Ok(T::decode(self.to_raw()))
+            }
+        }
+    }
+}
+
 impl Decodable for i32 {
-    fn cast(scm: &Scm) -> Result<TypedScm<i32>, DecodeError> {
+    fn cast(scm: Scm) -> DecodeResult<TypedScm<i32>> {
         if !scm.is_exact_integer() {
             return Err(DecodeError::TypeError);
         }
@@ -42,20 +58,22 @@ impl Decodable for i32 {
             return Err(DecodeError::RangeError);
         }
 
-        return Ok(TypedScm::new(scm));
+        return Ok(scm::new_typed_scm(scm));
     }
 
-    fn decode(scm: &Scm) -> Result<i32, DecodeError> {
+    fn check_type(scm: &Scm) -> Option<DecodeError> {
         if !scm.is_exact_integer() {
-            return Err(DecodeError::TypeError);
+            return Some(DecodeError::TypeError);
         }
         if !scm.is_signed_integer(i32::min_value() as i64,
                                   i32::max_value() as i64) {
-            return Err(DecodeError::RangeError);
+            return Some(DecodeError::RangeError);
         }
-        unsafe {
-            Ok(guile_sys::scm_to_int32(scm.to_raw()))
-        }
+        None
+    }
+
+    unsafe fn decode(scm: &Scm) -> i32 {
+        guile_sys::scm_to_int32(scm.to_raw())
     }
 }
 
@@ -68,13 +86,19 @@ impl Encodable for i32 {
 }
 
 impl Decodable for bool {
-    fn decode(scm: &Scm) -> Result<bool, DecodeError> {
-        unsafe {
-            Ok(match guile_sys::scm_to_bool(scm.to_raw()) {
-                0 => false,
-                1 => true,
-                v => panic!("scm_to_bool returned invalid value: {}", v),
-            })
+    fn cast(scm: Scm) -> DecodeResult<TypedScm<bool>> {
+        Ok(scm::new_typed_scm(scm))
+    }
+
+    fn check_type(scm: &Scm) -> Option<DecodeError> {
+        None
+    }
+
+    unsafe fn decode(scm: &Scm) -> bool {
+        match guile_sys::scm_to_bool(scm.to_raw()) {
+            0 => false,
+            1 => true,
+            v => panic!("scm_to_bool returned invalid value: {}", v),
         }
     }
 }
@@ -93,12 +117,18 @@ impl Decodable for bool {
 // }
 
 impl Decodable for String {
-    fn decode(scm: &Scm) -> Result<String, DecodeError> {
-        unsafe {
-            let raw_str = guile_sys::scm_to_utf8_string(scm.to_raw());
-            let cstr = ffi::CStr::from_ptr(raw_str);
-            Ok(try!(str::from_utf8(cstr.to_bytes())).to_string())
-        }
+    fn cast(scm: Scm) -> DecodeResult<TypedScm<String>> {
+        Ok(scm::new_typed_scm(scm))
+    }
+
+    fn check_type(scm: &Scm) -> Option<DecodeError> {
+        None
+    }
+
+    unsafe fn decode(scm: &Scm) -> String {
+        let raw_str = guile_sys::scm_to_utf8_string(scm.to_raw());
+        let cstr = ffi::CStr::from_ptr(raw_str);
+        str::from_utf8(cstr.to_bytes()).unwrap().to_string()
     }
 }
 

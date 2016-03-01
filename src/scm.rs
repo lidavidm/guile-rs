@@ -83,8 +83,15 @@ pub struct TypedScm<T> {
     value: marker::PhantomData<T>,
 }
 
-impl<T: Sized> TypedScm<T> {
-    pub fn convert_value(&self) -> T {
+impl<T> TypedScm<T> {
+    pub fn to_raw(&self) -> &Scm {
+        &self.scm
+    }
+}
 
+pub fn new_typed_scm<T>(scm: Scm) -> TypedScm<T> {
+    TypedScm {
+        scm: scm,
+        value: marker::PhantomData,
     }
 }
