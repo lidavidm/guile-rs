@@ -75,3 +75,16 @@ impl Scm {
         self.0
     }
 }
+
+use std::marker;
+
+pub struct TypedScm<T> {
+    scm: Scm,
+    value: marker::PhantomData<T>,
+}
+
+impl<T: Sized> TypedScm<T> {
+    pub fn convert_value(&self) -> T {
+
+    }
+}

@@ -3,7 +3,7 @@ use guile_sys;
 use std::ffi;
 use std::str;
 
-use scm::Scm;
+use scm::{Scm, TypedScm};
 
 #[derive(Debug)]
 pub enum DecodeError {
@@ -25,6 +25,7 @@ impl From<str::Utf8Error> for DecodeError {
 
 pub trait Decodable: Sized {
     fn decode(scm: &Scm) -> Result<Self, DecodeError>;
+    fn cast(scm: &Scm) -> Result<TypedScm<Self>, DecodeError>;
 }
 
 pub trait Encodable {
@@ -32,6 +33,18 @@ pub trait Encodable {
 }
 
 impl Decodable for i32 {
+    fn cast(scm: &Scm) -> Result<TypedScm<i32>, DecodeError> {
+        if !scm.is_exact_integer() {
+            return Err(DecodeError::TypeError);
+        }
+        if !scm.is_signed_integer(i32::min_value() as i64,
+                                  i32::max_value() as i64) {
+            return Err(DecodeError::RangeError);
+        }
+
+        return Ok(TypedScm::new(scm));
+    }
+
     fn decode(scm: &Scm) -> Result<i32, DecodeError> {
         if !scm.is_exact_integer() {
             return Err(DecodeError::TypeError);
