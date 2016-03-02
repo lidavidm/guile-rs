@@ -38,7 +38,7 @@ pub trait Decodable: Sized {
     fn decode(scm: &Scm<Self>) -> Self;
 }
 
-pub trait Encodable: Sized {
+pub trait Encodable {
     type Output;
     fn encode(&self) -> Result<Scm<Self::Output>, EncodeError>;
 }
@@ -127,8 +127,14 @@ impl Decodable for bool {
 // }
 
 impl Decodable for String {
-   fn check_type(scm: &Scm<Untyped>) -> Option<DecodeError> {
-        None
+    fn check_type(scm: &Scm<Untyped>) -> Option<DecodeError> {
+        unsafe {
+            match guile_sys::scm_is_string(scm.to_raw()) {
+                0 => Some(DecodeError::TypeError),
+                1 => None,
+                v => panic!("scm_is_string returned invalid value {}", v),
+            }
+        }
     }
 
     fn decode(scm: &Scm<String>) -> String {
@@ -141,6 +147,17 @@ impl Decodable for String {
 }
 
 impl Encodable for String {
+    type Output = String;
+
+    fn encode(&self) -> Result<Scm<String>, EncodeError> {
+        unsafe {
+            let raw_str = ffi::CString::new(self.as_bytes()).unwrap().as_ptr();
+            Ok(Scm::from_raw(guile_sys::scm_from_utf8_string(raw_str)))
+        }
+    }
+}
+
+impl Encodable for str {
     type Output = String;
 
     fn encode(&self) -> Result<Scm<String>, EncodeError> {

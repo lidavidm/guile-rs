@@ -14,7 +14,7 @@ fn main() {
         args.push("Test".to_string());
         vm.define_subr1("add_two", test);
         vm.define("two", (&2).encode().unwrap());
-        // vm.define("help", "help".encode().unwrap());
+        vm.define("help", "help".encode().unwrap());
 
         // if !bool::decode(vm.is_defined("three", None)).unwrap() {
         //     vm.define("two", (&3).encode().unwrap());
