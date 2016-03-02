@@ -43,13 +43,28 @@ pub trait Encodable: Sized {
     fn encode(&self) -> Result<Scm<Self::Output>, EncodeError>;
 }
 
-impl Decodable for scm::Exact {
-    fn check_type(scm: &Scm<Untyped>) -> Option<DecodeError> {
-        // TODO:
-        None
+impl Scm<Untyped> {
+    pub fn check_type<T: Decodable>(&self) -> Option<DecodeError> {
+        return T::check_type(self);
     }
 
-    fn decode(scm: &Scm<scm::Exact>) -> scm::Exact {
+    pub fn cast<T: Decodable>(self) -> DecodeResult<Scm<T>> {
+        return T::cast(self);
+    }
+}
+
+impl Decodable for scm::Exact {
+    fn check_type(scm: &Scm<Untyped>) -> Option<DecodeError> {
+        unsafe {
+            match guile_sys::scm_is_exact_integer(scm.to_raw()) {
+                0 => Some(DecodeError::TypeError),
+                1 => None,
+                v => panic!("scm_is_exact_integer returned invalid value: {}", v),
+            }
+        }
+    }
+
+    fn decode(_: &Scm<scm::Exact>) -> scm::Exact {
         scm::Exact {}
     }
 }
@@ -83,11 +98,12 @@ impl Encodable for i32 {
 
 impl Decodable for bool {
     fn check_type(scm: &Scm<Untyped>) -> Option<DecodeError> {
+        // TODO:
         None
     }
 
     fn decode(scm: &Scm<bool>) -> bool {
-       unsafe {
+        unsafe {
             match guile_sys::scm_to_bool(scm.to_raw()) {
                 0 => false,
                 1 => true,

@@ -5,7 +5,7 @@ use guile::{Exact, Scm, Untyped};
 
 fn test(x: Scm<Untyped>) -> Scm<Exact> {
     let two = (&2).encode().unwrap();
-    Decodable::cast(x).unwrap() + two
+    x.cast::<Exact>().unwrap() + two
 }
 
 fn main() {
