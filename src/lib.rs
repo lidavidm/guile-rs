@@ -57,7 +57,7 @@ impl GuileVM {
     //     }
     // }
 
-    pub fn define_subr1<T, U>(&self, name: &str, func: fn(Scm<T>) -> Scm<U>)
+    pub fn define_subr1<T>(&self, name: &str, func: fn(Scm<Untyped>) -> Scm<T>)
     {
         unsafe {
             let _ = guile_sys::scm_c_define_gsubr(
