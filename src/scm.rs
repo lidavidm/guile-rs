@@ -1,3 +1,5 @@
+use std::ops;
+
 use guile_sys;
 
 pub struct Scm(guile_sys::SCM);
@@ -13,14 +15,9 @@ impl Scm {
     //     }
     // }
 
-    pub fn sum(&self, rhs: &Scm) -> Option<Scm> {
-        if !self.is_number() || !rhs.is_number() {
-            return None;
-        }
-        unsafe {
-            Some(Scm::from_raw(guile_sys::scm_sum(self.to_raw(),
-                                                  rhs.to_raw())))
-        }
+    unsafe fn sum(&self, rhs: &Scm) -> Scm {
+        Scm::from_raw(guile_sys::scm_sum(self.to_raw(),
+                                         rhs.to_raw()))
     }
 
     pub fn is_number(&self) -> bool {
@@ -93,5 +90,15 @@ pub fn new_typed_scm<T>(scm: Scm) -> TypedScm<T> {
     TypedScm {
         scm: scm,
         value: marker::PhantomData,
+    }
+}
+
+impl ops::Add for TypedScm<i32> {
+    type Output = TypedScm<i32>;
+
+    fn add(self, rhs: TypedScm<i32>) -> TypedScm<i32> {
+        unsafe {
+            new_typed_scm(self.scm.sum(&rhs.scm))
+        }
     }
 }

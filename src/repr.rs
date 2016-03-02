@@ -31,8 +31,8 @@ pub trait Decodable: Sized {
     unsafe fn decode(scm: &Scm) -> Self;
 }
 
-pub trait Encodable {
-    fn encode(&self) -> Result<Scm, EncodeError>;
+pub trait Encodable: Sized {
+    fn encode(&self) -> Result<TypedScm<Self>, EncodeError>;
 }
 
 impl<T: Sized + Decodable> TypedScm<T> {
