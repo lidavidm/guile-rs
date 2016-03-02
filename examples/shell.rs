@@ -1,10 +1,11 @@
 extern crate guile;
 
 use guile::repr::*;
-use guile::Scm;
+use guile::{Exact, Scm, Untyped};
 
-fn test(x: Scm) -> Scm {
-    *(i32::cast(x).unwrap() + i32::encode(&2).unwrap()).to_raw()
+fn test(x: Scm<Untyped>) -> Scm<Exact> {
+    let two = (&2).encode().unwrap();
+    Decodable::cast(x).unwrap() + two
 }
 
 fn main() {
@@ -13,7 +14,7 @@ fn main() {
         args.push("Test".to_string());
         vm.define_subr1("add_two", test);
         vm.define("two", (&2).encode().unwrap());
-        vm.define("help", "help".encode().unwrap());
+        // vm.define("help", "help".encode().unwrap());
 
         // if !bool::decode(vm.is_defined("three", None)).unwrap() {
         //     vm.define("two", (&3).encode().unwrap());

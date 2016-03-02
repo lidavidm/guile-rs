@@ -11,7 +11,7 @@ use std::ptr;
 pub mod repr;
 mod scm;
 
-pub use scm::Scm;
+pub use scm::{Exact, Scm, Untyped};
 
 pub struct GuileVM {
 }
@@ -34,30 +34,30 @@ impl GuileVM {
         }
     }
 
-    pub fn undefined_variable(&self) -> Scm {
+    pub fn undefined_variable(&self) -> Scm<Untyped> {
         unsafe {
             Scm::from_raw(guile_sys::scm_make_undefined_variable())
         }
     }
 
-    pub fn define(&self, name: &str, value: Scm) {
+    pub fn define<T>(&self, name: &str, value: Scm<T>) {
         unsafe {
             guile_sys::scm_c_define(c_str(name).unwrap().as_ptr(), value.to_raw());
         }
     }
 
-    pub fn is_defined(&self, name: Scm, module: Option<Scm>) -> Scm {
-        let module = match module {
-            Some(m) => m,
-            None => self.undefined_variable(),
-        };
+    // pub fn is_defined<T>(&self, name: Scm, module: Option<Scm<T>>) -> Scm {
+    //     let module = match module {
+    //         Some(m) => m,
+    //         None => self.undefined_variable(),
+    //     };
 
-        unsafe {
-            Scm::from_raw(guile_sys::scm_defined_p(name.to_raw(), module.to_raw()))
-        }
-    }
+    //     unsafe {
+    //         Scm::from_raw(guile_sys::scm_defined_p(name.to_raw(), module.to_raw()))
+    //     }
+    // }
 
-    pub fn define_subr1(&self, name: &str, func: fn(Scm) -> Scm)
+    pub fn define_subr1<T, U>(&self, name: &str, func: fn(Scm<T>) -> Scm<U>)
     {
         unsafe {
             let _ = guile_sys::scm_c_define_gsubr(

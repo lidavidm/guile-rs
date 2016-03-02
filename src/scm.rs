@@ -1,10 +1,18 @@
+use std::marker;
 use std::ops;
 
 use guile_sys;
 
-pub struct Scm(guile_sys::SCM);
+pub struct Untyped;
 
-impl Scm {
+pub struct Scm<T> {
+    scm: guile_sys::SCM,
+    value: marker::PhantomData<*const T>
+}
+
+pub struct Exact;
+
+impl<T> Scm<T> {
     // pub fn is_true(&self) -> bool {
     //     unsafe {
     //         match guile_sys::scm_is_true(self.to_raw()) {
@@ -14,11 +22,6 @@ impl Scm {
     //         }
     //     }
     // }
-
-    unsafe fn sum(&self, rhs: &Scm) -> Scm {
-        Scm::from_raw(guile_sys::scm_sum(self.to_raw(),
-                                         rhs.to_raw()))
-    }
 
     pub fn is_number(&self) -> bool {
         unsafe {
@@ -64,41 +67,37 @@ impl Scm {
         }
     }
 
-    pub unsafe fn from_raw(scm: guile_sys::SCM) -> Scm {
-        Scm(scm)
+    pub fn as_untyped(self) -> Scm<Untyped> {
+        unsafe {
+            self.force_cast::<Untyped>()
+        }
+    }
+
+    pub unsafe fn from_raw(scm: guile_sys::SCM) -> Scm<T> {
+        Scm {
+            scm: scm,
+            value: marker::PhantomData,
+        }
+    }
+
+    pub unsafe fn force_cast<U>(self) -> Scm<U> {
+         Scm {
+            scm: self.scm,
+            value: marker::PhantomData,
+        }
     }
 
     pub unsafe fn to_raw(&self) -> guile_sys::SCM {
-        self.0
+        self.scm
     }
 }
 
-use std::marker;
+impl ops::Add for Scm<Exact> {
+    type Output = Scm<Exact>;
 
-pub struct TypedScm<T> {
-    scm: Scm,
-    value: marker::PhantomData<T>,
-}
-
-impl<T> TypedScm<T> {
-    pub fn to_raw(&self) -> &Scm {
-        &self.scm
-    }
-}
-
-pub fn new_typed_scm<T>(scm: Scm) -> TypedScm<T> {
-    TypedScm {
-        scm: scm,
-        value: marker::PhantomData,
-    }
-}
-
-impl ops::Add for TypedScm<i32> {
-    type Output = TypedScm<i32>;
-
-    fn add(self, rhs: TypedScm<i32>) -> TypedScm<i32> {
+    fn add(self, rhs: Scm<Exact>) -> Scm<Exact> {
         unsafe {
-            new_typed_scm(self.scm.sum(&rhs.scm))
+            Scm::<Exact>::from_raw(guile_sys::scm_sum(self.scm, rhs.scm))
         }
     }
 }
