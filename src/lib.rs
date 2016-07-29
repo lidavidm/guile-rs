@@ -1,11 +1,8 @@
-#![feature(braced_empty_structs)]
-#![feature(libc)]
 extern crate guile_sys;
 extern crate libc;
 
 use std::ffi;
-use std::os::raw::{c_char, c_int, c_void};
-use std::ptr;
+use libc::{c_char, c_void};
 
 // use libc::c_void;
 
