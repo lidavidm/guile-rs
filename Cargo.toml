@@ -1,6 +1,6 @@
 [package]
 name = "guile"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["David Li <li.davidm96@gmail.com>"]
 
 description = "Safe bindings to GNU Guile."
