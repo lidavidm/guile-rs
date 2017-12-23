@@ -1,10 +1,10 @@
 [package]
 name = "guile"
 version = "0.0.2"
-authors = ["David Li <li.davidm96@gmail.com>"]
-
+authors = ["David Li <li.davidm96@gmail.com>",
+           "Dom Rodriguez <shymega@shymega.org.uk"]
 description = "Safe bindings to GNU Guile."
-repository = "https://github.com/lidavidm/guile-rs"
+repository = "https://github.com/shymega/guile-rs"
 license = "GPL-3.0"
 
 [dependencies]
@@ -13,7 +13,3 @@ libc="0.2"
 [dependencies.guile-sys]
 path = "guile-sys"
 version = "0.1.1"
-
-[[bin]]
-name = "shell"
-path = "examples/shell.rs"
