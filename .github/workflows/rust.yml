@@ -17,8 +17,6 @@ jobs:
       run: sudo apt-get update
     - name: Install GNU Guile 2.0 and development headers
       run: sudo apt-get install -y guile-2.0-dev
-    - name: Install GNU Guile 2.2 and development headers.
-      run: sudo apt-get install -y guile-2.2-dev
     - name: Build
       run: cargo build --verbose
     - name: Run tests
