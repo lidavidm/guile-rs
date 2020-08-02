@@ -26,4 +26,9 @@ The IRC channel is no more, as Mozilla switched to Matrix.
 
 I am looking into a different way to communicate, possibly Zulip.
 
+## License
+
+Licensing information about `guile-rs` is available [here][license]
+
 [gnu_guile]: https://www.gnu.org/software/guile/
+[license]: /LICENSE
