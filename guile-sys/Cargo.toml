@@ -1,11 +1,20 @@
 [package]
 name = "guile-sys"
 version = "0.1.1"
-authors = ["David Li <li.davidm96@gmail.com>"]
-
+authors = ["David Li <li.davidm96@gmail.com>",
+           "Dom Rodriguez <dev@dzr.org.uk>"]
 description = "Low-level bindings to GNU Guile."
-repository = "https://github.com/lidavidm/guile-rs"
+repository = "https://github.com/shymega/guile-rs"
 license = "GPL-3.0"
+links = "guile"
+build = "build.rs"
+
+[lib]
+name = "guile_sys"
+path = "src/lib.rs"
 
 [dependencies]
-libc="0.2"
+libc = "0.2.71"
+
+[build-dependencies]
+bindgen = "0.54.0"
