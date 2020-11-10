@@ -11,7 +11,7 @@ wish to use it in my text editor as an embedded scripting/
 configuration language.
 
 However, it has proven to be rather.. tricky. GNU Guile has a really
-_weird_ way of exposing its API. I have yet to cleanly bindto it.
+_weird_ way of exposing its API. I have yet to cleanly bind to it.
 
 I've put it on hold from my side for now, but if anyone has any
 thoughts on improvements -- do let me know! I want this crate to
